@@ -58,11 +58,34 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Notifications Alpha - Opacity</string>
-			<key>footerText</key>
-			<string>TITLE AND CLEAR BUTTON ALPHA - OPACTIY</string>
-			<key>isStaticText</key>
+			<string>No Older Notifications Alpha - Opacity</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>1.0</real>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>noOlderNotificationsAlpha</string>
+			<key>min</key>
+			<real>0.0</real>
+			<key>max</key>
+			<real>1.0</real>
+			<key>showValue</key>
 			<true/>
+			<key>isSegmented</key>
+			<false/>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Notification Cells Alpha - Opacity</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -83,6 +106,17 @@
 			<false/>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Notifications Header Alpha - Opacity</string>
+			<key>footerText</key>
+			<string>ALSO INCLUDES CLEAR BUTTON</string>
+			<key>isStaticText</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -190,20 +224,6 @@
 			<string>PSGroupCell</string>
 			<key>label</key>
 			<string>Miscellaneous</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>defaults</key>
-			<string>love.litten.dresspreferences</string>
-			<key>key</key>
-			<string>alwaysExpandedNotifications</string>
-			<key>label</key>
-			<string>Always Expanded Notifications (Content Bug)</string>
-			<key>PostNotification</key>
-			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>
 		<dict>
 			<key>cell</key>

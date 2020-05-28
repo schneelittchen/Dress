@@ -118,11 +118,21 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Custom Font</string>
-			<key>footerText</key>
-			<string>FONT SIZE</string>
-			<key>isStaticText</key>
-			<true/>
+			<string>Custom Time Font And Size</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>customTimeFont</string>
+			<key>label</key>
+			<string>Enable Time Font Options</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -130,13 +140,13 @@
 			<key>default</key>
 			<string></string>
 			<key>placeholder</key>
-			<string>Avenir</string>
+			<string>Avenir, Courier,..</string>
 			<key>defaults</key>
 			<string>love.litten.dresspreferences</string>
 			<key>label</key>
-			<string>Font Name:</string>
+			<string>Custom Font Name:</string>
 			<key>key</key>
-			<string>fontName</string>
+			<string>fontNameTime</string>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>
@@ -148,7 +158,7 @@
 			<key>defaults</key>
 			<string>love.litten.dresspreferences</string>
 			<key>key</key>
-			<string>fontSize</string>
+			<string>fontSizeTime</string>
 			<key>min</key>
 			<real>0</real>
 			<key>max</key>
@@ -162,15 +172,160 @@
 		</dict>
 		<dict>
 			<key>cell</key>
+			<string>PSSegmentCell</string>
+			<key>default</key>
+			<real>-0.4</real>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>fontWeightTime</string>
+			<key>validValues</key>
+			<array>
+				<real>-0.6</real>
+				<real>-0.4</real>
+				<real>0.0</real>
+				<real>0.23</real>
+				<real>0.4</real>
+			</array>
+			<key>validTitles</key>
+			<array>
+				<string>Thin</string>
+				<string>Light</string>
+				<string>Regular</string>
+				<string>Medium</string>
+				<string>Bold</string>
+			</array>
+			<key>alignment</key>
+			<string>5</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
 			<false/>
 			<key>defaults</key>
 			<string>love.litten.dresspreferences</string>
 			<key>key</key>
-			<string>useCustomFontSizeForDefault</string>
+			<string>useRoundedFontTime</string>
 			<key>label</key>
-			<string>Use As Default Font Size</string>
+			<string>Use Rounded Font</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Custom Date Font And Size</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>customDateFont</string>
+			<key>label</key>
+			<string>Enable Date Font Options</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSEditTextCell</string>
+			<key>default</key>
+			<string></string>
+			<key>placeholder</key>
+			<string>Avenir, Courier,..</string>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>label</key>
+			<string>Custom Font Name:</string>
+			<key>key</key>
+			<string>fontNameDate</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>23</real>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>fontSizeDate</string>
+			<key>min</key>
+			<real>0</real>
+			<key>max</key>
+			<real>100</real>
+			<key>showValue</key>
+			<true/>
+			<key>isSegmented</key>
+			<true/>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSegmentCell</string>
+			<key>default</key>
+			<real>0.0</real>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>fontWeightDate</string>
+			<key>validValues</key>
+			<array>
+				<real>-0.6</real>
+				<real>-0.4</real>
+				<real>0.0</real>
+				<real>0.23</real>
+				<real>0.4</real>
+			</array>
+			<key>validTitles</key>
+			<array>
+				<string>Thin</string>
+				<string>Light</string>
+				<string>Regular</string>
+				<string>Medium</string>
+				<string>Bold</string>
+			</array>
+			<key>alignment</key>
+			<string>5</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>useRoundedFontDate</string>
+			<key>label</key>
+			<string>Use Rounded Font</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<true/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>customFontLunar</string>
+			<key>label</key>
+			<string>Include Lunar</string>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>

@@ -2,18 +2,13 @@
 #import <Cephei/HBRespringController.h>
 #import "../Tweak/Dress.h"
 #import <spawn.h>
-#import <Preferences/PSControlTableCell.h>
-#import <Preferences/PSEditableTableCell.h>
-
-@interface PSEditableTableCell (Interface)
-- (id)textField;
-@end
 
 BOOL enabled = NO;
 
 @implementation DRSRootListController
 
 - (instancetype)init {
+
     self = [super init];
 
     if (self) {
@@ -29,7 +24,7 @@ BOOL enabled = NO;
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,10,10)];
         self.titleLabel.font = [UIFont boldSystemFontOfSize:17];
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        self.titleLabel.text = @"1.0-beta";
+        self.titleLabel.text = @"1.0";
         self.titleLabel.textColor = [UIColor whiteColor];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         [self.navigationItem.titleView addSubview:self.titleLabel];
@@ -54,17 +49,21 @@ BOOL enabled = NO;
     }
 
     return self;
+
 }
 
 -(NSArray *)specifiers {
+
 	if (_specifiers == nil) {
 		_specifiers = [[self loadSpecifiersFromPlistName:@"Root" target:self] retain];
 	}
 
 	return _specifiers;
+    
 }
 
 - (void)viewDidLoad {
+
     [super viewDidLoad];
 
     self.headerView = [[UIView alloc] initWithFrame:CGRectMake(0,0,200,200)];
@@ -90,6 +89,7 @@ BOOL enabled = NO;
 }
 
 - (void)viewWillAppear:(BOOL)animated {
+
     [super viewWillAppear:animated];
 
     CGRect frame = self.table.bounds;
@@ -100,11 +100,13 @@ BOOL enabled = NO;
     self.navigationController.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationController.navigationController.navigationBar.translucent = NO;
 
-    [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:9 inSection:0] enabled:NO];
+    if (SYSTEM_VERSION_LESS_THAN(@"13.0"))
+        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:9 inSection:0] enabled:NO];
 
 }
 
 - (void)viewDidAppear:(BOOL)animated {
+
     [super viewDidAppear:animated];
 
     [self.navigationController.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
@@ -117,12 +119,15 @@ BOOL enabled = NO;
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
+
     [super viewWillDisappear:animated];
 
     [self.navigationController.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor blackColor]}];
+
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+
     CGFloat offsetY = scrollView.contentOffset.y;
 
     if (offsetY > 200) {
@@ -139,11 +144,12 @@ BOOL enabled = NO;
     
     if (offsetY > 0) offsetY = 0;
     self.headerImageView.frame = CGRectMake(0, offsetY, self.headerView.frame.size.width, 200 - offsetY);
+
 }
 
 - (void)toggleState {
 
-    self.enableSwitch.enabled = NO;
+    [[self enableSwitch] setEnabled:NO];
 
     NSString* path = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"];
     NSMutableDictionary* dictionary = [NSMutableDictionary dictionaryWithContentsOfFile:path];
@@ -152,24 +158,20 @@ BOOL enabled = NO;
     
     if (!([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"])) {
         enabled = YES;
-        [preferences setBool:enabled forKey: @"Enabled"];
+        [preferences setBool:enabled forKey:@"Enabled"];
         [self respringUtil];
-
     } else if (!([allKeys containsObject:@"Enabled"])) {
         enabled = YES;
-        [preferences setBool:enabled forKey: @"Enabled"];
+        [preferences setBool:enabled forKey:@"Enabled"];
         [self respringUtil];
-
-    } else if ([[preferences objectForKey:@"Enabled"] isEqual: @(NO)]) {
+    } else if ([[preferences objectForKey:@"Enabled"] isEqual:@(NO)]) {
         enabled = YES;
-        [preferences setBool:enabled forKey: @"Enabled"];
+        [preferences setBool:enabled forKey:@"Enabled"];
         [self respringUtil];
-        
-    } else if ([[preferences objectForKey:@"Enabled"] isEqual: @(YES)]) {
+    } else if ([[preferences objectForKey:@"Enabled"] isEqual:@(YES)]) {
         enabled = NO;
-        [preferences setBool:enabled forKey: @"Enabled"];
+        [preferences setBool:enabled forKey:@"Enabled"];
         [self respringUtil];
-
     }
 
 }
@@ -182,13 +184,13 @@ BOOL enabled = NO;
     HBPreferences* preferences = [[HBPreferences alloc] initWithIdentifier: @"love.litten.dresspreferences"];
     
     if (!([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"]))
-        [self.enableSwitch setOn:NO animated: YES];
+        [[self enableSwitch] setOn:NO animated:YES];
     else if (!([allKeys containsObject:@"Enabled"]))
-        [self.enableSwitch setOn:NO animated: YES];
+        [[self enableSwitch] setOn:NO animated:YES];
     else if ([[preferences objectForKey:@"Enabled"] isEqual:@(YES)])
-        [self.enableSwitch setOn:YES animated: YES];
+        [[self enableSwitch] setOn:YES animated:YES];
     else if ([[preferences objectForKey:@"Enabled"] isEqual:@(NO)])
-        [self.enableSwitch setOn:NO animated: YES];
+        [[self enableSwitch] setOn:NO animated:YES];
 
 }
 
@@ -219,13 +221,20 @@ BOOL enabled = NO;
 	message:@"It Looks Like You Disabled Dress In iCleaner Pro, Dress Won't Work In This State"
 	preferredStyle:UIAlertControllerStyleAlert];
 
-	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Okey" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+    UIAlertAction *resetAction = [UIAlertAction actionWithTitle:@"Reset Preferences" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+
+        [self resetPreferences];
+
+	}];
+
+	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
 
         exit(0);
 
 	}];
 
-	[alertController addAction:cancelAction];
+	[alertController addAction:resetAction];
+    [alertController addAction:cancelAction];
 
 	[self presentViewController:alertController animated:YES completion:nil];
 
@@ -258,24 +267,19 @@ BOOL enabled = NO;
 - (void)setCellForRowAtIndexPath:(NSIndexPath *)indexPath enabled:(BOOL)enabled {
 
     UITableViewCell *cell = [self tableView:self.table cellForRowAtIndexPath:indexPath];
-    
+
     if (cell) {
         cell.userInteractionEnabled = enabled;
         cell.textLabel.enabled = enabled;
         cell.detailTextLabel.enabled = enabled;
-        
         if ([cell isKindOfClass:[PSControlTableCell class]]) {
             PSControlTableCell *controlCell = (PSControlTableCell *)cell;
-
             if (controlCell.control)
                 controlCell.control.enabled = enabled;
-
         } else if ([cell isKindOfClass:[PSEditableTableCell class]]) {
             PSEditableTableCell *editableCell = (PSEditableTableCell *)cell;
             ((UITextField*)[editableCell textField]).alpha = enabled ? 1 : 0.4;
-
         }
-
     }
 
 }

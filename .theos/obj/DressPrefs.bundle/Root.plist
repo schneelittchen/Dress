@@ -24,7 +24,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>What Do You Want To Customize?</string>
+			<string>What Do You Want To Dress Up?</string>
 		</dict>
 		<dict>
  			<key>cell</key>
@@ -42,7 +42,7 @@
  			<key>label</key>
  			<string>FaceID Lock</string>
  			<key>detail</key>
- 			<string>DRSSubPrefsListController</string>
+ 			<string>DRSFaceIDLockSubPrefsListController</string>
  			<key>DRSSub</key>
  			<string>faceIDLockSub</string>
  		</dict>
@@ -52,29 +52,19 @@
  			<key>label</key>
  			<string>Homebar</string>
  			<key>detail</key>
- 			<string>DRSSubPrefsListController</string>
+ 			<string>DRSHomebarSubPrefsListController</string>
  			<key>DRSSub</key>
  			<string>homebarSub</string>
- 		</dict>
-		 <dict>
- 			<key>cell</key>
- 			<string>PSLinkCell</string>
- 			<key>label</key>
- 			<string>CC Grabber</string>
- 			<key>detail</key>
- 			<string>DRSSubPrefsListController</string>
- 			<key>DRSSub</key>
- 			<string>CCGrabberSub</string>
  		</dict>
 		<dict>
  			<key>cell</key>
  			<string>PSLinkCell</string>
  			<key>label</key>
- 			<string>Swipe Text</string>
+ 			<string>Page Dots</string>
  			<key>detail</key>
- 			<string>DRSSubPrefsListController</string>
+ 			<string>DRSPageDotsSubPrefsListController</string>
  			<key>DRSSub</key>
- 			<string>swipeTextSub</string>
+ 			<string>pageDotsSub</string>
  		</dict>
 		<dict>
  			<key>cell</key>
@@ -82,7 +72,7 @@
  			<key>label</key>
  			<string>Notifications</string>
  			<key>detail</key>
- 			<string>DRSSubPrefsListController</string>
+ 			<string>DRSNotificationsSubPrefsListController</string>
  			<key>DRSSub</key>
  			<string>notificationsSub</string>
  		</dict>
@@ -90,9 +80,19 @@
  			<key>cell</key>
  			<string>PSLinkCell</string>
  			<key>label</key>
+ 			<string>Unlock Text, CC Grabber</string>
+ 			<key>detail</key>
+ 			<string>DRSUnlockTextSubPrefsListController</string>
+ 			<key>DRSSub</key>
+ 			<string>unlockTextSub</string>
+ 		</dict>
+		<dict>
+ 			<key>cell</key>
+ 			<string>PSLinkCell</string>
+ 			<key>label</key>
  			<string>Quick Actions</string>
  			<key>detail</key>
- 			<string>DRSSubPrefsListController</string>
+ 			<string>DRSQuickActionsSubPrefsListController</string>
  			<key>DRSSub</key>
  			<string>quickActionsSub</string>
  		</dict>
@@ -102,7 +102,7 @@
  			<key>label</key>
  			<string>Evanesco Mode</string>
  			<key>detail</key>
- 			<string>DRSSubPrefsListController</string>
+ 			<string>DRSEvanescoModeSubPrefsListController</string>
  			<key>DRSSub</key>
  			<string>evanescoModeSub</string>
  		</dict>
@@ -175,7 +175,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Disable Cell Method By</string>
+			<string>Method To Disable Cells By</string>
 			<key>footerText</key>
 			<string>Thanks kritanta For The Pretty Twitter Cells</string>
 			<key>isStaticText</key>
@@ -208,9 +208,9 @@
  			<key>cell</key>
  			<string>PSLinkCell</string>
  			<key>label</key>
- 			<string>Testing</string>
+ 			<string>Beta Testing</string>
  			<key>detail</key>
- 			<string>DRSSubPrefsListController</string>
+ 			<string>DRSContributorsSubPrefsListController</string>
  			<key>DRSSub</key>
  			<string>ContributorsSub</string>
  		</dict>
@@ -225,18 +225,6 @@
 			<key>cellClass</key>
 			<string>HBLinkTableCell</string>
 			<key>label</key>
-			<string>Rose</string>
-			<key>subtitle</key>
-			<string>System Wide Haptics, Great uh-huh</string>
-			<key>icon</key>
-			<string>Rose.png</string>
-			<key>url</key>
-			<string>https://repo.litten.love/depictions/rse/</string>
-		</dict>
-		<dict>
-			<key>cellClass</key>
-			<string>HBLinkTableCell</string>
-			<key>label</key>
 			<string>Lune</string>
 			<key>subtitle</key>
 			<string>Let A Moon Icon Appear While In DND</string>
@@ -244,6 +232,18 @@
 			<string>Lune.png</string>
 			<key>url</key>
 			<string>https://repo.litten.love/depictions/lne/</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBLinkTableCell</string>
+			<key>label</key>
+			<string>Rose</string>
+			<key>subtitle</key>
+			<string>System Wide Haptics, Great uh-huh</string>
+			<key>icon</key>
+			<string>Rose.png</string>
+			<key>url</key>
+			<string>https://repo.litten.love/depictions/rse/</string>
 		</dict>
 		<dict>
 			<key>cellClass</key>
@@ -276,7 +276,7 @@ Artworks By taki</string>
 			<key>label</key>
 			<string>Little Donation 🌺</string>
 			<key>subtitle</key>
-			<string>Helps Me To Pay For My Server</string>
+			<string>Appreciated 💝</string>
 			<key>url</key>
 			<string>https://paypal.me/Litteeen</string>
 		</dict>

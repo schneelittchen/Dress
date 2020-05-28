@@ -4,89 +4,234 @@
 <dict>
 	<key>items</key>
 	<array>
-	
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Elements To Be Evanesco'd:</string>
-		</dict>
-		<dict>
- 			<key>cell</key>
- 			<string>PSLinkCell</string>
- 			<key>label</key>
- 			<string>Time And Date</string>
- 			<key>detail</key>
- 			<string>DRSEvanescoSubPrefsListController</string>
- 			<key>DRSEvanescoSub</key>
- 			<string>evanescoTimeDateSub</string>
- 		</dict>
-		<dict>
- 			<key>cell</key>
- 			<string>PSLinkCell</string>
- 			<key>label</key>
- 			<string>FaceID Lock</string>
- 			<key>detail</key>
- 			<string>DRSEvanescoSubPrefsListController</string>
- 			<key>DRSEvanescoSub</key>
- 			<string>evanescoFaceIDLockSub</string>
- 		</dict>
-		 <dict>
- 			<key>cell</key>
- 			<string>PSLinkCell</string>
- 			<key>label</key>
- 			<string>Notifications</string>
- 			<key>detail</key>
- 			<string>DRSEvanescoSubPrefsListController</string>
- 			<key>DRSEvanescoSub</key>
- 			<string>evanescoNotificationsSub</string>
- 		</dict>
-		 <dict>
- 			<key>cell</key>
- 			<string>PSLinkCell</string>
- 			<key>label</key>
- 			<string>Quick Actions</string>
- 			<key>detail</key>
- 			<string>DRSEvanescoSubPrefsListController</string>
- 			<key>DRSEvanescoSub</key>
- 			<string>evanescoQuickActionsSub</string>
- 		</dict>
 
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Animation Curve:</string>
+			<string>What Do You Want To Be Evanesco'd?</string>
+			<key>footerText</key>
+			<string>The Alpha Of Each Element Has To Be 1.0 To Make It Work</string>
+			<key>isStaticText</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSLinkListCell</string>
+			<string>PSSwitchCell</string>
 			<key>default</key>
-			<integer>0</integer>
-			<key>detail</key>
-			<string>PSListItemsController</string>
+			<false/>
 			<key>defaults</key>
 			<string>love.litten.dresspreferences</string>
-			<key>label</key>
-			<string>Curve:</string>
 			<key>key</key>
-			<string>animationCurve</string>
-			<key>validValues</key>
-			<array>
-				<integer>0</integer>
-				<integer>1</integer>
-				<integer>2</integer>
-				<integer>3</integer>
-			</array>
-			<key>validTitles</key>
-			<array>
-				<string>EaseInOut</string>
-				<string>EaseIn</string>
-				<string>EaseOut</string>
-				<string>Linear</string>
-			</array>
+			<string>timeDateEvanesco</string>
+			<key>label</key>
+			<string>Time And Date</string>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>faceIDLockEvanesco</string>
+			<key>label</key>
+			<string>FaceID Lock</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>homebarEvanesco</string>
+			<key>label</key>
+			<string>Homebar</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>pageDotsEvanesco</string>
+			<key>label</key>
+			<string>Page Dots</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>notificationCellsEvanesco</string>
+			<key>label</key>
+			<string>Notification Cells</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>notificationHintViewEvanesco</string>
+			<key>label</key>
+			<string>No Older Notifications Text</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>notificationHeaderViewEvanesco</string>
+			<key>label</key>
+			<string>Notification Header</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>unlockTextEvanesco</string>
+			<key>label</key>
+			<string>Unlock Text, CC Grabber</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>quickActionsEvanesco</string>
+			<key>label</key>
+			<string>Quick Actions</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+	
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Inactivity</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>3.0</real>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>evanescoInactivity</string>
+			<key>min</key>
+			<real>0.0</real>
+			<key>max</key>
+			<real>10.0</real>
+			<key>showValue</key>
+			<true/>
+			<key>isSegmented</key>
+			<false/>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Fade Duration</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>0.5</real>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>evanescoFadeDuration</string>
+			<key>min</key>
+			<real>0.0</real>
+			<key>max</key>
+			<real>5.0</real>
+			<key>showValue</key>
+			<true/>
+			<key>isSegmented</key>
+			<false/>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Fade Alpha - Opacity</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSliderCell</string>
+			<key>default</key>
+			<real>0.0</real>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>evanescoFadeAlpha</string>
+			<key>min</key>
+			<real>0.0</real>
+			<key>max</key>
+			<real>1.0</real>
+			<key>showValue</key>
+			<true/>
+			<key>isSegmented</key>
+			<false/>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<key>PSGroupCell</key>
+			<key>footerText</key>
+			<string>Evanesco Mode Is Still In Beta So Bugs May Occur</string>
+			<key>isStaticText</key>
+			<true/>
+			<key>footerAlignment</key>
+			<real>1</real>
 		</dict>
 
 	</array>

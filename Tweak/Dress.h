@@ -26,11 +26,13 @@ NSString* fontNameTimeInput = @"";
 NSString* fontSizeTimeControl = @"80";
 NSString* fontWeightTimeControl = @"0";
 BOOL useRoundedFontTimeSwitch = NO;
+BOOL useItalicFontTimeSwitch = NO;
 BOOL customDateFontSwitch = NO;
 NSString* fontNameDateInput = @"";
 NSString* fontSizeDateControl = @"80";
 NSString* fontWeightDateControl = @"0";
 BOOL useRoundedFontDateSwitch = NO;
+BOOL useItalicFontDateSwitch = NO;
 BOOL customFontLunarSwitch = NO;
 BOOL useCompactDateFormatSwitch = NO;
 
@@ -170,13 +172,7 @@ extern BOOL quickActionsEvanescoSwitch;
 @interface CSQuickActionsButton : UICoverSheetButton
 @end
 
-// Something Additional For Evanesco Mode
-@interface SBLockScreenManager : NSObject
-+ (id)sharedInstance;
-- (BOOL)isLockScreenActive;
-@end
-
-@interface SBCoverSheetPrimarySlidingViewController : UIViewController
+@interface SBIconController : UIViewController
 @end
 
 @interface UIStatusBar_Base : UIView

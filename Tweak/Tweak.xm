@@ -81,6 +81,8 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 			return [UIFont fontWithName:fontNameTimeInput size:[fontSizeTimeControl doubleValue]];
 		else if ([fontNameTimeInput isEqual:@""] && useRoundedFontTimeSwitch)
 			return [UIFont fontWithDescriptor:[[[UIFont systemFontOfSize:[fontSizeTimeControl doubleValue] weight:[fontWeightTimeControl doubleValue]] fontDescriptor] fontDescriptorWithDesign:UIFontDescriptorSystemDesignRounded] size:[fontSizeTimeControl doubleValue]];
+		else if ([fontNameTimeInput isEqual:@""] && !useRoundedFontTimeSwitch && useItalicFontTimeSwitch)
+			return [UIFont italicSystemFontOfSize:[fontSizeTimeControl doubleValue]];
 		else if ([fontNameTimeInput isEqual:@""])
 			return [UIFont systemFontOfSize:[fontSizeTimeControl doubleValue] weight:[fontWeightTimeControl doubleValue]];
 		else
@@ -102,6 +104,8 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 			return [UIFont fontWithName:fontNameDateInput size:[fontSizeDateControl doubleValue]];
 		else if ([fontNameTimeInput isEqual:@""] && useRoundedFontTimeSwitch)
 			return [UIFont fontWithDescriptor:[[[UIFont systemFontOfSize:[fontSizeDateControl doubleValue] weight:[fontWeightDateControl doubleValue]] fontDescriptor] fontDescriptorWithDesign:UIFontDescriptorSystemDesignRounded] size:[fontSizeDateControl doubleValue]];
+		else if ([fontNameTimeInput isEqual:@""] && !useRoundedFontDateSwitch && useItalicFontDateSwitch)
+			return [UIFont italicSystemFontOfSize:[fontSizeDateControl doubleValue]];
 		else if ([fontNameDateInput isEqual:@""])
 			return [UIFont systemFontOfSize:[fontSizeDateControl doubleValue] weight:[fontWeightDateControl doubleValue]];
 		else
@@ -141,6 +145,8 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 			return [UIFont fontWithName:fontNameDateInput size:[fontSizeDateControl doubleValue]];
 		else if ([fontNameTimeInput isEqual:@""] && useRoundedFontTimeSwitch)
 			return [UIFont fontWithDescriptor:[[[UIFont systemFontOfSize:[fontSizeDateControl doubleValue] weight:[fontWeightDateControl doubleValue]] fontDescriptor] fontDescriptorWithDesign:UIFontDescriptorSystemDesignRounded] size:[fontSizeDateControl doubleValue]];
+		else if ([fontNameTimeInput isEqual:@""] && !useRoundedFontDateSwitch && useItalicFontDateSwitch)
+			return [UIFont italicSystemFontOfSize:[fontSizeDateControl doubleValue]];
 		else if ([fontNameDateInput isEqual:@""])
 			return [UIFont systemFontOfSize:[fontSizeDateControl doubleValue] weight:[fontWeightDateControl doubleValue]];
 		else
@@ -584,95 +590,26 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %group DressIntegrityFail
 
-%hook SBCoverSheetPrimarySlidingViewController
+%hook SBIconController
 
-- (void)viewDidAppear:(BOOL)arg1 {
+- (void)viewDidAppear:(BOOL)animated {
 
     %orig;
+    if (!dpkgInvalid) return;
+		UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Dress"
+		message:@"Seriously? Pirating a free Tweak is awful!\nPiracy repo's Tweaks could contain Malware if you didn't know that, so go ahead and get Dress from the official Source https://repo.litten.sh/.\nIf you're seeing this but you got it from the official source then make sure to add https://repo.litten.love to Cydia or Sileo."
+		preferredStyle:UIAlertControllerStyleAlert];
 
-	UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Dress"
-	message:@"Dress Found One Or More Pirated Tweaks/Packages And Or Repositories On This Device. We Developers Work Hard To Release High Quality Tweaks And Themes So Please Remove Every Pirated Package From This Device.\n\nDress Won't Until Then."
-	preferredStyle:UIAlertControllerStyleAlert];
+		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Okey" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
 
-	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Understood" style:UIAlertActionStyleDestructive handler:nil];
+			UIApplication *application = [UIApplication sharedApplication];
+			[application openURL:[NSURL URLWithString:@"https://repo.litten.love/"] options:@{} completionHandler:nil];
 
-	[alertController addAction:cancelAction];
+	}];
 
-	[self presentViewController:alertController animated:YES completion:nil];
+		[alertController addAction:cancelAction];
 
-}
-
-%end
-
-%hook _UIStatusBarStringView
-
-- (void)setText:(id)arg1 {
-
-	if ([arg1 containsString:@":"])
-		%orig(@"dpkg invalid");
-	else 
-		%orig(@"");
-
-}
-
-%end
-
-%hook _UIStatusBarImageView
-
-- (void)layoutSubviews {
-
-	return;
-
-}
-
-%end
-
-%hook _UIStatusBarWifiSignalView
-
-- (void)layoutSubviews {
-
-	return;
-
-}
-
-%end
-
-%hook _UIStatusBarCellularSignalView
-
-- (void)layoutSubviews {
-
-	return;
-
-}
-
-%end
-
-%hook _UIBatteryView
-
-- (void)layoutSubviews {
-
-	[self setHidden:YES];
-
-}
-
-%end
-
-%hook JCEBatteryView
-
-- (void)layoutSubviews {
-
-	[self setHidden:YES];
-
-}
-
-%end
-
-%hook UIStatusBar_Modern
-
-- (void)layoutSubviews {
-
-	%orig;
-	[self setBackgroundColor:[UIColor redColor]];
+		[self presentViewController:alertController animated:YES completion:nil];
 
 }
 
@@ -682,43 +619,14 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %ctor {
 
-	NSArray* owo = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/lib/dpkg/info/" error:nil];
-    for (NSString* name in owo) {
-        if ([name containsString:@"hackyouriphone"] || [name containsString:@"rejail"] || [name containsString:@"kiimo"] || [name containsString:@"pulandres"]) {
-			dpkgInvalid = YES;
-			break;
-		}
+	dpkgInvalid = ![[NSFileManager defaultManager] fileExistsAtPath:@"/var/lib/dpkg/info/love.litten.dress.list"];
+
+    if (!dpkgInvalid) dpkgInvalid = ![[NSFileManager defaultManager] fileExistsAtPath:@"/var/lib/dpkg/info/love.litten.dress.md5sums"];
+
+    if (dpkgInvalid) {
+        %init(DressIntegrityFail);
+        return;
     }
-
-	if (!dpkgInvalid) dpkgInvalid = ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/CyDown.dylib"] || [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/cydown.app"]);
-
-	if (!dpkgInvalid) {
-		if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app"]) {
-			NSData* cydiaReposData = [[NSFileManager defaultManager] contentsAtPath:@"/private/etc/apt/sources.list.d/cydia.list"];
-    		NSString* cydiaRepos = [[NSString alloc] initWithData:cydiaReposData encoding:NSUTF8StringEncoding];
-			dpkgInvalid = [cydiaRepos containsString:@"hackyouriphone"] || [cydiaRepos containsString:@"rejail"] || [cydiaRepos containsString:@"kiiimo"] || [cydiaRepos containsString:@"pulandres"];
-		}
-		if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Zebra.app"] && !dpkgInvalid) {
-			NSData* zebraReposData = [[NSFileManager defaultManager] contentsAtPath:@"/var/mobile/Library/Application Support/xyz.willy.Zebra/sources.list"];
-    		NSString* zebraRepos = [[NSString alloc] initWithData:zebraReposData encoding:NSUTF8StringEncoding];
-			dpkgInvalid = [zebraRepos containsString:@"hackyouriphone"] || [zebraRepos containsString:@"rejail"] || [zebraRepos containsString:@"kiiimo"] || [zebraRepos containsString:@"pulandres"];
-		}
-		if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Sileo.app"] && !dpkgInvalid) {
-			NSData* sileoReposData = [[NSFileManager defaultManager] contentsAtPath:@"/private/etc/apt/sileo.list.d/sileo.sources"];
-    		NSString* sileoRepos = [[NSString alloc] initWithData:sileoReposData encoding:NSUTF8StringEncoding];
-			dpkgInvalid = [sileoRepos containsString:@"hackyouriphone"] || [sileoRepos containsString:@"rejail"] || [sileoRepos containsString:@"kiiimo"] || [sileoRepos containsString:@"pulandres"];
-		}
-		if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Installer.app"] && !dpkgInvalid) {
-			NSData* installerReposData = [[NSFileManager defaultManager] contentsAtPath:@"/var/mobile/Library/Application Support/Installer/APT/sources.list"];
-    		NSString* installerRepos = [[NSString alloc] initWithData:installerReposData encoding:NSUTF8StringEncoding];
-			dpkgInvalid = [installerRepos containsString:@"hackyouriphone"] || [installerRepos containsString:@"rejail"] || [installerRepos containsString:@"kiiimo"] || [installerRepos containsString:@"pulandres"];
-		}
-	}
-
-	if (dpkgInvalid) {
-		%init(DressIntegrityFail);
-		return;
-	}
 
 	preferences = [[HBPreferences alloc] initWithIdentifier:@"love.litten.dresspreferences"];
 
@@ -744,11 +652,13 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerObject:&fontSizeTimeControl default:@"80" forKey:@"fontSizeTime"];
 		[preferences registerObject:&fontWeightTimeControl default:@"-0.4" forKey:@"fontWeightTime"];
 		[preferences registerBool:&useRoundedFontTimeSwitch default:NO forKey:@"useRoundedFontTime"];
+		[preferences registerBool:&useItalicFontTimeSwitch default:NO forKey:@"useItalicFontTime"];
 		[preferences registerBool:&customDateFontSwitch default:NO forKey:@"customDateFont"];
 		[preferences registerObject:&fontNameDateInput default:@"" forKey:@"fontNameDate"];
 		[preferences registerObject:&fontSizeDateControl default:@"23" forKey:@"fontSizeDate"];
 		[preferences registerObject:&fontWeightDateControl default:@"0.0" forKey:@"fontWeightDate"];
 		[preferences registerBool:&useRoundedFontDateSwitch default:NO forKey:@"useRoundedFontDate"];
+		[preferences registerBool:&useItalicFontDateSwitch default:NO forKey:@"useItalicFontDate"];
 		[preferences registerBool:&customFontLunarSwitch default:YES forKey:@"customFontLunar"];
 		[preferences registerBool:&useCompactDateFormatSwitch default:NO forKey:@"useCompactDateFormat"];
 	}
@@ -829,19 +739,27 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&quickActionsEvanescoSwitch default:NO forKey:@"quickActionsEvanesco"];
 	}
 
-	BOOL ok = [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"/var/lib/dpkg/info/%@%@%@%@%@%@%@%@%@%@%@.dress.list", @"l", @"o", @"v", @"e", @".", @"l", @"i", @"t", @"t", @"e", @"n"]];
-	BOOL timeAndDateTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] || ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"];
-	BOOL faceIDLockTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] || ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"] || ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/LatchKey.dylib"];
+	if (!dpkgInvalid && enabled) {
+        BOOL ok = false;
+		BOOL timeAndDateTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] || ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"];
+		BOOL faceIDLockTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] || ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"] || ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/LatchKey.dylib"];
+        
+        ok = ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"/var/lib/dpkg/info/%@%@%@%@%@%@%@%@%@%@%@.dress.md5sums", @"l", @"o", @"v", @"e", @".", @"l", @"i", @"t", @"t", @"e", @"n"]]
+        );
 
-	if (enabled && !dpkgInvalid && ok) {
-		if (enableTimeDateSection && timeAndDateTweaksCompatible) %init(DressTimeDate);
-		if (enableFaceIDLockSection && faceIDLockTweaksCompatible) %init(DressFaceIDLock);
-		if (enableHomebarSection) %init(DressHomebar);
-		if (enablePageDotsSection) %init(DressPageDots);
-		if (enableUnlockTextSection) %init(DressUnlockText);
-		if (enableNotificationsSection) %init(DressNotifications);
-		if (enableQuickActionsSection) %init(DressQuickActions);
-		%init(DressOthers);
-	}
+        if (ok && [@"litten" isEqualToString:@"litten"]) {
+            if (enableTimeDateSection && timeAndDateTweaksCompatible) %init(DressTimeDate);
+			if (enableFaceIDLockSection && faceIDLockTweaksCompatible) %init(DressFaceIDLock);
+			if (enableHomebarSection) %init(DressHomebar);
+			if (enablePageDotsSection) %init(DressPageDots);
+			if (enableUnlockTextSection) %init(DressUnlockText);
+			if (enableNotificationsSection) %init(DressNotifications);
+			if (enableQuickActionsSection) %init(DressQuickActions);
+			%init(DressOthers);
+            return;
+        } else {
+            dpkgInvalid = YES;
+        }
+    }
 
 }

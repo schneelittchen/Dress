@@ -456,40 +456,11 @@ NSTimer* evanescoTimer;
 
 %ctor {
 
-	NSArray* owo = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:@"/var/lib/dpkg/info/" error:nil];
-    for (NSString* name in owo) {
-        if ([name containsString:@"hackyouriphone"] || [name containsString:@"rejail"] || [name containsString:@"kiimo"] || [name containsString:@"pulandres"]) {
-			dpkgInvalid = YES;
-			break;
-		}
-    }
+	dpkgInvalid = ![[NSFileManager defaultManager] fileExistsAtPath:@"/var/lib/dpkg/info/love.litten.dress.list"];
 
-	if (!dpkgInvalid) dpkgInvalid = ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/CyDown.dylib"] || [[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/cydown.app"]);
+    if (!dpkgInvalid) dpkgInvalid = ![[NSFileManager defaultManager] fileExistsAtPath:@"/var/lib/dpkg/info/love.litten.dress.md5sums"];
 
-	if (!dpkgInvalid) {
-		if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Cydia.app"]) {
-			NSData* cydiaReposData = [[NSFileManager defaultManager] contentsAtPath:@"/private/etc/apt/sources.list.d/cydia.list"];
-    		NSString* cydiaRepos = [[NSString alloc] initWithData:cydiaReposData encoding:NSUTF8StringEncoding];
-			dpkgInvalid = [cydiaRepos containsString:@"hackyouriphone"] || [cydiaRepos containsString:@"rejail"] || [cydiaRepos containsString:@"kiiimo"] || [cydiaRepos containsString:@"pulandres"];
-		}
-		if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Zebra.app"] && !dpkgInvalid) {
-			NSData* zebraReposData = [[NSFileManager defaultManager] contentsAtPath:@"/var/mobile/Library/Application Support/xyz.willy.Zebra/sources.list"];
-    		NSString* zebraRepos = [[NSString alloc] initWithData:zebraReposData encoding:NSUTF8StringEncoding];
-			dpkgInvalid = [zebraRepos containsString:@"hackyouriphone"] || [zebraRepos containsString:@"rejail"] || [zebraRepos containsString:@"kiiimo"] || [zebraRepos containsString:@"pulandres"];
-		}
-		if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Sileo.app"] && !dpkgInvalid) {
-			NSData* sileoReposData = [[NSFileManager defaultManager] contentsAtPath:@"/private/etc/apt/sileo.list.d/sileo.sources"];
-    		NSString* sileoRepos = [[NSString alloc] initWithData:sileoReposData encoding:NSUTF8StringEncoding];
-			dpkgInvalid = [sileoRepos containsString:@"hackyouriphone"] || [sileoRepos containsString:@"rejail"] || [sileoRepos containsString:@"kiiimo"] || [sileoRepos containsString:@"pulandres"];
-		}
-		if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Applications/Installer.app"] && !dpkgInvalid) {
-			NSData* installerReposData = [[NSFileManager defaultManager] contentsAtPath:@"/var/mobile/Library/Application Support/Installer/APT/sources.list"];
-    		NSString* installerRepos = [[NSString alloc] initWithData:installerReposData encoding:NSUTF8StringEncoding];
-			dpkgInvalid = [installerRepos containsString:@"hackyouriphone"] || [installerRepos containsString:@"rejail"] || [installerRepos containsString:@"kiiimo"] || [installerRepos containsString:@"pulandres"];
-		}
-	}
-
-	if (dpkgInvalid) return;
+    if (dpkgInvalid) return;
 
 	preferences = [[HBPreferences alloc] initWithIdentifier:@"love.litten.dresspreferences"];
 
@@ -510,19 +481,27 @@ NSTimer* evanescoTimer;
 	[preferences registerBool:&unlockTextEvanescoSwitch default:NO forKey:@"unlockTextEvanesco"];
 	[preferences registerBool:&quickActionsEvanescoSwitch default:NO forKey:@"quickActionsEvanesco"];
 
-	BOOL ok = [[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"/var/lib/dpkg/info/%@%@%@%@%@%@%@%@%@%@%@.dress.list", @"l", @"o", @"v", @"e", @".", @"l", @"i", @"t", @"t", @"e", @"n"]];
+	if (!dpkgInvalid && enabled) {
+        BOOL ok = false;
+        
+        ok = ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"/var/lib/dpkg/info/%@%@%@%@%@%@%@%@%@%@%@.dress.md5sums", @"l", @"o", @"v", @"e", @".", @"l", @"i", @"t", @"t", @"e", @"n"]]
+        );
 
-	if (enabled && enableEvanescoModeSection && !dpkgInvalid && ok) {
-		if (timeDateEvanescoSwitch) %init(EvanescoTimeDate);
-		if (faceIDLockEvanescoSwitch) %init(EvanescoFaceIDLock);
-		if (homebarEvanescoSwitch) %init(EvanescoHomebar);
-		if (pageDotsEvanescoSwitch) %init(EvanescoPageDots);
-		if (notificationCellsEvanescoSwitch) %init(EvanescoNotificationCells);
-		if (notificationHintViewEvanescoSwitch) %init(EvanescoNotificationHintView);
-		if (notificationHeaderViewEvanescoSwitch) %init(EvanescoNotificationHeaderView);
-		if (unlockTextEvanescoSwitch) %init(EvanescoUnlockText);
-		if (quickActionsEvanescoSwitch) %init(EvanescoQuickActions);
-		%init(DressEvanesco);
-	}
+        if (enableEvanescoModeSection && ok && [@"litten" isEqualToString:@"litten"]) {
+			if (timeDateEvanescoSwitch) %init(EvanescoTimeDate);
+			if (faceIDLockEvanescoSwitch) %init(EvanescoFaceIDLock);
+			if (homebarEvanescoSwitch) %init(EvanescoHomebar);
+			if (pageDotsEvanescoSwitch) %init(EvanescoPageDots);
+			if (notificationCellsEvanescoSwitch) %init(EvanescoNotificationCells);
+			if (notificationHintViewEvanescoSwitch) %init(EvanescoNotificationHintView);
+			if (notificationHeaderViewEvanescoSwitch) %init(EvanescoNotificationHeaderView);
+			if (unlockTextEvanescoSwitch) %init(EvanescoUnlockText);
+			if (quickActionsEvanescoSwitch) %init(EvanescoQuickActions);
+			%init(DressEvanesco);
+            return;
+        } else {
+            dpkgInvalid = YES;
+        }
+    }
 
 }

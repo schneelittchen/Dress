@@ -84,9 +84,9 @@ NSString* customQuickActionsYAxisValueControl = @"50.0";
 NSString* customLockDurationControl = @"0";
 
 // Evanesco Mode
-NSString* evanescoInactivityControl;
-NSString* evanescoFadeDurationControl;
-NSString* evanescoFadeAlphaControl;
+extern NSString* evanescoInactivityControl;
+extern NSString* evanescoFadeDurationControl;
+extern NSString* evanescoFadeAlphaControl;
 extern BOOL timeDateEvanescoSwitch;
 extern BOOL faceIDLockEvanescoSwitch;
 extern BOOL homebarEvanescoSwitch;

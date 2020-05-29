@@ -11,6 +11,9 @@ BOOL enableNotificationsSection;
 BOOL enableQuickActionsSection;
 BOOL enableEvanescoModeSection;
 
+NSString* evanescoInactivityControl;
+NSString* evanescoFadeDurationControl;
+NSString* evanescoFadeAlphaControl;
 BOOL timeDateEvanescoSwitch;
 BOOL faceIDLockEvanescoSwitch;
 BOOL homebarEvanescoSwitch;
@@ -812,7 +815,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 	// Evanesco Mode
 	if (enableEvanescoModeSection) {
-		[preferences registerObject:&evanescoInactivityControl default:@"3.0" forKey:@"evanescoInactivity"];
+		[preferences registerObject:&evanescoInactivityControl default:@"5.0" forKey:@"evanescoInactivity"];
 		[preferences registerObject:&evanescoFadeDurationControl default:@"0.5" forKey:@"evanescoFadeDuration"];
 		[preferences registerObject:&evanescoFadeAlphaControl default:@"0.0" forKey:@"evanescoFadeAlpha"];
 		[preferences registerBool:&timeDateEvanescoSwitch default:NO forKey:@"timeDateEvanesco"];

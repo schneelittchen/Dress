@@ -4,6 +4,53 @@
 <dict>
 	<key>items</key>
 	<array>
+
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Special Thanks</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>KRTwitterCell</string>
+			<key>label</key>
+			<string>MrGcGamer</string>
+			<key>accountName</key>
+			<string>MrGcGamer</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>KRTwitterCell</string>
+			<key>label</key>
+			<string>Mr. Rager</string>
+			<key>accountName</key>
+			<string>AnthoPak</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>KRTwitterCell</string>
+			<key>label</key>
+			<string>Luca Geek</string>
+			<key>accountName</key>
+			<string>CydiaGeek</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>KRTwitterCell</string>
+			<key>label</key>
+			<string>Esquilli</string>
+			<key>accountName</key>
+			<string>Esquilli</string>
+		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>KRTwitterCell</string>
+			<key>label</key>
+			<string>kritanta</string>
+			<key>accountName</key>
+			<string>_kritanta</string>
+		</dict>
 	
 		<dict>
 			<key>cell</key>

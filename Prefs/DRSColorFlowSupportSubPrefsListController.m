@@ -1,8 +1,8 @@
-#import "DRSEvanescoModeSubPrefsListController.h"
+#import "DRSColorFlowSupportSubPrefsListController.h"
 
-BOOL enableEvanescoModeSection = NO;
+BOOL enableColorFlowSupportSection = NO;
 
-@implementation DRSEvanescoModeSubPrefsListController
+@implementation DRSColorFlowSupportSubPrefsListController
 
 - (instancetype)init {
 
@@ -42,7 +42,7 @@ BOOL enableEvanescoModeSection = NO;
 
     [self setEnableSwitchState];
 
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/DressEvanesco.disabled"])
+    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/DressColorFlow.disabled"])
         [self disabledAlert];
 
 }
@@ -80,20 +80,20 @@ BOOL enableEvanescoModeSection = NO;
     HBPreferences *preferences = [[HBPreferences alloc] initWithIdentifier: @"love.litten.dresspreferences"];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"]) {
-        enableEvanescoModeSection = YES;
-        [preferences setBool:enableEvanescoModeSection forKey:@"EnableEvanescoModeSection"];
+        enableColorFlowSupportSection = YES;
+        [preferences setBool:enableColorFlowSupportSection forKey:@"EnableColorFlowSupportSection"];
         [self toggleCellState:YES];
-    } else if (![allKeys containsObject:@"EnableEvanescoModeSection"]) {
-        enableEvanescoModeSection = YES;
-        [preferences setBool:enableEvanescoModeSection forKey:@"EnableEvanescoModeSection"];
+    } else if (![allKeys containsObject:@"EnableColorFlowSupportSection"]) {
+        enableColorFlowSupportSection = YES;
+        [preferences setBool:enableColorFlowSupportSection forKey:@"EnableColorFlowSupportSection"];
         [self toggleCellState:YES];
-    } else if ([[preferences objectForKey:@"EnableEvanescoModeSection"] isEqual:@(NO)]) {
-        enableEvanescoModeSection = YES;
-        [preferences setBool:enableEvanescoModeSection forKey:@"EnableEvanescoModeSection"];
+    } else if ([[preferences objectForKey:@"EnableColorFlowSupportSection"] isEqual:@(NO)]) {
+        enableColorFlowSupportSection = YES;
+        [preferences setBool:enableColorFlowSupportSection forKey:@"EnableColorFlowSupportSection"];
         [self toggleCellState:YES];   
-    } else if ([[preferences objectForKey:@"EnableEvanescoModeSection"] isEqual:@(YES)]) {
-        enableEvanescoModeSection = NO;
-        [preferences setBool:enableEvanescoModeSection forKey:@"EnableEvanescoModeSection"];
+    } else if ([[preferences objectForKey:@"EnableColorFlowSupportSection"] isEqual:@(YES)]) {
+        enableColorFlowSupportSection = NO;
+        [preferences setBool:enableColorFlowSupportSection forKey:@"EnableColorFlowSupportSection"];
         [self toggleCellState:NO];
     }
 
@@ -109,13 +109,13 @@ BOOL enableEvanescoModeSection = NO;
     if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"]){
         [[self enableSwitch] setOn:NO animated:YES];
         [self toggleCellState:NO];
-    } else if (![allKeys containsObject:@"EnableEvanescoModeSection"]) {
+    } else if (![allKeys containsObject:@"EnableColorFlowSupportSection"]) {
         [[self enableSwitch] setOn:NO animated:YES];
         [self toggleCellState:NO];
-    } else if ([[preferences objectForKey:@"EnableEvanescoModeSection"] isEqual:@(YES)]) {
+    } else if ([[preferences objectForKey:@"EnableColorFlowSupportSection"] isEqual:@(YES)]) {
         [[self enableSwitch] setOn:YES animated:YES];
         [self toggleCellState:YES];
-    } else if ([[preferences objectForKey:@"EnableEvanescoModeSection"] isEqual:@(NO)]) {
+    } else if ([[preferences objectForKey:@"EnableColorFlowSupportSection"] isEqual:@(NO)]) {
         [[self enableSwitch] setOn:NO animated:YES];
         [self toggleCellState:NO];
     }
@@ -131,11 +131,11 @@ BOOL enableEvanescoModeSection = NO;
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"]){
         [self toggleCellState:NO];
-    } else if (![allKeys containsObject:@"EnableEvanescoModeSection"]) {
+    } else if (![allKeys containsObject:@"EnableColorFlowSupportSection"]) {
         [self toggleCellState:NO];
-    } else if ([[preferences objectForKey:@"EnableEvanescoModeSection"] isEqual:@(YES)]) {
+    } else if ([[preferences objectForKey:@"EnableColorFlowSupportSection"] isEqual:@(YES)]) {
         [self toggleCellState:YES];
-    } else if ([[preferences objectForKey:@"EnableEvanescoModeSection"] isEqual:@(NO)]) {
+    } else if ([[preferences objectForKey:@"EnableColorFlowSupportSection"] isEqual:@(NO)]) {
         [self toggleCellState:NO];
     }
 
@@ -146,33 +146,11 @@ BOOL enableEvanescoModeSection = NO;
     if (enable) {
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] enabled:YES];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] enabled:YES];
+        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] enabled:NO];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0] enabled:YES];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:0] enabled:YES];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:0] enabled:YES];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:6 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:7 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:8 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:9 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:13 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:14 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:15 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:16 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:17 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:18 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:19 inSection:0] enabled:YES];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Complications.dylib"])
-            [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:11 inSection:0] enabled:YES];
-        else
-            [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:11 inSection:0] enabled:NO];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Grupi.dylib"])
-            [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:12 inSection:0] enabled:YES];
-        else
-            [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:12 inSection:0] enabled:NO];
-        if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Axon.dylib"])
-            [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:13 inSection:0] enabled:YES];
-        else
-            [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:13 inSection:0] enabled:NO];
     } else {
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] enabled:NO];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] enabled:NO];
@@ -181,19 +159,6 @@ BOOL enableEvanescoModeSection = NO;
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:0] enabled:NO];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:0] enabled:NO];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:6 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:7 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:8 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:9 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:10 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:11 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:12 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:13 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:14 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:15 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:16 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:17 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:18 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:19 inSection:0] enabled:NO];
     }
 
 }
@@ -221,7 +186,7 @@ BOOL enableEvanescoModeSection = NO;
 - (void)disabledAlert {
 
     UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Dress"
-	message:@"It Looks Like You Disabled DressEvanesco In iCleaner Pro, Dress Evanesco Won't Work In This State"
+	message:@"It Looks Like You Disabled DressColorFlow In iCleaner Pro, Dress Evanesco Won't Work In This State"
 	preferredStyle:UIAlertControllerStyleAlert];
 	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Back" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
 

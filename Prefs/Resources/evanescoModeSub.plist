@@ -51,6 +51,20 @@
 			<key>defaults</key>
 			<string>love.litten.dresspreferences</string>
 			<key>key</key>
+			<string>statusBarEvanesco</string>
+			<key>label</key>
+			<string>Status Bar</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
 			<string>homebarEvanesco</string>
 			<key>label</key>
 			<string>Homebar</string>
@@ -68,6 +82,20 @@
 			<string>pageDotsEvanesco</string>
 			<key>label</key>
 			<string>Page Dots</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>mediaPlayerEvanesco</string>
+			<key>label</key>
+			<string>Media Player</string>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>
@@ -141,6 +169,48 @@
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>complicationsEvanesco</string>
+			<key>label</key>
+			<string>Complications</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>grupiEvanesco</string>
+			<key>label</key>
+			<string>Grupi</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>axonEvanesco</string>
+			<key>label</key>
+			<string>Axon</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
 	
 		<dict>
 			<key>cell</key>
@@ -187,7 +257,7 @@
 			<key>min</key>
 			<real>0.0</real>
 			<key>max</key>
-			<real>5.0</real>
+			<real>1.0</real>
 			<key>showValue</key>
 			<true/>
 			<key>isSegmented</key>

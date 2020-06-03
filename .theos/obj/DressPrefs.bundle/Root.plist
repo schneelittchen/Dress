@@ -50,6 +50,16 @@
  			<key>cell</key>
  			<string>PSLinkCell</string>
  			<key>label</key>
+ 			<string>Status Bar</string>
+ 			<key>detail</key>
+ 			<string>DRSStatusBarSubPrefsListController</string>
+ 			<key>DRSSub</key>
+ 			<string>statusBarSub</string>
+ 		</dict>
+		<dict>
+ 			<key>cell</key>
+ 			<string>PSLinkCell</string>
+ 			<key>label</key>
  			<string>Homebar</string>
  			<key>detail</key>
  			<string>DRSHomebarSubPrefsListController</string>
@@ -65,6 +75,16 @@
  			<string>DRSPageDotsSubPrefsListController</string>
  			<key>DRSSub</key>
  			<string>pageDotsSub</string>
+ 		</dict>
+		<dict>
+ 			<key>cell</key>
+ 			<string>PSLinkCell</string>
+ 			<key>label</key>
+ 			<string>Media Player</string>
+ 			<key>detail</key>
+ 			<string>DRSMediaPlayerSubPrefsListController</string>
+ 			<key>DRSSub</key>
+ 			<string>mediaPlayerSub</string>
  		</dict>
 		<dict>
  			<key>cell</key>
@@ -105,6 +125,16 @@
  			<string>DRSEvanescoModeSubPrefsListController</string>
  			<key>DRSSub</key>
  			<string>evanescoModeSub</string>
+ 		</dict>
+		 <dict>
+ 			<key>cell</key>
+ 			<string>PSLinkCell</string>
+ 			<key>label</key>
+ 			<string>ColorFlow Coloring</string>
+ 			<key>detail</key>
+ 			<string>DRSColorFlowSupportSubPrefsListController</string>
+ 			<key>DRSSub</key>
+ 			<string>colorflowSupportSub</string>
  		</dict>
 
 		 <dict>
@@ -151,8 +181,6 @@
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Other Options</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -175,51 +203,24 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Method To Disable Cells By</string>
-			<key>footerText</key>
-			<string>Thanks kritanta For The Pretty Twitter Cells</string>
-			<key>isStaticText</key>
-			<true/>
-		</dict>
-		<dict>
-			<key>cellClass</key>
-			<string>KRTwitterCell</string>
-			<key>label</key>
-			<string>Mr. Rager</string>
-			<key>accountName</key>
-			<string>AnthoPak</string>
-		</dict>
-		<dict>
-			<key>cellClass</key>
-			<string>KRTwitterCell</string>
-			<key>label</key>
-			<string>kritanta</string>
-			<key>accountName</key>
-			<string>_kritanta</string>
-		</dict>
-
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Contributors</string>
+			<string>Contributions</string>
 		</dict>
 		<dict>
  			<key>cell</key>
  			<string>PSLinkCell</string>
  			<key>label</key>
- 			<string>Beta Testing</string>
+ 			<string>Contributors</string>
  			<key>detail</key>
  			<string>DRSContributorsSubPrefsListController</string>
  			<key>DRSSub</key>
- 			<string>ContributorsSub</string>
+ 			<string>contributorsSub</string>
  		</dict>
 
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Give These A Look</string>
+			<string>You Might Like:</string>
 		</dict>
 		<dict>
 			<key>cellClass</key>
@@ -237,18 +238,6 @@
 			<key>cellClass</key>
 			<string>HBLinkTableCell</string>
 			<key>label</key>
-			<string>Rose</string>
-			<key>subtitle</key>
-			<string>System Wide Haptics, Great uh-huh</string>
-			<key>icon</key>
-			<string>Rose.png</string>
-			<key>url</key>
-			<string>https://repo.litten.love/depictions/rse/</string>
-		</dict>
-		<dict>
-			<key>cellClass</key>
-			<string>HBLinkTableCell</string>
-			<key>label</key>
 			<string>Butterfly</string>
 			<key>subtitle</key>
 			<string>Text Selection, But Colorful</string>
@@ -257,13 +246,23 @@
 			<key>url</key>
 			<string>https://repo.litten.love/depictions/bty/</string>
 		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBLinkTableCell</string>
+			<key>label</key>
+			<string>Rose</string>
+			<key>subtitle</key>
+			<string>System Wide Haptics, Great uh-huh</string>
+			<key>icon</key>
+			<string>Rose.png</string>
+			<key>url</key>
+			<string>https://repo.litten.love/depictions/rse/</string>
+		</dict>
 
 		<!-- Support Me -->
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Support Me</string>
 			<key>footerText</key>
 			<string>Dress By Litten
 Artworks By taki</string>
@@ -274,7 +273,7 @@ Artworks By taki</string>
 			<key>cellClass</key>
 			<string>HBLinkTableCell</string>
 			<key>label</key>
-			<string>Little Donation 🌺</string>
+			<string>Donate To Litten</string>
 			<key>subtitle</key>
 			<string>Appreciated 💝</string>
 			<key>url</key>
@@ -284,9 +283,9 @@ Artworks By taki</string>
 			<key>cellClass</key>
 			<string>HBLinkTableCell</string>
 			<key>label</key>
-			<string>Source Code 🌙</string>
+			<string>Source Code</string>
 			<key>subtitle</key>
-			<string>Github</string>
+			<string>GitHub 👗</string>
 			<key>url</key>
 			<string>https://github.com/Litteeen/Dress</string>
 		</dict>

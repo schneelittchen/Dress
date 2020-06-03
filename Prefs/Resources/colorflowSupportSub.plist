@@ -4,101 +4,12 @@
 <dict>
 	<key>items</key>
 	<array>
-	
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Hiding</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>defaults</key>
-			<string>love.litten.dresspreferences</string>
-			<key>key</key>
-			<string>hideUnlockText</string>
-			<key>label</key>
-			<string>Hide Unlock Text</string>
-			<key>PostNotification</key>
-			<string>love.litten.dresspreferences/ReloadPrefs</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>defaults</key>
-			<string>love.litten.dresspreferences</string>
-			<key>key</key>
-			<string>hideCCGrabber</string>
-			<key>label</key>
-			<string>Hide CC Grabber</string>
-			<key>PostNotification</key>
-			<string>love.litten.dresspreferences/ReloadPrefs</string>
-		</dict>
 
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>CC Grabber Alpha - Opacity</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSliderCell</string>
-			<key>default</key>
-			<real>1.0</real>
-			<key>defaults</key>
-			<string>love.litten.dresspreferences</string>
-			<key>key</key>
-			<string>ccGrabberAlpha</string>
-			<key>min</key>
-			<real>0.0</real>
-			<key>max</key>
-			<real>1.0</real>
-			<key>showValue</key>
-			<true/>
-			<key>isSegmented</key>
-			<false/>
-			<key>PostNotification</key>
-			<string>love.litten.dresspreferences/ReloadPrefs</string>
-		</dict>
-
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Custom Text</string>
-			<key>footerText</key>
-			<string>Leave Empty For Default Text</string>
-			<key>isStaticText</key>
-			<true/>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSEditTextCell</string>
-			<key>default</key>
-			<string></string>
-			<key>placeholder</key>
-			<string>Hello There!</string>
-			<key>defaults</key>
-			<string>love.litten.dresspreferences</string>
-			<key>label</key>
-			<string>Custom Text:</string>
-			<key>key</key>
-			<string>unlockText</string>
-			<key>PostNotification</key>
-			<string>love.litten.dresspreferences/ReloadPrefs</string>
-		</dict>
-
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Show Last Time Unlocked</string>
+			<string>Apply ColorFlow's Colors To:</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -108,9 +19,9 @@
 			<key>defaults</key>
 			<string>love.litten.dresspreferences</string>
 			<key>key</key>
-			<string>lastTimeUnlocked</string>
+			<string>timeDateColorFlow</string>
 			<key>label</key>
-			<string>Last Time Unlocked</string>
+			<string>Time And Date</string>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>
@@ -122,23 +33,9 @@
 			<key>defaults</key>
 			<string>love.litten.dresspreferences</string>
 			<key>key</key>
-			<string>lastTimeUnlocked24h</string>
+			<string>faceIDLockColorFlow</string>
 			<key>label</key>
-			<string>Use 24h Clock</string>
-			<key>PostNotification</key>
-			<string>love.litten.dresspreferences/ReloadPrefs</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<true/>
-			<key>defaults</key>
-			<string>love.litten.dresspreferences</string>
-			<key>key</key>
-			<string>lastTimeUnlockedAMPM</string>
-			<key>label</key>
-			<string>Show am/pm</string>
+			<string>FaceID Lock</string>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>
@@ -150,9 +47,65 @@
 			<key>defaults</key>
 			<string>love.litten.dresspreferences</string>
 			<key>key</key>
-			<string>lastTimeUnlockedSeconds</string>
+			<string>statusBarColorFlow</string>
 			<key>label</key>
-			<string>Show Seconds</string>
+			<string>Status Bar</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>homebarColorFlow</string>
+			<key>label</key>
+			<string>Homebar</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>pageDotsColorFlow</string>
+			<key>label</key>
+			<string>Page Dots</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>unlockTextColorFlow</string>
+			<key>label</key>
+			<string>Unlock Text</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>quickActionsColorFlow</string>
+			<key>label</key>
+			<string>Quick Actions</string>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>

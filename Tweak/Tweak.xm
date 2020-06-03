@@ -3,29 +3,20 @@
 BOOL enabled;
 BOOL enableTimeDateSection;
 BOOL enableFaceIDLockSection;
+BOOL enableStatusBarSection;
 BOOL enableHomebarSection;
 BOOL enablePageDotsSection;
 BOOL enableCCGrabberSection;
 BOOL enableUnlockTextSection;
+BOOL enableMediaPlayerSection;
 BOOL enableNotificationsSection;
 BOOL enableQuickActionsSection;
 BOOL enableEvanescoModeSection;
-
-NSString* evanescoInactivityControl;
-NSString* evanescoFadeDurationControl;
-NSString* evanescoFadeAlphaControl;
-BOOL timeDateEvanescoSwitch;
-BOOL faceIDLockEvanescoSwitch;
-BOOL homebarEvanescoSwitch;
-BOOL pageDotsEvanescoSwitch;
-BOOL notificationCellsEvanescoSwitch;
-BOOL notificationHintViewEvanescoSwitch;
-BOOL notificationHeaderViewEvanescoSwitch;
-BOOL unlockTextEvanescoSwitch;
-BOOL quickActionsEvanescoSwitch;
+BOOL enableColorFlowSupportSection;
 
 BOOL dpkgInvalid = NO;
 
+BOOL isLocked = YES; // used to detect if the device is locked
 BOOL revealed = NO; // used for notification header/clear button alpha
 
 // Time And Date
@@ -161,13 +152,13 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %end
 
-%group DressFaceIDLock
-
 // FaceID Lock
+
+%group DressFaceIDLock
 
 %hook SBUIProudLockIconView
 
-- (void)layoutSubviews {
+- (void)didMoveToWindow {
 
 	%orig;
 
@@ -193,6 +184,88 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		%orig([faceIDLockAlphaValue doubleValue]);
 	else
 		%orig;
+
+}
+
+%end
+
+%hook UIMorphingLabel
+
+- (void)didMoveToWindow {
+
+	%orig;
+
+	UIViewController* ancestor = [self _viewControllerForAncestor];
+	if (hideFaceIDLockLabelSwitch && [ancestor isKindOfClass:%c(SBUIProudLockContainerViewController)])
+		[self setHidden:YES];
+
+}
+
+%end
+
+%end
+
+// Status Bar
+
+%group DressStatusBar
+
+%hook UIStatusBar_Modern
+
+- (void)setFrame:(CGRect)arg1 { // add notification observer
+
+	if (hideStatusBarSwitch) {
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveStatusBarCustomizationNotification:) name:@"hideStatusBar" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveStatusBarCustomizationNotification:) name:@"showStatusBar" object:nil];
+	}
+
+	if ([statusBarAlphaControl doubleValue] != 1.0) {
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveStatusBarCustomizationNotification:) name:@"changeAlphaStatusBar" object:nil];
+		[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveStatusBarCustomizationNotification:) name:@"revertAlphaStatusBar" object:nil];
+	}
+
+	return %orig;
+
+}
+
+%new
+- (void)receiveStatusBarCustomizationNotification:(NSNotification *)notification {
+
+	if ([notification.name isEqual:@"hideStatusBar"])
+    	[[self statusBar] setHidden:YES];
+	else if ([notification.name isEqual:@"showStatusBar"])
+		[[self statusBar] setHidden:NO];
+	else if ([notification.name isEqual:@"changeAlphaStatusBar"])
+		[[self statusBar] setAlpha:[statusBarAlphaControl doubleValue]];
+	else if ([notification.name isEqual:@"revertAlphaStatusBar"])
+		[[self statusBar] setAlpha:1.0];
+
+}
+
+%end
+
+%hook SBCoverSheetPrimarySlidingViewController // send notifications to hide or show the status bar
+
+- (void)viewWillDisappear:(BOOL)animated {
+
+	%orig;
+
+	if (hideStatusBarSwitch)
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"showStatusBar" object:nil];
+
+	if ([statusBarAlphaControl doubleValue] != 1.0)
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"revertAlphaStatusBar" object:nil];
+
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+
+	%orig;
+
+	if (hideStatusBarSwitch)
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"hideStatusBar" object:nil];
+
+	if ([statusBarAlphaControl doubleValue] != 1.0)
+		[[NSNotificationCenter defaultCenter] postNotificationName:@"changeAlphaStatusBar" object:nil];
 
 }
 
@@ -302,7 +375,10 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[label setHidden:NO];
 
 	if (![unlockTextInput isEqual:@""])
-		label.string = unlockTextInput;
+		[label setString:unlockTextInput];
+
+	if (lastTimeUnlockedSwitch && [unlockTextInput isEqual:@""])
+		[label setString:[NSString stringWithFormat:@"Last Time Unlocked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
 
 }
 
@@ -335,7 +411,10 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[label setHidden:NO];
 
 	if (![unlockTextInput isEqual:@""])
-    	label.string = unlockTextInput;
+    	[label setString:unlockTextInput];
+
+	if (lastTimeUnlockedSwitch && [unlockTextInput isEqual:@""])
+		[label setString:[NSString stringWithFormat:@"Last Time Unlocked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
 
 }
 
@@ -343,7 +422,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook SBUICallToActionLabel
 
-- (void)didMoveToWindow { // Home Button Devices Before TouchID Recognized
+- (void)didMoveToWindow { // home button devices before touchID recognized
 
 	%orig;
 
@@ -355,9 +434,12 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	if (![unlockTextInput isEqual:@""])
     	[self setText:unlockTextInput];
 
+	if (lastTimeUnlockedSwitch && [unlockTextInput isEqual:@""])
+		[self setText:[NSString stringWithFormat:@"Last Time Unlocked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
+
 }
 
-- (void)_updateLabelTextWithLanguage:(id)arg1 {  // Home Button Devices After TouchID Recognized
+- (void)_updateLabelTextWithLanguage:(id)arg1 {  // home button devices after touchID recognized
 
     %orig;
 
@@ -368,6 +450,78 @@ BOOL revealed = NO; // used for notification header/clear button alpha
     
 	if (![unlockTextInput isEqual:@""])
 		[self setText:unlockTextInput];
+
+	if (lastTimeUnlockedSwitch && [unlockTextInput isEqual:@""])
+		[self setText:[NSString stringWithFormat:@"Last Time Unlocked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
+
+}
+
+%end
+
+%hook SBCoverSheetPrimarySlidingViewController // save current unlock time, also set isLocked to NO as no longer locked
+
+- (void)viewDidDisappear:(BOOL)animated {
+
+	%orig;
+
+	if (lastTimeUnlockedSwitch && isLocked) {
+		NSDateFormatter* timeformat = [[NSDateFormatter alloc] init];
+		if (lastTimeUnlockedAMPMSwitch && !lastTimeUnlocked24hSwitch && !lastTimeUnlockedSecondsSwitch)
+			[timeformat setDateFormat:@"h:mm a"];
+		else if (!lastTimeUnlockedAMPMSwitch && !lastTimeUnlocked24hSwitch && !lastTimeUnlockedSecondsSwitch)
+			[timeformat setDateFormat:@"h:mm"];
+		else if (!lastTimeUnlocked24hSwitch && lastTimeUnlockedSecondsSwitch)
+			[timeformat setDateFormat:@"h:mm:ss"];
+		else if (lastTimeUnlocked24hSwitch && !lastTimeUnlockedSecondsSwitch)
+			[timeformat setDateFormat:@"HH:mm"];
+		else if (lastTimeUnlocked24hSwitch && lastTimeUnlockedSecondsSwitch)
+			[timeformat setDateFormat:@"HH:mm:ss"];
+		else
+			[timeformat setDateFormat:@"h:mm a"];
+		currentTime = [timeformat stringFromDate:[NSDate date]];
+		[preferences setObject:currentTime forKey:@"lastTimeUnlockedValue"];
+		isLocked = NO;
+	}
+
+}
+
+%end
+
+%hook SBBacklightController // set a isLocked to YES as the display was just turned on
+
+- (void)turnOnScreenFullyWithBacklightSource:(long long)source {
+
+	%orig;
+
+	if (source != 26) isLocked = YES;
+
+}
+
+%end
+
+%end
+
+// Media Player
+
+%group DressMediaPlayer
+
+%hook CSAdjunctItemView
+
+- (void)didMoveToWindow {
+
+	%orig;
+
+	if (hideMediaPlayerSwitch)
+		[self setHidden:YES];
+
+}
+
+- (void)setAlpha:(double)alpha {
+
+	if ([mediaPlayerAlphaControl doubleValue] != 1.0)
+		%orig([mediaPlayerAlphaControl doubleValue]);
+	else
+		%orig;
 
 }
 
@@ -433,7 +587,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 	if (![noOlderNotificationsTextInput isEqual:@""]) {
 		[label setTextAlignment:NSTextAlignmentCenter];
-    	label.string = noOlderNotificationsTextInput;
+    	[label setString:noOlderNotificationsTextInput];
 	}
 
 	if ([noOlderNotificationsTextAlignmentControl intValue] == 0)
@@ -561,11 +715,32 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %end
 
-// Custom Auto Lock Duration
-
 %group DressOthers
 
-%hook CSBehavior
+// Custom Auto Lock Duration
+
+%hook CSBehavior // iOS 13
+
+- (void)setIdleTimerDuration:(long long)arg1 {
+
+	if ([customLockDurationControl intValue] == 0)
+		%orig;
+	else if ([customLockDurationControl intValue] == 1)
+		%orig(3); // apparently 10 seconds
+	else if ([customLockDurationControl intValue] == 2)
+		%orig(4); // apparently 15 seconds
+	else if ([customLockDurationControl intValue] == 3)
+		%orig(5); // apparently 20 seconds
+	else if ([customLockDurationControl intValue] == 4)
+		%orig(6); // apparently 25 seconds
+	else if ([customLockDurationControl intValue] == 5)
+		%orig(7); // apparently 30 seconds
+
+}
+
+%end
+
+%hook SBDashBoardBehavior // iOS 12
 
 - (void)setIdleTimerDuration:(long long)arg1 {
 
@@ -597,7 +772,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
     %orig;
     if (!dpkgInvalid) return;
 		UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Dress"
-		message:@"Seriously? Pirating a free Tweak is awful!\nPiracy repo's Tweaks could contain Malware if you didn't know that, so go ahead and get Dress from the official Source https://repo.litten.sh/.\nIf you're seeing this but you got it from the official source then make sure to add https://repo.litten.love to Cydia or Sileo."
+		message:@"Seriously? Pirating a free Tweak is awful!\nPiracy repo's Tweaks could contain Malware if you didn't know that, so go ahead and get Dress from the official Source https://repo.litten.love/.\nIf you're seeing this but you got it from the official source then make sure to add https://repo.litten.love to Cydia or Sileo."
 		preferredStyle:UIAlertControllerStyleAlert];
 
 		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Okey" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
@@ -633,12 +808,15 @@ BOOL revealed = NO; // used for notification header/clear button alpha
     [preferences registerBool:&enabled default:nil forKey:@"Enabled"];
 	[preferences registerBool:&enableTimeDateSection default:nil forKey:@"EnableTimeDateSection"];
 	[preferences registerBool:&enableFaceIDLockSection default:nil forKey:@"EnableFaceIDLockSection"];
+	[preferences registerBool:&enableStatusBarSection default:nil forKey:@"EnableStatusBarSection"];
 	[preferences registerBool:&enableHomebarSection default:nil forKey:@"EnableHomebarSection"];
 	[preferences registerBool:&enablePageDotsSection default:nil forKey:@"EnablePageDotsSection"];
 	[preferences registerBool:&enableUnlockTextSection default:nil forKey:@"EnableUnlockTextSection"];
+	[preferences registerBool:&enableMediaPlayerSection default:nil forKey:@"EnableMediaPlayerSection"];
 	[preferences registerBool:&enableNotificationsSection default:nil forKey:@"EnableNotificationsSection"];
 	[preferences registerBool:&enableQuickActionsSection default:nil forKey:@"EnableQuickActionsSection"];
 	[preferences registerBool:&enableEvanescoModeSection default:nil forKey:@"EnableEvanescoModeSection"];
+	[preferences registerBool:&enableColorFlowSupportSection default:nil forKey:@"EnableColorFlowSupportSection"];
 
 	// Time And Date
 	if (enableTimeDateSection) {
@@ -666,11 +844,18 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	// FaceID Lock
 	if (enableFaceIDLockSection) {
 		[preferences registerBool:&hideFaceIDLockSwitch default:NO forKey:@"hideFaceIDLock"];
+		[preferences registerBool:&hideFaceIDLockLabelSwitch default:NO forKey:@"hideFaceIDLockLabel"];
 		[preferences registerObject:&faceIDLockAlphaValue default:@"1.0" forKey:@"faceIDLockAlpha"];
 		[preferences registerBool:&customFaceIDAxisSwitch default:NO forKey:@"customFaceIDAxis"];
 		[preferences registerObject:&faceIDXAxisControl default:@"176.0" forKey:@"faceIDXAxis"];
 		[preferences registerObject:&faceIDYAxisControl default:@"0.0" forKey:@"faceIDYAxis"];
 		[preferences registerObject:&customFaceIDSizeControl default:@"0.0" forKey:@"customFaceIDSize"];
+	}
+
+	// Status Bar
+	if (enableStatusBarSection) {
+		[preferences registerBool:&hideStatusBarSwitch default:NO forKey:@"hideStatusBar"];
+		[preferences registerObject:&statusBarAlphaControl default:@"1.0" forKey:@"statusBarAlpha"];
 	}
 
 	// Homebar
@@ -691,6 +876,16 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerObject:&unlockTextInput default:@"" forKey:@"unlockText"];
 		[preferences registerBool:&hideCCGrabberSwitch default:NO forKey:@"hideCCGrabber"];
 		[preferences registerObject:&ccGrabberAlphaControl default:@"1.0" forKey:@"ccGrabberAlpha"];
+		[preferences registerBool:&lastTimeUnlockedSwitch default:NO forKey:@"lastTimeUnlocked"];
+		[preferences registerBool:&lastTimeUnlockedAMPMSwitch default:YES forKey:@"lastTimeUnlockedAMPM"];
+		[preferences registerBool:&lastTimeUnlocked24hSwitch default:NO forKey:@"lastTimeUnlocked24h"];
+		[preferences registerBool:&lastTimeUnlockedSecondsSwitch default:NO forKey:@"lastTimeUnlockedSeconds"];
+	}
+
+	// Media Player
+	if (enableMediaPlayerSection) {
+		[preferences registerBool:&hideMediaPlayerSwitch default:NO forKey:@"hideMediaPlayer"];
+		[preferences registerObject:&mediaPlayerAlphaControl default:@"1.0" forKey:@"mediaPlayerAlpha"];
 	}
 
 	// Notifications
@@ -723,22 +918,6 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	// Custom Auto Lock Duration
 	[preferences registerObject:&customLockDurationControl default:@"0" forKey:@"customLockDuration"];
 
-	// Evanesco Mode
-	if (enableEvanescoModeSection) {
-		[preferences registerObject:&evanescoInactivityControl default:@"5.0" forKey:@"evanescoInactivity"];
-		[preferences registerObject:&evanescoFadeDurationControl default:@"0.5" forKey:@"evanescoFadeDuration"];
-		[preferences registerObject:&evanescoFadeAlphaControl default:@"0.0" forKey:@"evanescoFadeAlpha"];
-		[preferences registerBool:&timeDateEvanescoSwitch default:NO forKey:@"timeDateEvanesco"];
-		[preferences registerBool:&faceIDLockEvanescoSwitch default:NO forKey:@"faceIDLockEvanesco"];
-		[preferences registerBool:&homebarEvanescoSwitch default:NO forKey:@"homebarEvanesco"];
-		[preferences registerBool:&pageDotsEvanescoSwitch default:NO forKey:@"pageDotsEvanesco"];
-		[preferences registerBool:&notificationCellsEvanescoSwitch default:NO forKey:@"notificationCellsEvanesco"];
-		[preferences registerBool:&notificationHintViewEvanescoSwitch default:NO forKey:@"notificationHintViewEvanesco"];
-		[preferences registerBool:&notificationHeaderViewEvanescoSwitch default:NO forKey:@"notificationHeaderViewEvanesco"];
-		[preferences registerBool:&unlockTextEvanescoSwitch default:NO forKey:@"unlockTextEvanesco"];
-		[preferences registerBool:&quickActionsEvanescoSwitch default:NO forKey:@"quickActionsEvanesco"];
-	}
-
 	if (!dpkgInvalid && enabled) {
         BOOL ok = false;
 		BOOL timeAndDateTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] || ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"];
@@ -750,9 +929,11 @@ BOOL revealed = NO; // used for notification header/clear button alpha
         if (ok && [@"litten" isEqualToString:@"litten"]) {
             if (enableTimeDateSection && timeAndDateTweaksCompatible) %init(DressTimeDate);
 			if (enableFaceIDLockSection && faceIDLockTweaksCompatible) %init(DressFaceIDLock);
+			if (enableStatusBarSection) %init(DressStatusBar);
 			if (enableHomebarSection) %init(DressHomebar);
 			if (enablePageDotsSection) %init(DressPageDots);
 			if (enableUnlockTextSection) %init(DressUnlockText);
+			if (enableMediaPlayerSection) %init(DressMediaPlayer);
 			if (enableNotificationsSection) %init(DressNotifications);
 			if (enableQuickActionsSection) %init(DressQuickActions);
 			%init(DressOthers);

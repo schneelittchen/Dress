@@ -293,17 +293,6 @@
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>
 
-		<dict>
-			<key>cell</key>
-			<key>PSGroupCell</key>
-			<key>footerText</key>
-			<string>Evanesco Mode Is Still In Beta So Bugs May Occur</string>
-			<key>isStaticText</key>
-			<true/>
-			<key>footerAlignment</key>
-			<real>1</real>
-		</dict>
-
 	</array>
 	<key>title</key>
 	<string>Dress</string>

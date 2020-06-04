@@ -18,6 +18,7 @@ extern BOOL enableNotificationsSection;
 extern BOOL enableQuickActionsSection;
 extern BOOL enableEvanescoModeSection;
 extern BOOL enableColorFlowSupportSection;
+extern BOOL enableOthersSection;
 
 // Time And Date
 BOOL hideTimeAndDateSwitch = NO;
@@ -70,8 +71,11 @@ BOOL hideUnlockTextSwitch = NO;
 NSString* unlockTextInput = @"";
 NSString* currentTime;
 BOOL lastTimeUnlockedSwitch = NO;
-BOOL lastTimeUnlockedAMPMSwitch = YES;
+BOOL prefersLastTimeLockedSwitch = NO;
 BOOL lastTimeUnlocked24hSwitch = NO;
+BOOL lastTimeUnlockedAMPMSwitch = YES;
+BOOL lastTimeUnlockedDateSwitch = NO;
+BOOL lastTimeUnlockedOnlyTimeAndDateSwitch = NO;
 BOOL lastTimeUnlockedSecondsSwitch = NO;
 
 // Media Player
@@ -96,13 +100,12 @@ BOOL hideCameraQuickActionsButtonSwitch = NO;
 BOOL hideFlashlightQuickActionsButtonSwitch = NO;
 NSString* cameraQuickActionsButtonAlphaControl = @"1.0";
 NSString* flashlightQuickActionsButtonAlphaControl = @"1.0";
+BOOL disableTodaySwipeSwitch = NO;
+BOOL disableCameraSwipeSwitch = NO;
 BOOL customQuickActionsXAxisSwitch = NO;
 BOOL customQuickActionsYAxisSwitch = NO;
 NSString* customQuickActionsXAxisValueControl = @"50.0";
 NSString* customQuickActionsYAxisValueControl = @"50.0";
-
-// Custom Auto Lock Duration
-NSString* customLockDurationControl = @"0";
 
 // Evanesco Mode
 NSString* evanescoInactivityControl;
@@ -119,7 +122,7 @@ BOOL notificationHintViewEvanescoSwitch;
 BOOL notificationHeaderViewEvanescoSwitch;
 BOOL unlockTextEvanescoSwitch;
 BOOL quickActionsEvanescoSwitch;
-BOOL complicationsEvanescoSwitch;
+// BOOL complicationsEvanescoSwitch;
 BOOL grupiEvanescoSwitch;
 BOOL axonEvanescoSwitch;
 
@@ -131,6 +134,10 @@ BOOL homebarColorFlowSwitch = NO;
 BOOL pageDotsColorFlowSwitch = NO;
 BOOL unlockTextColorFlowSwitch = NO;
 BOOL quickActionsColorFlowSwitch = NO;
+
+// Others
+NSString* customLockDurationControl = @"0";
+BOOL disableBatteryViewSwitch = NO;
 
 // Time And Date
 @interface SBFLockScreenDateView : UIView
@@ -221,13 +228,13 @@ BOOL quickActionsColorFlowSwitch = NO;
 @property(nonatomic, copy, readwrite)NSString* title;
 @end
 
-@interface ComplicationsView : UIView
-- (void)receiveFadeNotification:(NSNotification *)notification;
-@end
+// @interface ComplicationsView : UIView
+// - (void)receiveFadeNotification:(NSNotification *)notification;
+// @end
 
-@interface ComplicationsBackgroundView : UIView
-- (void)receiveFadeNotification:(NSNotification *)notification;
-@end
+// @interface ComplicationsBackgroundView : UIView
+// - (void)receiveFadeNotification:(NSNotification *)notification;
+// @end
 
 @interface GRPView : UIView
 - (void)receiveFadeNotification:(NSNotification *)notification;
@@ -254,6 +261,9 @@ BOOL quickActionsColorFlowSwitch = NO;
 @interface CSQuickActionsButton : UICoverSheetButton
 - (void)receiveFadeNotification:(NSNotification *)notification;
 - (void)receiveColorNotification:(NSNotification *)notification;
+@end
+
+@interface CSBatteryChargingView : UIView
 @end
 
 @interface SBBacklightController : NSObject

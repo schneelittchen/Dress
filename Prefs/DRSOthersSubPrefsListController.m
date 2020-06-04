@@ -1,8 +1,8 @@
-#import "DRSQuickActionsSubPrefsListController.h"
+#import "DRSOthersSubPrefsListController.h"
 
-BOOL enableQuickActionsSection = NO;
+BOOL enableOthersSection = NO;
 
-@implementation DRSQuickActionsSubPrefsListController
+@implementation DRSOthersSubPrefsListController
 
 - (instancetype)init {
 
@@ -77,20 +77,20 @@ BOOL enableQuickActionsSection = NO;
     HBPreferences *preferences = [[HBPreferences alloc] initWithIdentifier: @"love.litten.dresspreferences"];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"]) {
-        enableQuickActionsSection = YES;
-        [preferences setBool:enableQuickActionsSection forKey:@"EnableQuickActionsSection"];
+        enableOthersSection = YES;
+        [preferences setBool:enableOthersSection forKey:@"EnableOthersSection"];
         [self toggleCellState:YES];
-    } else if (![allKeys containsObject:@"EnableQuickActionsSection"]) {
-        enableQuickActionsSection = YES;
-        [preferences setBool:enableQuickActionsSection forKey:@"EnableQuickActionsSection"];
+    } else if (![allKeys containsObject:@"EnableOthersSection"]) {
+        enableOthersSection = YES;
+        [preferences setBool:enableOthersSection forKey:@"EnableOthersSection"];
         [self toggleCellState:YES];
-    } else if ([[preferences objectForKey:@"EnableQuickActionsSection"] isEqual:@(NO)]) {
-        enableQuickActionsSection = YES;
-        [preferences setBool:enableQuickActionsSection forKey:@"EnableQuickActionsSection"];
+    } else if ([[preferences objectForKey:@"EnableOthersSection"] isEqual:@(NO)]) {
+        enableOthersSection = YES;
+        [preferences setBool:enableOthersSection forKey:@"EnableOthersSection"];
         [self toggleCellState:YES];   
-    } else if ([[preferences objectForKey:@"EnableQuickActionsSection"] isEqual:@(YES)]) {
-        enableQuickActionsSection = NO;
-        [preferences setBool:enableQuickActionsSection forKey:@"EnableQuickActionsSection"];
+    } else if ([[preferences objectForKey:@"EnableOthersSection"] isEqual:@(YES)]) {
+        enableOthersSection = NO;
+        [preferences setBool:enableOthersSection forKey:@"EnableOthersSection"];
         [self toggleCellState:NO];
     }
 
@@ -106,13 +106,13 @@ BOOL enableQuickActionsSection = NO;
     if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"]){
         [[self enableSwitch] setOn:NO animated:YES];
         [self toggleCellState:NO];
-    } else if (![allKeys containsObject:@"EnableQuickActionsSection"]) {
+    } else if (![allKeys containsObject:@"EnableOthersSection"]) {
         [[self enableSwitch] setOn:NO animated:YES];
         [self toggleCellState:NO];
-    } else if ([[preferences objectForKey:@"EnableQuickActionsSection"] isEqual:@(YES)]) {
+    } else if ([[preferences objectForKey:@"EnableOthersSection"] isEqual:@(YES)]) {
         [[self enableSwitch] setOn:YES animated:YES];
         [self toggleCellState:YES];
-    } else if ([[preferences objectForKey:@"EnableQuickActionsSection"] isEqual:@(NO)]) {
+    } else if ([[preferences objectForKey:@"EnableOthersSection"] isEqual:@(NO)]) {
         [[self enableSwitch] setOn:NO animated:YES];
         [self toggleCellState:NO];
     }
@@ -128,11 +128,11 @@ BOOL enableQuickActionsSection = NO;
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"]){
         [self toggleCellState:NO];
-    } else if (![allKeys containsObject:@"EnableQuickActionsSection"]) {
+    } else if (![allKeys containsObject:@"EnableOthersSection"]) {
         [self toggleCellState:NO];
-    } else if ([[preferences objectForKey:@"EnableQuickActionsSection"] isEqual:@(YES)]) {
+    } else if ([[preferences objectForKey:@"EnableOthersSection"] isEqual:@(YES)]) {
         [self toggleCellState:YES];
-    } else if ([[preferences objectForKey:@"EnableQuickActionsSection"] isEqual:@(NO)]) {
+    } else if ([[preferences objectForKey:@"EnableOthersSection"] isEqual:@(NO)]) {
         [self toggleCellState:NO];
     }
 
@@ -144,34 +144,10 @@ BOOL enableQuickActionsSection = NO;
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] enabled:YES];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] enabled:YES];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:6 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:7 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:8 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:9 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:10 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:11 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:12 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:13 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:14 inSection:0] enabled:YES];
     } else {
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] enabled:NO];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] enabled:NO];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:3 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:5 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:6 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:7 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:8 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:9 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:10 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:11 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:12 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:13 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:14 inSection:0] enabled:NO];
     }
 
 }

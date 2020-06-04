@@ -99,6 +99,10 @@
 			<string>PSGroupCell</string>
 			<key>label</key>
 			<string>Show Last Time Unlocked</string>
+			<key>footerText</key>
+			<string>Last Time Locked Only Works When Locking With Sleep Button</string>
+			<key>isStaticText</key>
+			<true/>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -111,6 +115,20 @@
 			<string>lastTimeUnlocked</string>
 			<key>label</key>
 			<string>Last Time Unlocked</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>prefersLastTimeLocked</string>
+			<key>label</key>
+			<string>Prefer Last Time Locked</string>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>
@@ -139,6 +157,34 @@
 			<string>lastTimeUnlockedAMPM</string>
 			<key>label</key>
 			<string>Show am/pm</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>lastTimeUnlockedDate</string>
+			<key>label</key>
+			<string>Show Date</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>lastTimeUnlockedOnlyTimeAndDate</string>
+			<key>label</key>
+			<string>Show Only Time And Date</string>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>

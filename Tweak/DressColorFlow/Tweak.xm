@@ -439,7 +439,6 @@ BOOL dpkgInvalid = NO;
 	if (enableColorFlowSupportSection) {
         [preferences registerBool:&timeDateColorFlowSwitch default:NO forKey:@"timeDateColorFlow"];
 		[preferences registerBool:&faceIDLockColorFlowSwitch default:NO forKey:@"faceIDLockColorFlow"];
-		[preferences registerBool:&statusBarColorFlowSwitch default:NO forKey:@"statusBarColorFlow"];
         [preferences registerBool:&homebarColorFlowSwitch default:NO forKey:@"homebarColorFlow"];
 		[preferences registerBool:&pageDotsColorFlowSwitch default:NO forKey:@"pageDotsColorFlow"];
 		[preferences registerBool:&unlockTextColorFlowSwitch default:NO forKey:@"unlockTextColorFlow"];

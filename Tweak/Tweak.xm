@@ -242,6 +242,14 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
+- (void)dealloc { // remove observer
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+	%orig;
+
+}
+
 %end
 
 %hook SBCoverSheetPrimarySlidingViewController // send notifications to hide or show the status bar
@@ -904,6 +912,32 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %end
 
+%hook CSCoverSheetViewController // Hide Charging View iOS 13
+
+-(void)_transitionChargingViewToVisible:(BOOL)arg1 showBattery:(BOOL)arg2 animated:(BOOL)arg3 {
+
+	if (disableBatteryViewSwitch)
+		%orig(NO, NO, NO);
+	else
+		%orig;
+
+}
+
+%end
+
+%hook SBDashBoardViewController // Hide Charging View iOS 12
+
+- (void)_transitionChargingViewToVisible:(BOOL)arg1 showBattery:(BOOL)arg2 animated:(BOOL)arg3 {
+
+	if (disableBatteryViewSwitch)
+		%orig(NO, NO, NO);
+	else
+		%orig;
+
+}
+
+%end
+
 %end
 
 %group DressIntegrityFail
@@ -1066,8 +1100,10 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	}
 
 	// Others
-	[preferences registerObject:&customLockDurationControl default:@"0" forKey:@"customLockDuration"];
-	[preferences registerBool:&disableBatteryViewSwitch default:NO forKey:@"disableBatteryView"];
+	if (enableOthersSection) {
+		[preferences registerObject:&customLockDurationControl default:@"0" forKey:@"customLockDuration"];
+		[preferences registerBool:&disableBatteryViewSwitch default:NO forKey:@"disableBatteryView"];
+	}
 
 	if (!dpkgInvalid && enabled) {
         BOOL ok = false;

@@ -8,4 +8,5 @@ Dress Up Your Lockscreen
 2. Install Dress
 
 ## Compiling
+
 No dependencies, just make package (make clean package)

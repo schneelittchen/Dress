@@ -1,7 +1,6 @@
 #include "DRSRootListController.h"
 #import <Cephei/HBRespringController.h>
 #import "../Tweak/Dress.h"
-#import <spawn.h>
 
 BOOL enabled = NO;
 
@@ -24,7 +23,7 @@ BOOL enabled = NO;
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,10,10)];
         self.titleLabel.font = [UIFont boldSystemFontOfSize:17];
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        self.titleLabel.text = @"1.3";
+        self.titleLabel.text = @"1.4.1";
         self.titleLabel.textColor = [UIColor whiteColor];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         [self.navigationItem.titleView addSubview:self.titleLabel];
@@ -260,13 +259,8 @@ BOOL enabled = NO;
 }
 
 - (void)respringUtil {
-
-    pid_t pid;
-    const char *args[] = {"killall", "backboardd", NULL};
-
+    
     [HBRespringController respringAndReturnTo:[NSURL URLWithString:@"prefs:root=Dress"]];
-
-    posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char *const *)args, NULL);
 
 }
 

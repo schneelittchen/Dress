@@ -383,10 +383,12 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	else
 		[label setHidden:NO];
 
-	if (![unlockTextInput isEqual:@""])
+	if (![unlockTextInput isEqual:@""]) {
 		[label setString:unlockTextInput];
+		return;
+	}
 
-	if (lastTimeUnlockedSwitch && [unlockTextInput isEqual:@""]) {
+	if (lastTimeUnlockedSwitch) {
 		if (!lastTimeUnlockedOnlyTimeAndDateSwitch) {
 			if (!prefersLastTimeLockedSwitch)
 				[label setString:[NSString stringWithFormat:@"Last Time Unlocked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
@@ -398,6 +400,26 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 			else if (prefersLastTimeLockedSwitch)
 				[label setString:[NSString stringWithFormat:@"%@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];	
 		}
+		return;
+	}
+
+	if (ipAddressSwitch) {
+		[label setString:ipAddress];
+		return;
+	}
+
+	if (weatherConditionSwitch && !weatherTemperatureSwitch) {
+		[[PDDokdo sharedInstance] refreshWeatherData];
+		[label setString:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentConditions]]];
+		return;
+	} else if (!weatherConditionSwitch && weatherTemperatureSwitch) {
+		[[PDDokdo sharedInstance] refreshWeatherData];
+		[label setString:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentTemperature]]];
+		return;
+	} else if (weatherConditionSwitch && weatherTemperatureSwitch) {
+		[[PDDokdo sharedInstance] refreshWeatherData];
+		[label setString:[NSString stringWithFormat:@"%@ %@", [[PDDokdo sharedInstance] currentConditions], [[PDDokdo sharedInstance] currentTemperature]]];
+		return;
 	}
 
 }
@@ -430,10 +452,12 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	else
 		[label setHidden:NO];
 
-	if (![unlockTextInput isEqual:@""])
-    	[label setString:unlockTextInput];
+	if (![unlockTextInput isEqual:@""]) {
+		[label setString:unlockTextInput];
+		return;	
+	}
 
-	if (lastTimeUnlockedSwitch && [unlockTextInput isEqual:@""]) {
+	if (lastTimeUnlockedSwitch) {
 		if (!lastTimeUnlockedOnlyTimeAndDateSwitch) {
 			if (!prefersLastTimeLockedSwitch)
 				[label setString:[NSString stringWithFormat:@"Last Time Unlocked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
@@ -445,6 +469,26 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 			else if (prefersLastTimeLockedSwitch)
 				[label setString:[NSString stringWithFormat:@"%@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];	
 		}
+		return;
+	}
+
+	if (ipAddressSwitch) {
+		[label setString:ipAddress];
+		return;
+	}
+
+	if (weatherConditionSwitch && !weatherTemperatureSwitch) {
+		[[PDDokdo sharedInstance] refreshWeatherData];
+		[label setString:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentConditions]]];
+		return;
+	} else if (!weatherConditionSwitch && weatherTemperatureSwitch) {
+		[[PDDokdo sharedInstance] refreshWeatherData];
+		[label setString:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentTemperature]]];
+		return;
+	} else if (weatherConditionSwitch && weatherTemperatureSwitch) {
+		[[PDDokdo sharedInstance] refreshWeatherData];
+		[label setString:[NSString stringWithFormat:@"%@ %@", [[PDDokdo sharedInstance] currentConditions], [[PDDokdo sharedInstance] currentTemperature]]];
+		return;
 	}
 
 }
@@ -462,10 +506,12 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	else
 		[self setHidden:NO];
 
-	if (![unlockTextInput isEqual:@""])
-    	[self setText:unlockTextInput];
+	if (![unlockTextInput isEqual:@""]) {
+		[self setText:unlockTextInput];
+		return;
+	}
 
-	if (lastTimeUnlockedSwitch && [unlockTextInput isEqual:@""]) {
+	if (lastTimeUnlockedSwitch) {
 		if (!lastTimeUnlockedOnlyTimeAndDateSwitch) {
 			if (!prefersLastTimeLockedSwitch)
 				[self setText:[NSString stringWithFormat:@"Last Time Unlocked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
@@ -477,6 +523,26 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 			else if (prefersLastTimeLockedSwitch)
 				[self setText:[NSString stringWithFormat:@"%@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];	
 		}
+		return;
+	}
+
+	if (ipAddressSwitch) {
+		[self setText:ipAddress];
+		return;
+	}
+
+	if (weatherConditionSwitch && !weatherTemperatureSwitch) {
+		[[PDDokdo sharedInstance] refreshWeatherData];
+		[self setText:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentConditions]]];
+		return;
+	} else if (!weatherConditionSwitch && weatherTemperatureSwitch) {
+		[[PDDokdo sharedInstance] refreshWeatherData];
+		[self setText:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentTemperature]]];
+		return;
+	} else if (weatherConditionSwitch && weatherTemperatureSwitch) {
+		[[PDDokdo sharedInstance] refreshWeatherData];
+		[self setText:[NSString stringWithFormat:@"%@ %@", [[PDDokdo sharedInstance] currentConditions], [[PDDokdo sharedInstance] currentTemperature]]];
+		return;
 	}
 
 }
@@ -490,10 +556,12 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	else
 		[self setHidden:NO];
     
-	if (![unlockTextInput isEqual:@""])
+	if (![unlockTextInput isEqual:@""]) {
 		[self setText:unlockTextInput];
+		return;
+	}
 
-	if (lastTimeUnlockedSwitch && [unlockTextInput isEqual:@""]) {
+	if (lastTimeUnlockedSwitch) {
 		if (!lastTimeUnlockedOnlyTimeAndDateSwitch) {
 			if (!prefersLastTimeLockedSwitch)
 				[self setText:[NSString stringWithFormat:@"Last Time Unlocked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
@@ -505,6 +573,26 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 			else if (prefersLastTimeLockedSwitch)
 				[self setText:[NSString stringWithFormat:@"%@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];	
 		}
+		return;
+	}
+
+	if (ipAddressSwitch) {
+		[self setText:ipAddress];
+		return;
+	}
+	
+	if (weatherConditionSwitch && !weatherTemperatureSwitch) {
+		[[PDDokdo sharedInstance] refreshWeatherData];
+		[self setText:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentConditions]]];
+		return;
+	} else if (!weatherConditionSwitch && weatherTemperatureSwitch) {
+		[[PDDokdo sharedInstance] refreshWeatherData];
+		[self setText:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentTemperature]]];
+		return;
+	} else if (weatherConditionSwitch && weatherTemperatureSwitch) {
+		[[PDDokdo sharedInstance] refreshWeatherData];
+		[self setText:[NSString stringWithFormat:@"%@ %@", [[PDDokdo sharedInstance] currentConditions], [[PDDokdo sharedInstance] currentTemperature]]];
+		return;
 	}
 
 }
@@ -517,7 +605,9 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 	%orig;
 
-	if (lastTimeUnlockedSwitch && !prefersLastTimeLockedSwitch && isLocked) {
+	if (!lastTimeUnlockedSwitch) return;
+
+	if (!prefersLastTimeLockedSwitch && isLocked) {
 		NSDateFormatter* timeformat = [[NSDateFormatter alloc] init];
 		if (!lastTimeUnlockedDateSwitch) {
 			if (lastTimeUnlockedAMPMSwitch && !lastTimeUnlocked24hSwitch && !lastTimeUnlockedSecondsSwitch)
@@ -561,7 +651,9 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 	%orig;
 
-	if (lastTimeUnlockedSwitch && prefersLastTimeLockedSwitch) {
+	if (!lastTimeUnlockedSwitch) return;
+
+	if (prefersLastTimeLockedSwitch) {
 		NSDateFormatter* timeformat = [[NSDateFormatter alloc] init];
 		if (!lastTimeUnlockedDateSwitch) {
 			if (lastTimeUnlockedAMPMSwitch && !lastTimeUnlocked24hSwitch && !lastTimeUnlockedSecondsSwitch)
@@ -605,6 +697,40 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	%orig;
 
 	if (source != 26) isLocked = YES;
+
+}
+
+%end
+
+%hook SpringBoard // get the ip upon springboard launch
+
+- (void)applicationDidFinishLaunching:(BOOL)arg1 {
+
+	%orig;
+
+	struct ifaddrs* interfaces = NULL;
+    struct ifaddrs* temp_addr = NULL;
+    NSString* wifiAddress = nil;
+    NSString* cellAddress = nil;
+
+    if (!getifaddrs(&interfaces)) {
+        temp_addr = interfaces;
+        while (temp_addr != NULL) {
+            sa_family_t sa_type = temp_addr->ifa_addr->sa_family;
+            if (sa_type == AF_INET || sa_type == AF_INET6) {
+                NSString *name = [NSString stringWithUTF8String:temp_addr->ifa_name];
+                NSString *addr = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
+
+                if ([name isEqualToString:@"en0"])
+                    wifiAddress = addr;
+                else if ([name isEqualToString:@"pdp_ip0"])
+                    cellAddress = addr;
+            }
+            temp_addr = temp_addr->ifa_next;
+        }
+        freeifaddrs(interfaces);
+    }
+    ipAddress = wifiAddress ? wifiAddress : cellAddress;
 
 }
 
@@ -1061,6 +1187,9 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&lastTimeUnlockedDateSwitch default:NO forKey:@"lastTimeUnlockedDate"];
 		[preferences registerBool:&lastTimeUnlockedOnlyTimeAndDateSwitch default:NO forKey:@"lastTimeUnlockedOnlyTimeAndDate"];
 		[preferences registerBool:&lastTimeUnlockedSecondsSwitch default:NO forKey:@"lastTimeUnlockedSeconds"];
+		[preferences registerBool:&ipAddressSwitch default:NO forKey:@"ipAddress"];
+		[preferences registerBool:&weatherConditionSwitch default:NO forKey:@"weatherCondition"];
+		[preferences registerBool:&weatherTemperatureSwitch default:NO forKey:@"weatherTemperature"];
 	}
 
 	// Media Player

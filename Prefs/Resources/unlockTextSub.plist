@@ -98,11 +98,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Show Last Time Unlocked</string>
-			<key>footerText</key>
-			<string>Last Time Locked Only Works When Locking With Sleep Button</string>
-			<key>isStaticText</key>
-			<true/>
+			<string>Last Time Unlocked</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -199,6 +195,62 @@
 			<string>lastTimeUnlockedSeconds</string>
 			<key>label</key>
 			<string>Show Seconds</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Network</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>ipAddress</string>
+			<key>label</key>
+			<string>IP-Address</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+
+		<dict>
+			<key>cell</key>
+			<string>PSGroupCell</string>
+			<key>label</key>
+			<string>Weather</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>weatherCondition</string>
+			<key>label</key>
+			<string>Condition</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>weatherTemperature</string>
+			<key>label</key>
+			<string>Temperature</string>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>

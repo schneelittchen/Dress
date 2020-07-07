@@ -385,11 +385,9 @@ BOOL dpkgInvalid = NO;
 	if ([notification.name isEqual:@"ColorFlowLockScreenColorizationNotification"]) {
 		NSDictionary* userInfo = [notification userInfo];
 		UIColor *secondaryColor = userInfo[@"SecondaryColor"];
-		UIImageView *buttonImageView = MSHookIvar<UIImageView *>(self, "_contentView");
-		[buttonImageView setTintColor:secondaryColor];
+		[self setTintColor:secondaryColor];
 	} else if ([notification.name isEqual:@"ColorFlowLockScreenColorReversionNotification"]) {
-		UIImageView *buttonImageView = MSHookIvar<UIImageView *>(self, "_contentView");
-		[buttonImageView setTintColor:[UIColor whiteColor]];
+		[self setTintColor:[UIColor whiteColor]];
 	}
 
 }

@@ -10,6 +10,7 @@ $(TWEAK_NAME)_FILES = Tweak.xm
 $(TWEAK_NAME)_CFLAGS = -fobjc-arc
 $(TWEAK_NAME)_FRAMEWORKS = UIKit
 $(TWEAK_NAME)_EXTRA_FRAMEWORKS += Cephei
+$(TWEAK_NAME)_LIBRARIES = pddokdo
 
 SUBPROJECTS += DressEvanesco DressColorFlow
 

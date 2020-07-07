@@ -150,6 +150,14 @@
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>
+		<!-- <dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Pick Font</string>
+			<key>action</key>
+			<string>pickFont</string>
+		</dict> -->
 		<dict>
 			<key>cell</key>
 			<string>PSSliderCell</string>

@@ -1,6 +1,7 @@
 #include "DRSRootListController.h"
 #import <Cephei/HBRespringController.h>
 #import "../Tweak/Dress.h"
+#import <spawn.h>
 
 BOOL enabled = NO;
 
@@ -23,7 +24,7 @@ BOOL enabled = NO;
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,10,10)];
         self.titleLabel.font = [UIFont boldSystemFontOfSize:17];
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        self.titleLabel.text = @"1.4.1";
+        self.titleLabel.text = @"1.6";
         self.titleLabel.textColor = [UIColor whiteColor];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         [self.navigationItem.titleView addSubview:self.titleLabel];
@@ -97,7 +98,7 @@ BOOL enabled = NO;
     self.navigationController.navigationController.navigationBar.barTintColor = [UIColor colorWithRed: 0.76 green: 0.67 blue: 1.00 alpha: 1.00];
     [self.navigationController.navigationController.navigationBar setShadowImage: [UIImage new]];
     self.navigationController.navigationController.navigationBar.tintColor = [UIColor whiteColor];
-    self.navigationController.navigationController.navigationBar.translucent = NO;
+    self.navigationController.navigationController.navigationBar.translucent = YES;
 
     if (SYSTEM_VERSION_LESS_THAN(@"13.0")) {
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:4 inSection:0] enabled:NO];
@@ -259,8 +260,13 @@ BOOL enabled = NO;
 }
 
 - (void)respringUtil {
-    
+
+    pid_t pid;
+    const char *args[] = {"killall", "backboardd", NULL};
+
     [HBRespringController respringAndReturnTo:[NSURL URLWithString:@"prefs:root=Dress"]];
+
+    posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char *const *)args, NULL);
 
 }
 

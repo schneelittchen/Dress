@@ -40,7 +40,7 @@
 
 - (BOOL)translucentNavigationBar {
 
-    return NO;
+    return YES;
 
 }
 

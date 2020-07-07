@@ -12,9 +12,9 @@
 @interface DRSAppearanceSettings : HBAppearanceSettings
 @end
 
-@interface DRSTimeDateSubPrefsListController : HBListController
+@interface DRSTimeDateSubPrefsListController : HBListController <UIFontPickerViewControllerDelegate>
 @property(nonatomic, retain)UISwitch* enableSwitch;
-@property (nonatomic, retain) UILabel *titleLabel;
+@property(nonatomic, retain) UILabel* titleLabel;
 - (void)toggleState;
 - (void)setEnableSwitchState;
 - (void)setCellForRowAtIndexPath:(NSIndexPath *)indexPath enabled:(BOOL)enabled;

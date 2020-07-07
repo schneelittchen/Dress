@@ -211,6 +211,62 @@
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>lockWidgetsEvanesco</string>
+			<key>label</key>
+			<string>LockWidgets</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>kaiEvanesco</string>
+			<key>label</key>
+			<string>Kai</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>aperioEvanesco</string>
+			<key>label</key>
+			<string>Aperio</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSSwitchCell</string>
+			<key>default</key>
+			<false/>
+			<key>defaults</key>
+			<string>love.litten.dresspreferences</string>
+			<key>key</key>
+			<string>vezaEvanesco</string>
+			<key>label</key>
+			<string>Veza</string>
+			<key>PostNotification</key>
+			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
 	
 		<dict>
 			<key>cell</key>

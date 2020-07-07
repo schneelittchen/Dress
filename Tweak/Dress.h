@@ -1,6 +1,9 @@
 #import <UIKit/UIKit.h>
 #import <Cephei/HBPreferences.h>
 #import <dlfcn.h>
+#include <ifaddrs.h>
+#include <arpa/inet.h>
+#import "libpddokdo.h"
 
 // Preferences
 HBPreferences* preferences;
@@ -77,6 +80,10 @@ BOOL lastTimeUnlockedAMPMSwitch = YES;
 BOOL lastTimeUnlockedDateSwitch = NO;
 BOOL lastTimeUnlockedOnlyTimeAndDateSwitch = NO;
 BOOL lastTimeUnlockedSecondsSwitch = NO;
+NSString* ipAddress;
+BOOL ipAddressSwitch = NO;
+BOOL weatherConditionSwitch = NO;
+BOOL weatherTemperatureSwitch = NO;
 
 // Media Player
 BOOL hideMediaPlayerSwitch = NO;
@@ -122,9 +129,13 @@ BOOL notificationHintViewEvanescoSwitch;
 BOOL notificationHeaderViewEvanescoSwitch;
 BOOL unlockTextEvanescoSwitch;
 BOOL quickActionsEvanescoSwitch;
-// BOOL complicationsEvanescoSwitch;
+BOOL complicationsEvanescoSwitch;
 BOOL grupiEvanescoSwitch;
 BOOL axonEvanescoSwitch;
+BOOL lockWidgetsEvanescoSwitch;
+BOOL kaiEvanescoSwitch;
+BOOL aperioEvanescoSwitch;
+BOOL vezaEvanescoSwitch;
 
 // ColorFlow Support
 BOOL timeDateColorFlowSwitch = NO;
@@ -195,6 +206,7 @@ BOOL disableBatteryViewSwitch = NO;
 @interface CSTeachableMomentsContainerView : UIView
 @property(nonatomic, strong, readwrite)UIView* controlCenterGrabberContainerView;
 - (void)receiveFadeNotification:(NSNotification *)notification;
+- (NSString *)getIPAddress;
 @end
 
 @interface SBUICallToActionLabel : UIView
@@ -228,19 +240,31 @@ BOOL disableBatteryViewSwitch = NO;
 @property(nonatomic, copy, readwrite)NSString* title;
 @end
 
-// @interface ComplicationsView : UIView
-// - (void)receiveFadeNotification:(NSNotification *)notification;
-// @end
-
-// @interface ComplicationsBackgroundView : UIView
-// - (void)receiveFadeNotification:(NSNotification *)notification;
-// @end
+@interface ComplicationsView : UIView
+- (void)receiveFadeNotification:(NSNotification *)notification;
+@end
 
 @interface GRPView : UIView
 - (void)receiveFadeNotification:(NSNotification *)notification;
 @end
 
 @interface AXNView : UIView
+- (void)receiveFadeNotification:(NSNotification *)notification;
+@end
+
+@interface LockWidgetsView : UIView
+- (void)receiveFadeNotification:(NSNotification *)notification;
+@end
+
+@interface UHDUEIHGCEBCHYDEICVKEVSAGJKBCXAHJGKVXHAS : UIView
+- (void)receiveFadeNotification:(NSNotification *)notification;
+@end
+
+@interface APEPlatter : UIView
+- (void)receiveFadeNotification:(NSNotification *)notification;
+@end
+
+@interface VezaContainerView : UIView
 - (void)receiveFadeNotification:(NSNotification *)notification;
 @end
 

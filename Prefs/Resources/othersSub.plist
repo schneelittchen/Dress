@@ -62,7 +62,7 @@
 			<key>key</key>
 			<string>disableBatteryView</string>
 			<key>label</key>
-			<string>Disable Charging View</string>
+			<string>Hide Charging View</string>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>

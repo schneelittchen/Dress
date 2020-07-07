@@ -641,89 +641,225 @@ NSTimer* evanescoTimer;
 
 %end
 
-// %group EvanescoComplications
+%group EvanescoComplications
 
-// %hook ComplicationsView
+%hook ComplicationsView
 
-// - (id)initWithFrame:(CGRect)frame { // add notification observer
+- (id)initWithFrame:(CGRect)frame { // add notification observer
 
-//     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeOut" object:nil];
-// 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeIn" object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeOut" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeIn" object:nil];
 
-// 	return %orig;
+	return %orig;
 
-// }
+}
 
-// %new
-// - (void)receiveFadeNotification:(NSNotification *)notification { // receive notification and determine if should fade out or in
+%new
+- (void)receiveFadeNotification:(NSNotification *)notification { // receive notification and determine if should fade out or in
 
-// 	if ([notification.name isEqual:@"fadeOut"]) {
-// 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+	if ([notification.name isEqual:@"fadeOut"]) {
+		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         
-// 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
+			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
 			
-// 		} completion:nil];
-// 	} else if ([notification.name isEqual:@"fadeIn"]) {
-// 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+		} completion:nil];
+	} else if ([notification.name isEqual:@"fadeIn"]) {
+		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         
-// 			[self setAlpha:1.0];
+			[self setAlpha:1.0];
 			
-// 		} completion:nil];
-// 	}
+		} completion:nil];
+	}
 
-// }
+}
 
-// - (void)dealloc { // remove observer
+- (void)dealloc { // remove observer
 	
-// 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
     
-// 	%orig;
+	%orig;
 
-// }
+}
 
-// %end
+%end
 
-// %hook ComplicationsBackgroundView
+%end
 
-// - (id)initWithFrame:(CGRect)frame { // add notification observer
+%group EvanescoLockWidgets
 
-//     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeOut" object:nil];
-// 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeIn" object:nil];
+%hook LockWidgetsView
 
-// 	return %orig;
+- (id)initWithFrame:(CGRect)frame { // add notification observer
 
-// }
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeOut" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeIn" object:nil];
 
-// %new
-// - (void)receiveFadeNotification:(NSNotification *)notification { // receive notification and determine if should fade out or in
+	return %orig;
 
-// 	if ([notification.name isEqual:@"fadeOut"]) {
-// 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+}
+
+%new
+- (void)receiveFadeNotification:(NSNotification *)notification { // receive notification and determine if should fade out or in
+
+	if ([notification.name isEqual:@"fadeOut"]) {
+		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         
-// 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
+			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
 			
-// 		} completion:nil];
-// 	} else if ([notification.name isEqual:@"fadeIn"]) {
-// 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+		} completion:nil];
+	} else if ([notification.name isEqual:@"fadeIn"]) {
+		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
         
-// 			[self setAlpha:1.0];
+			[self setAlpha:1.0];
 			
-// 		} completion:nil];
-// 	}
+		} completion:nil];
+	}
 
-// }
+}
 
-// - (void)dealloc { // remove observer
+- (void)dealloc { // remove observer
 	
-// 	[[NSNotificationCenter defaultCenter] removeObserver:self];
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
     
-// 	%orig;
+	%orig;
 
-// }
+}
 
-// %end
+%end
 
-// %end
+%end
+
+%group EvanescoKai
+
+%hook UHDUEIHGCEBCHYDEICVKEVSAGJKBCXAHJGKVXHAS
+
+- (id)initWithFrame:(CGRect)frame { // add notification observer
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeOut" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeIn" object:nil];
+
+	return %orig;
+
+}
+
+%new
+- (void)receiveFadeNotification:(NSNotification *)notification { // receive notification and determine if should fade out or in
+
+	if ([notification.name isEqual:@"fadeOut"]) {
+		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        
+			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
+			
+		} completion:nil];
+	} else if ([notification.name isEqual:@"fadeIn"]) {
+		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        
+			[self setAlpha:1.0];
+			
+		} completion:nil];
+	}
+
+}
+
+- (void)dealloc { // remove observer
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+	%orig;
+
+}
+
+%end
+
+%end
+
+%group EvanescoAperio
+
+%hook APEPlatter
+
+- (id)initWithFrame:(CGRect)frame { // add notification observer
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeOut" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeIn" object:nil];
+
+	return %orig;
+
+}
+
+%new
+- (void)receiveFadeNotification:(NSNotification *)notification { // receive notification and determine if should fade out or in
+
+	if ([notification.name isEqual:@"fadeOut"]) {
+		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        
+			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
+			
+		} completion:nil];
+	} else if ([notification.name isEqual:@"fadeIn"]) {
+		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        
+			[self setAlpha:1.0];
+			
+		} completion:nil];
+	}
+
+}
+
+- (void)dealloc { // remove observer
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+	%orig;
+
+}
+
+%end
+
+%end
+
+%group EvanescoVeza
+
+%hook VezaContainerView
+
+- (id)initWithFrame:(CGRect)frame { // add notification observer
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeOut" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeIn" object:nil];
+
+	return %orig;
+
+}
+
+%new
+- (void)receiveFadeNotification:(NSNotification *)notification { // receive notification and determine if should fade out or in
+
+	if ([notification.name isEqual:@"fadeOut"]) {
+		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        
+			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
+			
+		} completion:nil];
+	} else if ([notification.name isEqual:@"fadeIn"]) {
+		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        
+			[self setAlpha:1.0];
+			
+		} completion:nil];
+	}
+
+}
+
+- (void)dealloc { // remove observer
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+	%orig;
+
+}
+
+%end
+
+%end
 
 // Evanesco Timer
 
@@ -825,9 +961,13 @@ NSTimer* evanescoTimer;
 		[preferences registerBool:&notificationHeaderViewEvanescoSwitch default:NO forKey:@"notificationHeaderViewEvanesco"];
 		[preferences registerBool:&unlockTextEvanescoSwitch default:NO forKey:@"unlockTextEvanesco"];
 		[preferences registerBool:&quickActionsEvanescoSwitch default:NO forKey:@"quickActionsEvanesco"];
-		// [preferences registerBool:&complicationsEvanescoSwitch default:NO forKey:@"complicationsEvanesco"];
+		[preferences registerBool:&complicationsEvanescoSwitch default:NO forKey:@"complicationsEvanesco"];
 		[preferences registerBool:&grupiEvanescoSwitch default:NO forKey:@"grupiEvanesco"];
 		[preferences registerBool:&axonEvanescoSwitch default:NO forKey:@"axonEvanesco"];
+		[preferences registerBool:&lockWidgetsEvanescoSwitch default:NO forKey:@"lockWidgetsEvanesco"];
+		[preferences registerBool:&kaiEvanescoSwitch default:NO forKey:@"kaiEvanesco"];
+		[preferences registerBool:&aperioEvanescoSwitch default:NO forKey:@"aperioEvanesco"];
+		[preferences registerBool:&vezaEvanescoSwitch default:NO forKey:@"vezaEvanesco"];
 	}
 
 	if (!dpkgInvalid && enabled) {
@@ -848,10 +988,10 @@ NSTimer* evanescoTimer;
 			if (notificationHeaderViewEvanescoSwitch) %init(EvanescoNotificationHeaderView);
 			if (unlockTextEvanescoSwitch) %init(EvanescoUnlockText);
 			if (quickActionsEvanescoSwitch) %init(EvanescoQuickActions);
-			// if (complicationsEvanescoSwitch && [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Complications.dylib"]) {
-			// 	dlopen("/Library/MobileSubstrate/DynamicLibraries/Complications.dylib", RTLD_NOW);
-			// 	%init(EvanescoComplications);
-			// }
+			if (complicationsEvanescoSwitch && [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Complications.dylib"]) {
+				dlopen("/Library/MobileSubstrate/DynamicLibraries/Complications.dylib", RTLD_NOW);
+				%init(EvanescoComplications);
+			}
 			if (grupiEvanescoSwitch && [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Grupi.dylib"]) {
 				dlopen("/Library/MobileSubstrate/DynamicLibraries/Grupi.dylib", RTLD_NOW);
 				%init(EvanescoGrupi);
@@ -859,6 +999,22 @@ NSTimer* evanescoTimer;
 			if (axonEvanescoSwitch && [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Axon.dylib"]) {
 				dlopen("/Library/MobileSubstrate/DynamicLibraries/Axon.dylib", RTLD_NOW);
 				%init(EvanescoAxon);
+			}
+			if (lockWidgetsEvanescoSwitch && [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/LockWidgets.dylib"]) {
+				dlopen("/Library/MobileSubstrate/DynamicLibraries/LockWidgets.dylib", RTLD_NOW);
+				%init(EvanescoLockWidgets);
+			}
+			if (kaiEvanescoSwitch && [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/kai.dylib"]) {
+				dlopen("/Library/MobileSubstrate/DynamicLibraries/kai.dylib", RTLD_NOW);
+				%init(EvanescoKai);
+			}
+			if (aperioEvanescoSwitch && [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Aperio.dylib"]) {
+				dlopen("/Library/MobileSubstrate/DynamicLibraries/Aperio.dylib", RTLD_NOW);
+				%init(EvanescoAperio);
+			}
+			if (vezaEvanescoSwitch && [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Veza.dylib"]) {
+				dlopen("/Library/MobileSubstrate/DynamicLibraries/Veza.dylib", RTLD_NOW);
+				%init(EvanescoVeza);
 			}
 			%init(DressEvanesco);
             return;

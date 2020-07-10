@@ -861,6 +861,50 @@ NSTimer* evanescoTimer;
 
 %end
 
+%group EvanescoVentana
+
+%hook CSMetroLockScreenView
+
+- (id)initWithFrame:(CGRect)frame { // add notification observer
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeOut" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeIn" object:nil];
+
+	return %orig;
+
+}
+
+%new
+- (void)receiveFadeNotification:(NSNotification *)notification { // receive notification and determine if should fade out or in
+
+	if ([notification.name isEqual:@"fadeOut"]) {
+		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        
+			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
+			
+		} completion:nil];
+	} else if ([notification.name isEqual:@"fadeIn"]) {
+		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        
+			[self setAlpha:1.0];
+			
+		} completion:nil];
+	}
+
+}
+
+- (void)dealloc { // remove observer
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+	%orig;
+
+}
+
+%end
+
+%end
+
 // Evanesco Timer
 
 %group DressEvanesco
@@ -930,6 +974,19 @@ NSTimer* evanescoTimer;
 
 %end
 
+%hook SBIconController
+
+- (void)viewWillAppear:(BOOL)animated {
+
+	[evanescoTimer invalidate];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"fadeIn" object:nil];
+
+	%orig;
+
+}
+
+%end
+
 %end
 
 %ctor {
@@ -968,6 +1025,7 @@ NSTimer* evanescoTimer;
 		[preferences registerBool:&kaiEvanescoSwitch default:NO forKey:@"kaiEvanesco"];
 		[preferences registerBool:&aperioEvanescoSwitch default:NO forKey:@"aperioEvanesco"];
 		[preferences registerBool:&vezaEvanescoSwitch default:NO forKey:@"vezaEvanesco"];
+		[preferences registerBool:&ventanaEvanescoSwitch default:NO forKey:@"ventanaEvanesco"];
 	}
 
 	if (!dpkgInvalid && enabled) {
@@ -1015,6 +1073,10 @@ NSTimer* evanescoTimer;
 			if (vezaEvanescoSwitch && [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Veza.dylib"]) {
 				dlopen("/Library/MobileSubstrate/DynamicLibraries/Veza.dylib", RTLD_NOW);
 				%init(EvanescoVeza);
+			}
+			if (ventanaEvanescoSwitch && [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Ventana.dylib"]) {
+				dlopen("/Library/MobileSubstrate/DynamicLibraries/Ventana.dylib", RTLD_NOW);
+				%init(EvanescoVentana);
 			}
 			%init(DressEvanesco);
             return;

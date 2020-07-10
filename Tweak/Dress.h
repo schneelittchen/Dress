@@ -136,6 +136,7 @@ BOOL lockWidgetsEvanescoSwitch;
 BOOL kaiEvanescoSwitch;
 BOOL aperioEvanescoSwitch;
 BOOL vezaEvanescoSwitch;
+BOOL ventanaEvanescoSwitch;
 
 // ColorFlow Support
 BOOL timeDateColorFlowSwitch = NO;
@@ -265,6 +266,10 @@ BOOL disableBatteryViewSwitch = NO;
 @end
 
 @interface VezaContainerView : UIView
+- (void)receiveFadeNotification:(NSNotification *)notification;
+@end
+
+@interface CSMetroLockScreenView : UIView
 - (void)receiveFadeNotification:(NSNotification *)notification;
 @end
 

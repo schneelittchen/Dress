@@ -22,6 +22,20 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 // Time And Date
 
+%group Liss
+
+%hook SBUILegibilityLabel // needed to change SBUILegibilityLabel colors
+
+- (BOOL)_needsColorImage {
+
+	return YES;
+
+}
+
+%end
+
+%end
+
 %group DressTimeDate
 
 %hook SBFLockScreenDateView
@@ -34,6 +48,14 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[self setHidden:YES];
 	else
 		[self setHidden:NO];
+
+	if (colorTimeAndDateSwitch) {
+		UIColor* customColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"timeAndDateColor"] withFallback: @"#ffffff"];
+		UIView* subtitleView = MSHookIvar<UIView *>(self, "_dateSubtitleView");
+		SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(subtitleView, "_label");
+		[self setTextColor:customColor];
+		[label setTextColor:customColor];
+	}
 
 }
 
@@ -167,6 +189,15 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[self setHidden:YES];
 	else
 		[self setHidden:NO];
+
+}
+
+- (void)setContentColor:(UIColor *)arg1 {
+
+	if (colorFaceIDLockSwitch)
+		%orig([SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"faceIDLockColor"] withFallback: @"#ffffff"]);
+	else
+		%orig;
 
 }
 
@@ -310,6 +341,21 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %end
 
+%hook MTStaticColorPillView
+
+- (void)didMoveToWindow {
+
+	%orig;
+
+	if (colorHomebarSwitch) {
+		UIColor* customColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"homebarColor"] withFallback: @"#ffffff"];
+		[self setPillColor:customColor];
+	}
+
+}
+
+%end
+
 %end
 
 // Page Dots
@@ -383,6 +429,12 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	else
 		[label setHidden:NO];
 
+	if (colorUnlockTextSwitch) {
+		UIColor* customColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"unlockTextColor"] withFallback: @"#ffffff"];
+		SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_callToActionLabel");
+		[label setTextColor:customColor];
+	}
+
 	if (![unlockTextInput isEqual:@""]) {
 		[label setString:unlockTextInput];
 		return;
@@ -404,6 +456,29 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	}
 
 	if (ipAddressSwitch) {
+		struct ifaddrs* interfaces = NULL;
+		struct ifaddrs* temp_addr = NULL;
+		NSString* wifiAddress = nil;
+		NSString* cellAddress = nil;
+
+		if (!getifaddrs(&interfaces)) {
+			temp_addr = interfaces;
+			while (temp_addr != NULL) {
+				sa_family_t sa_type = temp_addr->ifa_addr->sa_family;
+				if (sa_type == AF_INET || sa_type == AF_INET6) {
+					NSString *name = [NSString stringWithUTF8String:temp_addr->ifa_name];
+					NSString *addr = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
+
+					if ([name isEqualToString:@"en0"])
+						wifiAddress = addr;
+					else if ([name isEqualToString:@"pdp_ip0"])
+						cellAddress = addr;
+				}
+				temp_addr = temp_addr->ifa_next;
+			}
+			freeifaddrs(interfaces);
+		}
+		ipAddress = wifiAddress ? wifiAddress : cellAddress;
 		[label setString:ipAddress];
 		return;
 	}
@@ -452,6 +527,12 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	else
 		[label setHidden:NO];
 
+	if (colorUnlockTextSwitch) {
+		UIColor* customColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"unlockTextColor"] withFallback: @"#ffffff"];
+		SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_callToActionLabel");
+		[label setTextColor:customColor];
+	}
+
 	if (![unlockTextInput isEqual:@""]) {
 		[label setString:unlockTextInput];
 		return;	
@@ -473,6 +554,29 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	}
 
 	if (ipAddressSwitch) {
+		struct ifaddrs* interfaces = NULL;
+		struct ifaddrs* temp_addr = NULL;
+		NSString* wifiAddress = nil;
+		NSString* cellAddress = nil;
+
+		if (!getifaddrs(&interfaces)) {
+			temp_addr = interfaces;
+			while (temp_addr != NULL) {
+				sa_family_t sa_type = temp_addr->ifa_addr->sa_family;
+				if (sa_type == AF_INET || sa_type == AF_INET6) {
+					NSString *name = [NSString stringWithUTF8String:temp_addr->ifa_name];
+					NSString *addr = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
+
+					if ([name isEqualToString:@"en0"])
+						wifiAddress = addr;
+					else if ([name isEqualToString:@"pdp_ip0"])
+						cellAddress = addr;
+				}
+				temp_addr = temp_addr->ifa_next;
+			}
+			freeifaddrs(interfaces);
+		}
+		ipAddress = wifiAddress ? wifiAddress : cellAddress;
 		[label setString:ipAddress];
 		return;
 	}
@@ -506,6 +610,12 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	else
 		[self setHidden:NO];
 
+	if (colorUnlockTextSwitch) {
+		UIColor* customColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"unlockTextColor"] withFallback: @"#ffffff"];
+		SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_label");
+		[label setTextColor:customColor];
+	}
+
 	if (![unlockTextInput isEqual:@""]) {
 		[self setText:unlockTextInput];
 		return;
@@ -527,6 +637,29 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	}
 
 	if (ipAddressSwitch) {
+		struct ifaddrs* interfaces = NULL;
+		struct ifaddrs* temp_addr = NULL;
+		NSString* wifiAddress = nil;
+		NSString* cellAddress = nil;
+
+		if (!getifaddrs(&interfaces)) {
+			temp_addr = interfaces;
+			while (temp_addr != NULL) {
+				sa_family_t sa_type = temp_addr->ifa_addr->sa_family;
+				if (sa_type == AF_INET || sa_type == AF_INET6) {
+					NSString *name = [NSString stringWithUTF8String:temp_addr->ifa_name];
+					NSString *addr = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
+
+					if ([name isEqualToString:@"en0"])
+						wifiAddress = addr;
+					else if ([name isEqualToString:@"pdp_ip0"])
+						cellAddress = addr;
+				}
+				temp_addr = temp_addr->ifa_next;
+			}
+			freeifaddrs(interfaces);
+		}
+		ipAddress = wifiAddress ? wifiAddress : cellAddress;
 		[self setText:ipAddress];
 		return;
 	}
@@ -555,6 +688,12 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[self setHidden:YES];
 	else
 		[self setHidden:NO];
+
+	if (colorUnlockTextSwitch) {
+		UIColor* customColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"unlockTextColor"] withFallback: @"#ffffff"];
+		SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_label");
+		[label setTextColor:customColor];
+	}
     
 	if (![unlockTextInput isEqual:@""]) {
 		[self setText:unlockTextInput];
@@ -577,6 +716,29 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	}
 
 	if (ipAddressSwitch) {
+		struct ifaddrs* interfaces = NULL;
+		struct ifaddrs* temp_addr = NULL;
+		NSString* wifiAddress = nil;
+		NSString* cellAddress = nil;
+
+		if (!getifaddrs(&interfaces)) {
+			temp_addr = interfaces;
+			while (temp_addr != NULL) {
+				sa_family_t sa_type = temp_addr->ifa_addr->sa_family;
+				if (sa_type == AF_INET || sa_type == AF_INET6) {
+					NSString *name = [NSString stringWithUTF8String:temp_addr->ifa_name];
+					NSString *addr = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
+
+					if ([name isEqualToString:@"en0"])
+						wifiAddress = addr;
+					else if ([name isEqualToString:@"pdp_ip0"])
+						cellAddress = addr;
+				}
+				temp_addr = temp_addr->ifa_next;
+			}
+			freeifaddrs(interfaces);
+		}
+		ipAddress = wifiAddress ? wifiAddress : cellAddress;
 		[self setText:ipAddress];
 		return;
 	}
@@ -697,40 +859,6 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	%orig;
 
 	if (source != 26) isLocked = YES;
-
-}
-
-%end
-
-%hook SpringBoard // get the ip upon springboard launch
-
-- (void)applicationDidFinishLaunching:(BOOL)arg1 {
-
-	%orig;
-
-	struct ifaddrs* interfaces = NULL;
-    struct ifaddrs* temp_addr = NULL;
-    NSString* wifiAddress = nil;
-    NSString* cellAddress = nil;
-
-    if (!getifaddrs(&interfaces)) {
-        temp_addr = interfaces;
-        while (temp_addr != NULL) {
-            sa_family_t sa_type = temp_addr->ifa_addr->sa_family;
-            if (sa_type == AF_INET || sa_type == AF_INET6) {
-                NSString *name = [NSString stringWithUTF8String:temp_addr->ifa_name];
-                NSString *addr = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
-
-                if ([name isEqualToString:@"en0"])
-                    wifiAddress = addr;
-                else if ([name isEqualToString:@"pdp_ip0"])
-                    cellAddress = addr;
-            }
-            temp_addr = temp_addr->ifa_next;
-        }
-        freeifaddrs(interfaces);
-    }
-    ipAddress = wifiAddress ? wifiAddress : cellAddress;
 
 }
 
@@ -950,7 +1078,22 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %end
 
-%hook SBMainDisplayPolicyAggregator // Disable Today/Camera Swipe
+%hook CSQuickActionsButton
+
+- (void)didMoveToWindow {
+
+	%orig;
+
+	if (colorQuickActionsSwitch) {
+		UIColor* customColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"quickActionsColor"] withFallback: @"#ffffff"];
+		[self setTintColor:customColor];
+	}
+
+}
+
+%end
+
+%hook SBMainDisplayPolicyAggregator // Disable Today View/Camera Swipe
 
 - (BOOL)_allowsCapabilityLockScreenTodayViewWithExplanation:(id*)arg1 {
 
@@ -1107,6 +1250,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
     }
 
 	preferences = [[HBPreferences alloc] initWithIdentifier:@"love.litten.dresspreferences"];
+	preferencesDictionary = [NSDictionary dictionaryWithContentsOfFile: @"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"];
 
     [preferences registerBool:&enabled default:nil forKey:@"Enabled"];
 	[preferences registerBool:&enableTimeDateSection default:nil forKey:@"EnableTimeDateSection"];
@@ -1143,6 +1287,8 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&useItalicFontDateSwitch default:NO forKey:@"useItalicFontDate"];
 		[preferences registerBool:&customFontLunarSwitch default:YES forKey:@"customFontLunar"];
 		[preferences registerBool:&useCompactDateFormatSwitch default:NO forKey:@"useCompactDateFormat"];
+		[preferences registerBool:&colorTimeAndDateSwitch default:NO forKey:@"colorTimeAndDate"];
+		[preferences registerObject:&timeAndDateColorValue default:@"ffffff" forKey:@"timeAndDateColor"];
 	}
 
 	// FaceID Lock
@@ -1154,6 +1300,8 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerObject:&faceIDXAxisControl default:@"176.0" forKey:@"faceIDXAxis"];
 		[preferences registerObject:&faceIDYAxisControl default:@"0.0" forKey:@"faceIDYAxis"];
 		[preferences registerObject:&customFaceIDSizeControl default:@"0.0" forKey:@"customFaceIDSize"];
+		[preferences registerBool:&colorFaceIDLockSwitch default:NO forKey:@"colorFaceIDLock"];
+		[preferences registerObject:&faceIDLockColorValue default:@"ffffff" forKey:@"faceIDLockColor"];
 	}
 
 	// Status Bar
@@ -1166,6 +1314,8 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	if (enableHomebarSection) {
 		[preferences registerBool:&hideHomebarSwitch default:NO forKey:@"hideHomebar"];
 		[preferences registerObject:&homebarAlphaControl default:@"1.0" forKey:@"homebarAlpha"];
+		[preferences registerBool:&colorHomebarSwitch default:NO forKey:@"colorHomebar"];
+		[preferences registerObject:&homebarColorValue default:@"ffffff" forKey:@"homebarColor"];
 	}
 
 	// Page Dots
@@ -1190,6 +1340,8 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&ipAddressSwitch default:NO forKey:@"ipAddress"];
 		[preferences registerBool:&weatherConditionSwitch default:NO forKey:@"weatherCondition"];
 		[preferences registerBool:&weatherTemperatureSwitch default:NO forKey:@"weatherTemperature"];
+		[preferences registerBool:&colorUnlockTextSwitch default:NO forKey:@"colorUnlockText"];
+		[preferences registerObject:&unlockTextColorValue default:@"ffffff" forKey:@"unlockTextColor"];
 	}
 
 	// Media Player
@@ -1226,6 +1378,8 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&customQuickActionsYAxisSwitch default:NO forKey:@"customQuickActionsYAxis"];
 		[preferences registerObject:&customQuickActionsXAxisValueControl default:@"50.0" forKey:@"customQuickActionsXAxisValue"];
 		[preferences registerObject:&customQuickActionsYAxisValueControl default:@"50.0" forKey:@"customQuickActionsYAxisValue"];
+		[preferences registerBool:&colorQuickActionsSwitch default:NO forKey:@"colorQuickActions"];
+		[preferences registerObject:&quickActionsColorValue default:@"ffffff" forKey:@"quickActionsColor"];
 	}
 
 	// Others
@@ -1243,6 +1397,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
         );
 
         if (ok && [@"litten" isEqualToString:@"litten"]) {
+			%init(Liss);
             if (enableTimeDateSection && timeAndDateTweaksCompatible) %init(DressTimeDate);
 			if (enableFaceIDLockSection && faceIDLockTweaksCompatible) %init(DressFaceIDLock);
 			if (enableStatusBarSection) %init(DressStatusBar);

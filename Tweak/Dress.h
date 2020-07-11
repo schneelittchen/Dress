@@ -4,9 +4,11 @@
 #include <ifaddrs.h>
 #include <arpa/inet.h>
 #import "libpddokdo.h"
+#import "SparkColourPickerUtils.h"
 
 // Preferences
 HBPreferences* preferences;
+NSDictionary* preferencesDictionary;
 
 // Enabled Switches - Extern Because They're Used In Other Files
 extern BOOL enabled;
@@ -43,6 +45,8 @@ BOOL useRoundedFontDateSwitch = NO;
 BOOL useItalicFontDateSwitch = NO;
 BOOL customFontLunarSwitch = NO;
 BOOL useCompactDateFormatSwitch = NO;
+BOOL colorTimeAndDateSwitch = NO;
+NSString* timeAndDateColorValue = @"ffffff";
 
 // FaceID Lock
 BOOL hideFaceIDLockSwitch = NO;
@@ -52,6 +56,8 @@ BOOL customFaceIDAxisSwitch = NO;
 NSString* faceIDXAxisControl = @"176.0";
 NSString* faceIDYAxisControl = @"0.0";
 NSString* customFaceIDSizeControl = @"0.0";
+BOOL colorFaceIDLockSwitch = NO;
+NSString* faceIDLockColorValue = @"ffffff";
 
 // Status Bar
 BOOL hideStatusBarSwitch = NO;
@@ -60,6 +66,8 @@ NSString* statusBarAlphaControl = @"1.0";
 // Homebar
 BOOL hideHomebarSwitch = NO;
 NSString* homebarAlphaControl = @"1.0";
+BOOL colorHomebarSwitch = NO;
+NSString* homebarColorValue = @"ffffff";
 
 // Page Dots
 BOOL hidePageDotsSwitch = NO;
@@ -84,6 +92,8 @@ NSString* ipAddress;
 BOOL ipAddressSwitch = NO;
 BOOL weatherConditionSwitch = NO;
 BOOL weatherTemperatureSwitch = NO;
+BOOL colorUnlockTextSwitch = NO;
+NSString* unlockTextColorValue = @"ffffff";
 
 // Media Player
 BOOL hideMediaPlayerSwitch = NO;
@@ -113,6 +123,8 @@ BOOL customQuickActionsXAxisSwitch = NO;
 BOOL customQuickActionsYAxisSwitch = NO;
 NSString* customQuickActionsXAxisValueControl = @"50.0";
 NSString* customQuickActionsYAxisValueControl = @"50.0";
+BOOL colorQuickActionsSwitch = NO;
+NSString* quickActionsColorValue = @"ffffff";
 
 // Evanesco Mode
 NSString* evanescoInactivityControl;
@@ -218,6 +230,12 @@ BOOL disableBatteryViewSwitch = NO;
 // Media Player
 @interface CSAdjunctItemView : UIView
 - (void)receiveFadeNotification:(NSNotification *)notification;
+@end
+
+@interface PLPlatterView : UIView
+@end
+
+@interface MTMaterialView : UIView
 @end
 
 // Notifications

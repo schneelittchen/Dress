@@ -157,7 +157,7 @@ BOOL dpkgInvalid = NO;
 	if ([notification.name isEqual:@"ColorFlowLockScreenColorizationNotification"]) {
 		NSDictionary* userInfo = [notification userInfo];
 		UIColor* primaryColor = userInfo[@"PrimaryColor"];
-		// please make this better
+		// there are better ways to do this
 		NSMutableArray* pageDots = MSHookIvar<NSMutableArray *>(self, "_indicators");
 		for (int i = pageDots.count - 1; i > -1; i--) {
 			UIView* view = pageDots[i];
@@ -169,7 +169,7 @@ BOOL dpkgInvalid = NO;
 			}
 		}
 	} else if ([notification.name isEqual:@"ColorFlowLockScreenColorReversionNotification"]) {
-		// please make this better
+		// there are better ways to do this
 		NSMutableArray* pageDots = MSHookIvar<NSMutableArray *>(self, "_indicators");
 		for (int i = pageDots.count - 1; i > -1; i--) {
 			UIView* view = pageDots[i];

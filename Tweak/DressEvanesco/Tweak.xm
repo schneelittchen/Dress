@@ -3,8 +3,6 @@
 BOOL enabled;
 BOOL enableEvanescoModeSection;
 
-BOOL dpkgInvalid = NO;
-
 BOOL isLocked = YES; // used to detect if the device is locked
 
 NSTimer* evanescoTimer;
@@ -952,6 +950,15 @@ NSTimer* evanescoTimer;
 
 }
 
+- (void)touchesBegan:(id)arg1 withEvent:(id)arg2 { // send fadeIn notification when tapping the screen
+
+	%orig;
+
+	[evanescoTimer invalidate];
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"fadeIn" object:nil];
+
+}
+
 %new
 - (void)sendFadeNotification { // send fadeOut notification when timer is up
 
@@ -974,7 +981,7 @@ NSTimer* evanescoTimer;
 
 %end
 
-%hook SBIconController
+%hook SBIconController // quick fix for the status bar
 
 - (void)viewWillAppear:(BOOL)animated {
 
@@ -990,12 +997,6 @@ NSTimer* evanescoTimer;
 %end
 
 %ctor {
-
-	dpkgInvalid = ![[NSFileManager defaultManager] fileExistsAtPath:@"/var/lib/dpkg/info/love.litten.dress.list"];
-
-    if (!dpkgInvalid) dpkgInvalid = ![[NSFileManager defaultManager] fileExistsAtPath:@"/var/lib/dpkg/info/love.litten.dress.md5sums"];
-
-    if (dpkgInvalid) return;
 
 	preferences = [[HBPreferences alloc] initWithIdentifier:@"love.litten.dresspreferences"];
 
@@ -1028,13 +1029,8 @@ NSTimer* evanescoTimer;
 		[preferences registerBool:&ventanaEvanescoSwitch default:NO forKey:@"ventanaEvanesco"];
 	}
 
-	if (!dpkgInvalid && enabled) {
-        BOOL ok = false;
-        
-        ok = ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"/var/lib/dpkg/info/%@%@%@%@%@%@%@%@%@%@%@.dress.md5sums", @"l", @"o", @"v", @"e", @".", @"l", @"i", @"t", @"t", @"e", @"n"]]
-        );
-
-        if (enableEvanescoModeSection && ok && [@"litten" isEqualToString:@"litten"]) {
+	if (enabled) {
+        if (enableEvanescoModeSection) {
 			if (timeDateEvanescoSwitch) %init(EvanescoTimeDate);
 			if (faceIDLockEvanescoSwitch) %init(EvanescoFaceIDLock);
 			if (statusBarEvanescoSwitch) %init(EvanescoStatusBar);
@@ -1080,8 +1076,6 @@ NSTimer* evanescoTimer;
 			}
 			%init(DressEvanesco);
             return;
-        } else {
-            dpkgInvalid = YES;
         }
     }
 

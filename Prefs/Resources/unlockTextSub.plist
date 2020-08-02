@@ -146,7 +146,7 @@
 			<key>cell</key>
 			<string>PSSwitchCell</string>
 			<key>default</key>
-			<true/>
+			<false/>
 			<key>defaults</key>
 			<string>love.litten.dresspreferences</string>
 			<key>key</key>

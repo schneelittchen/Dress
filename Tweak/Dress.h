@@ -46,7 +46,8 @@ BOOL useItalicFontDateSwitch = NO;
 BOOL customFontLunarSwitch = NO;
 BOOL useCompactDateFormatSwitch = NO;
 BOOL colorTimeAndDateSwitch = NO;
-NSString* timeAndDateColorValue = @"ffffff";
+NSString* timeColorValue = @"ffffff";
+NSString* dateColorValue = @"ffffff";
 
 // FaceID Lock
 BOOL hideFaceIDLockSwitch = NO;
@@ -84,7 +85,7 @@ NSString* currentTime;
 BOOL lastTimeUnlockedSwitch = NO;
 BOOL prefersLastTimeLockedSwitch = NO;
 BOOL lastTimeUnlocked24hSwitch = NO;
-BOOL lastTimeUnlockedAMPMSwitch = YES;
+BOOL lastTimeUnlockedAMPMSwitch = NO;
 BOOL lastTimeUnlockedDateSwitch = NO;
 BOOL lastTimeUnlockedOnlyTimeAndDateSwitch = NO;
 BOOL lastTimeUnlockedSecondsSwitch = NO;
@@ -98,6 +99,7 @@ NSString* unlockTextColorValue = @"ffffff";
 // Media Player
 BOOL hideMediaPlayerSwitch = NO;
 NSString* mediaPlayerAlphaControl = @"1.0";
+BOOL hideLockscreenPlayerBackgroundSwitch = NO;
 
 // Notifications
 BOOL hideNoOlderNotificationsSwitch = NO;
@@ -115,6 +117,7 @@ BOOL hideDNDBannerSwitch = NO;
 // Quick Actions
 BOOL hideCameraQuickActionsButtonSwitch = NO;
 BOOL hideFlashlightQuickActionsButtonSwitch = NO;
+BOOL hideQuickActionsButtonBackgroundSwitch = NO;
 NSString* cameraQuickActionsButtonAlphaControl = @"1.0";
 NSString* flashlightQuickActionsButtonAlphaControl = @"1.0";
 BOOL disableTodaySwipeSwitch = NO;
@@ -232,10 +235,11 @@ BOOL disableBatteryViewSwitch = NO;
 - (void)receiveFadeNotification:(NSNotification *)notification;
 @end
 
-@interface PLPlatterView : UIView
+@interface MTMaterialView : UIView
 @end
 
-@interface MTMaterialView : UIView
+@interface UIView (Violet)
+@property(nonatomic, assign, readwrite)MTMaterialView* backgroundMaterialView;
 @end
 
 // Notifications
@@ -315,7 +319,4 @@ BOOL disableBatteryViewSwitch = NO;
 
 @interface SBBacklightController : NSObject
 - (void)sendFadeNotification;
-@end
-
-@interface SBIconController : UIViewController
 @end

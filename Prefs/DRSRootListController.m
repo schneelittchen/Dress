@@ -24,7 +24,7 @@ BOOL enabled = NO;
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,10,10)];
         self.titleLabel.font = [UIFont boldSystemFontOfSize:17];
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        self.titleLabel.text = @"1.8";
+        self.titleLabel.text = @"1.9";
         self.titleLabel.textColor = [UIColor whiteColor];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         [self.navigationItem.titleView addSubview:self.titleLabel];
@@ -71,6 +71,7 @@ BOOL enabled = NO;
     self.headerImageView.contentMode = UIViewContentModeScaleAspectFill;
     self.headerImageView.image = [UIImage imageWithContentsOfFile:@"/Library/PreferenceBundles/DressPrefs.bundle/Banner.png"];
     self.headerImageView.translatesAutoresizingMaskIntoConstraints = NO;
+    self.headerImageView.clipsToBounds = YES;
 
     [self.headerView addSubview:self.headerImageView];
     [NSLayoutConstraint activateConstraints:@[

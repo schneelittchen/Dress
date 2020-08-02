@@ -22,7 +22,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 // Time And Date
 
-%group Liss
+%group Dress
 
 %hook SBUILegibilityLabel // needed to change SBUILegibilityLabel colors
 
@@ -50,11 +50,12 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[self setHidden:NO];
 
 	if (colorTimeAndDateSwitch) {
-		UIColor* customColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"timeAndDateColor"] withFallback: @"#ffffff"];
+		UIColor* customTimeColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"timeColor"] withFallback: @"#ffffff"];
+		UIColor* customDateColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"dateColor"] withFallback: @"#ffffff"];
 		UIView* subtitleView = MSHookIvar<UIView *>(self, "_dateSubtitleView");
 		SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(subtitleView, "_label");
-		[self setTextColor:customColor];
-		[label setTextColor:customColor];
+		[self setTextColor:customTimeColor];
+		[label setTextColor:customDateColor];
 	}
 
 }
@@ -879,6 +880,12 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	if (hideMediaPlayerSwitch)
 		[self setHidden:YES];
 
+	if (hideLockscreenPlayerBackgroundSwitch) {
+		UIView* platterView = MSHookIvar<UIView *>(self, "_platterView");
+		[[platterView backgroundMaterialView] setHidden:YES];
+	}
+
+
 }
 
 - (void)setAlpha:(double)alpha {
@@ -1089,6 +1096,11 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[self setTintColor:customColor];
 	}
 
+	if (hideQuickActionsButtonBackgroundSwitch) {
+		UIVisualEffectView* background = MSHookIvar<UIVisualEffectView *>(self, "_backgroundEffectView");
+		[background setHidden:YES];
+	}
+
 }
 
 %end
@@ -1209,45 +1221,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %end
 
-%group DressIntegrityFail
-
-%hook SBIconController
-
-- (void)viewDidAppear:(BOOL)animated {
-
-    %orig;
-    if (!dpkgInvalid) return;
-		UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Dress"
-		message:@"Seriously? Pirating a free Tweak is awful!\nPiracy repo's Tweaks could contain Malware if you didn't know that, so go ahead and get Dress from the official Source https://repo.litten.love/.\nIf you're seeing this but you got it from the official source then make sure to add https://repo.litten.love to Cydia or Sileo."
-		preferredStyle:UIAlertControllerStyleAlert];
-
-		UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Okey" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
-
-			UIApplication *application = [UIApplication sharedApplication];
-			[application openURL:[NSURL URLWithString:@"https://repo.litten.love/"] options:@{} completionHandler:nil];
-
-	}];
-
-		[alertController addAction:cancelAction];
-
-		[self presentViewController:alertController animated:YES completion:nil];
-
-}
-
-%end
-
-%end
-
 %ctor {
-
-	dpkgInvalid = ![[NSFileManager defaultManager] fileExistsAtPath:@"/var/lib/dpkg/info/love.litten.dress.list"];
-
-    if (!dpkgInvalid) dpkgInvalid = ![[NSFileManager defaultManager] fileExistsAtPath:@"/var/lib/dpkg/info/love.litten.dress.md5sums"];
-
-    if (dpkgInvalid) {
-        %init(DressIntegrityFail);
-        return;
-    }
 
 	preferences = [[HBPreferences alloc] initWithIdentifier:@"love.litten.dresspreferences"];
 	preferencesDictionary = [NSDictionary dictionaryWithContentsOfFile: @"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"];
@@ -1288,7 +1262,8 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&customFontLunarSwitch default:YES forKey:@"customFontLunar"];
 		[preferences registerBool:&useCompactDateFormatSwitch default:NO forKey:@"useCompactDateFormat"];
 		[preferences registerBool:&colorTimeAndDateSwitch default:NO forKey:@"colorTimeAndDate"];
-		[preferences registerObject:&timeAndDateColorValue default:@"ffffff" forKey:@"timeAndDateColor"];
+		[preferences registerObject:&timeColorValue default:@"ffffff" forKey:@"timeColor"];
+		[preferences registerObject:&dateColorValue default:@"ffffff" forKey:@"dateColor"];
 	}
 
 	// FaceID Lock
@@ -1333,7 +1308,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&lastTimeUnlockedSwitch default:NO forKey:@"lastTimeUnlocked"];
 		[preferences registerBool:&prefersLastTimeLockedSwitch default:NO forKey:@"prefersLastTimeLocked"];
 		[preferences registerBool:&lastTimeUnlocked24hSwitch default:NO forKey:@"lastTimeUnlocked24h"];
-		[preferences registerBool:&lastTimeUnlockedAMPMSwitch default:YES forKey:@"lastTimeUnlockedAMPM"];
+		[preferences registerBool:&lastTimeUnlockedAMPMSwitch default:NO forKey:@"lastTimeUnlockedAMPM"];
 		[preferences registerBool:&lastTimeUnlockedDateSwitch default:NO forKey:@"lastTimeUnlockedDate"];
 		[preferences registerBool:&lastTimeUnlockedOnlyTimeAndDateSwitch default:NO forKey:@"lastTimeUnlockedOnlyTimeAndDate"];
 		[preferences registerBool:&lastTimeUnlockedSecondsSwitch default:NO forKey:@"lastTimeUnlockedSeconds"];
@@ -1347,6 +1322,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	// Media Player
 	if (enableMediaPlayerSection) {
 		[preferences registerBool:&hideMediaPlayerSwitch default:NO forKey:@"hideMediaPlayer"];
+		[preferences registerBool:&hideLockscreenPlayerBackgroundSwitch default:NO forKey:@"hideLockscreenPlayerBackground"];
 		[preferences registerObject:&mediaPlayerAlphaControl default:@"1.0" forKey:@"mediaPlayerAlpha"];
 	}
 
@@ -1369,6 +1345,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	if (enableQuickActionsSection) {
 		[preferences registerBool:&hideCameraQuickActionsButtonSwitch default:NO forKey:@"hideCameraQuickActionsButton"];
 		[preferences registerBool:&hideFlashlightQuickActionsButtonSwitch default:NO forKey:@"hideFlashlightQuickActionsButton"];
+		[preferences registerBool:&hideQuickActionsButtonBackgroundSwitch default:NO forKey:@"hideQuickActionsButtonBackground"];
 		[preferences registerObject:&cameraQuickActionsButtonAlphaControl default:@"1.0" forKey:@"cameraQuickActionsButtonAlpha"];
 		[preferences registerObject:&flashlightQuickActionsButtonAlphaControl default:@"1.0" forKey:@"flashlightQuickActionsButtonAlpha"];
 		[preferences registerBool:&disableTodaySwipeSwitch default:NO forKey:@"disableTodaySwipe"];
@@ -1388,30 +1365,22 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&disableBatteryViewSwitch default:NO forKey:@"disableBatteryView"];
 	}
 
-	if (!dpkgInvalid && enabled) {
-        BOOL ok = false;
-		BOOL timeAndDateTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] || ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"];
-		BOOL faceIDLockTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] || ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"] || ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/LatchKey.dylib"];
-        
-        ok = ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"/var/lib/dpkg/info/%@%@%@%@%@%@%@%@%@%@%@.dress.md5sums", @"l", @"o", @"v", @"e", @".", @"l", @"i", @"t", @"t", @"e", @"n"]]
-        );
+	if (enabled) {
+		BOOL timeAndDateTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"];
+		BOOL faceIDLockTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/LatchKey.dylib"];
 
-        if (ok && [@"litten" isEqualToString:@"litten"]) {
-			%init(Liss);
-            if (enableTimeDateSection && timeAndDateTweaksCompatible) %init(DressTimeDate);
-			if (enableFaceIDLockSection && faceIDLockTweaksCompatible) %init(DressFaceIDLock);
-			if (enableStatusBarSection) %init(DressStatusBar);
-			if (enableHomebarSection) %init(DressHomebar);
-			if (enablePageDotsSection) %init(DressPageDots);
-			if (enableUnlockTextSection) %init(DressUnlockText);
-			if (enableMediaPlayerSection) %init(DressMediaPlayer);
-			if (enableNotificationsSection) %init(DressNotifications);
-			if (enableQuickActionsSection) %init(DressQuickActions);
-			if (enableOthersSection) %init(DressOthers);
-            return;
-        } else {
-            dpkgInvalid = YES;
-        }
+		%init(Dress);
+        if (enableTimeDateSection && timeAndDateTweaksCompatible) %init(DressTimeDate);
+		if (enableFaceIDLockSection && faceIDLockTweaksCompatible) %init(DressFaceIDLock);
+		if (enableStatusBarSection) %init(DressStatusBar);
+		if (enableHomebarSection) %init(DressHomebar);
+		if (enablePageDotsSection) %init(DressPageDots);
+		if (enableUnlockTextSection) %init(DressUnlockText);
+		if (enableMediaPlayerSection) %init(DressMediaPlayer);
+		if (enableNotificationsSection) %init(DressNotifications);
+		if (enableQuickActionsSection) %init(DressQuickActions);
+		if (enableOthersSection) %init(DressOthers);
+        return;
     }
 
 }

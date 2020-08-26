@@ -122,6 +122,7 @@ NSString* cameraQuickActionsButtonAlphaControl = @"1.0";
 NSString* flashlightQuickActionsButtonAlphaControl = @"1.0";
 BOOL disableTodaySwipeSwitch = NO;
 BOOL disableCameraSwipeSwitch = NO;
+BOOL disableCameraSwipeKeepAction = NO;
 BOOL customQuickActionsXAxisSwitch = NO;
 BOOL customQuickActionsYAxisSwitch = NO;
 NSString* customQuickActionsXAxisValueControl = @"50.0";
@@ -319,4 +320,17 @@ BOOL disableBatteryViewSwitch = NO;
 
 @interface SBBacklightController : NSObject
 - (void)sendFadeNotification;
+@end
+
+@interface SBLockScreenManager : NSObject
++ (id)sharedInstance;
+- (BOOL)unlockUIFromSource:(int)arg1 withOptions:(id)arg2 ;
+@end
+
+@interface UICoverSheetButton (Dress)
+@property (nonatomic, copy) NSString * localizedAccessoryTitle; 
+@end
+
+@interface UIApplication (Dress)
+-(BOOL)launchApplicationWithIdentifier:(id)arg1 suspended:(BOOL)arg2 ;
 @end

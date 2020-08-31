@@ -1149,11 +1149,8 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 - (BOOL)allowsCameraPress {
 
-	if (disableCameraSwipeKeepAction) {
-
+	if (disableOnlyCameraSwipeSwitch)
 		return YES;
-
-	}
 
 	return %orig;
 
@@ -1165,16 +1162,11 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 - (void)clickInteractionDidClickUp:(id)arg1 {
 
-	if ([self.localizedAccessoryTitle isEqualToString:@"Press for Camera"] && disableCameraSwipeKeepAction) {
-
+	if ([self.localizedAccessoryTitle isEqualToString:@"Press for Camera"] && disableOnlyCameraSwipeSwitch) {
 		dispatch_async(dispatch_get_main_queue(), ^{
-
 			[[UIApplication sharedApplication] launchApplicationWithIdentifier:@"com.apple.camera" suspended:0];
-
 			[[%c(SBLockScreenManager) sharedInstance] unlockUIFromSource:2 withOptions:nil];
-
 		});
-
 	}
 
 	%orig;
@@ -1388,7 +1380,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerObject:&flashlightQuickActionsButtonAlphaControl default:@"1.0" forKey:@"flashlightQuickActionsButtonAlpha"];
 		[preferences registerBool:&disableTodaySwipeSwitch default:NO forKey:@"disableTodaySwipe"];
 		[preferences registerBool:&disableCameraSwipeSwitch default:NO forKey:@"disableCameraSwipe"];
-		[preferences registerBool:&disableCameraSwipeKeepAction default:NO forKey:@"disableCameraSwipeKeepAction"];
+		[preferences registerBool:&disableOnlyCameraSwipeSwitch default:NO forKey:@"disableOnlyCameraSwipe"];
 		[preferences registerBool:&hideCameraQuickActionsButtonSwitch default:NO forKey:@"hideCameraQuickActionsButton"];
 		[preferences registerBool:&customQuickActionsXAxisSwitch default:NO forKey:@"customQuickActionsXAxis"];
 		[preferences registerBool:&customQuickActionsYAxisSwitch default:NO forKey:@"customQuickActionsYAxis"];

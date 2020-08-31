@@ -150,7 +150,7 @@
 			<key>defaults</key>
 			<string>love.litten.dresspreferences</string>
 			<key>key</key>
-			<string>disableCameraSwipeKeepAction</string>
+			<string>disableOnlyCameraSwipe</string>
 			<key>label</key>
 			<string>Disable Camera Swipe (Keep Action)</string>
 			<key>PostNotification</key>

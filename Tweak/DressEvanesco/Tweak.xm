@@ -903,6 +903,50 @@ NSTimer* evanescoTimer;
 
 %end
 
+%group EvanescoXenHTML
+
+%hook XENHWidgetLayerContainerView
+
+- (id)initWithFrame:(CGRect)frame { // add notification observer
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeOut" object:nil];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveFadeNotification:) name:@"fadeIn" object:nil];
+
+	return %orig;
+
+}
+
+%new
+- (void)receiveFadeNotification:(NSNotification *)notification { // receive notification and determine if should fade out or in
+
+	if ([notification.name isEqual:@"fadeOut"]) {
+		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        
+			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
+			
+		} completion:nil];
+	} else if ([notification.name isEqual:@"fadeIn"]) {
+		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
+        
+			[self setAlpha:1.0];
+			
+		} completion:nil];
+	}
+
+}
+
+- (void)dealloc { // remove observer
+	
+	[[NSNotificationCenter defaultCenter] removeObserver:self];
+    
+	%orig;
+
+}
+
+%end
+
+%end
+
 // Evanesco Timer
 
 %group DressEvanesco
@@ -1027,6 +1071,7 @@ NSTimer* evanescoTimer;
 		[preferences registerBool:&aperioEvanescoSwitch default:NO forKey:@"aperioEvanesco"];
 		[preferences registerBool:&vezaEvanescoSwitch default:NO forKey:@"vezaEvanesco"];
 		[preferences registerBool:&ventanaEvanescoSwitch default:NO forKey:@"ventanaEvanesco"];
+		[preferences registerBool:&xenHTMLEvanescoSwitch default:NO forKey:@"xenHTMLEvanesco"];
 	}
 
 	if (enabled) {
@@ -1073,6 +1118,10 @@ NSTimer* evanescoTimer;
 			if (ventanaEvanescoSwitch && [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Ventana.dylib"]) {
 				dlopen("/Library/MobileSubstrate/DynamicLibraries/Ventana.dylib", RTLD_NOW);
 				%init(EvanescoVentana);
+			}
+			if (xenHTMLEvanescoSwitch && [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/XenHTML_Loader.dylib"]) {
+				dlopen("/Library/MobileSubstrate/DynamicLibraries/XenHTML_Loader.dylib", RTLD_NOW);
+				%init(EvanescoXenHTML);
 			}
 			%init(DressEvanesco);
             return;

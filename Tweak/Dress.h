@@ -122,7 +122,7 @@ NSString* cameraQuickActionsButtonAlphaControl = @"1.0";
 NSString* flashlightQuickActionsButtonAlphaControl = @"1.0";
 BOOL disableTodaySwipeSwitch = NO;
 BOOL disableCameraSwipeSwitch = NO;
-BOOL disableCameraSwipeKeepAction = NO;
+BOOL disableOnlyCameraSwipeSwitch = NO;
 BOOL customQuickActionsXAxisSwitch = NO;
 BOOL customQuickActionsYAxisSwitch = NO;
 NSString* customQuickActionsXAxisValueControl = @"50.0";
@@ -153,6 +153,7 @@ BOOL kaiEvanescoSwitch;
 BOOL aperioEvanescoSwitch;
 BOOL vezaEvanescoSwitch;
 BOOL ventanaEvanescoSwitch;
+BOOL xenHTMLEvanescoSwitch;
 
 // ColorFlow Support
 BOOL timeDateColorFlowSwitch = NO;
@@ -296,6 +297,10 @@ BOOL disableBatteryViewSwitch = NO;
 - (void)receiveFadeNotification:(NSNotification *)notification;
 @end
 
+@interface XENHWidgetLayerContainerView : UIView
+- (void)receiveFadeNotification:(NSNotification *)notification;
+@end
+
 @interface SBUILegibilityLabel : UIView
 @property(nonatomic, assign, readwrite)NSString* string;
 @property(assign,nonatomic) long long textAlignment;
@@ -315,6 +320,10 @@ BOOL disableBatteryViewSwitch = NO;
 - (void)receiveColorNotification:(NSNotification *)notification;
 @end
 
+@interface UICoverSheetButton (Dress)
+@property(nonatomic, copy)NSString* localizedAccessoryTitle; 
+@end
+
 @interface CSBatteryChargingView : UIView
 @end
 
@@ -327,10 +336,6 @@ BOOL disableBatteryViewSwitch = NO;
 - (BOOL)unlockUIFromSource:(int)arg1 withOptions:(id)arg2 ;
 @end
 
-@interface UICoverSheetButton (Dress)
-@property (nonatomic, copy) NSString * localizedAccessoryTitle; 
-@end
-
 @interface UIApplication (Dress)
--(BOOL)launchApplicationWithIdentifier:(id)arg1 suspended:(BOOL)arg2 ;
+- (BOOL)launchApplicationWithIdentifier:(id)arg1 suspended:(BOOL)arg2;
 @end

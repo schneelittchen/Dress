@@ -1,5 +1,5 @@
 # Dress
-Dress Up Your Lockscreen
+Dress up your lockscreen
 
 ## Installation
 1. Add this repository to your Package Manager: https://repo.litten.love

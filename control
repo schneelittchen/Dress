@@ -1,6 +1,6 @@
 Package: love.litten.dress
 Name: Dress 👗
-Depends: mobilesubstrate, preferenceloader, ws.hbang.common (>= 1.14), firmware (>= 12.0), com.peterdev.libpddokdo, com.spark.libsparkcolourpicker
+Depends: mobilesubstrate, preferenceloader, ws.hbang.common (>= 1.14), firmware (>= 13.0), com.peterdev.libpddokdo, com.spark.libsparkcolourpicker
 Version: 2.1
 Architecture: iphoneos-arm
 Description: Dress up your lockscreen

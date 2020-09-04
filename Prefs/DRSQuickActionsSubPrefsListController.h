@@ -7,8 +7,6 @@
 #import <Preferences/PSControlTableCell.h>
 #import <Preferences/PSEditableTableCell.h>
 
-#define SYSTEM_VERSION_LESS_THAN(v) ([[[UIDevice currentDevice] systemVersion] compare:v options:NSNumericSearch] == NSOrderedAscending)
-
 @interface DRSAppearanceSettings : HBAppearanceSettings
 @end
 

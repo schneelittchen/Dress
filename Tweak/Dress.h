@@ -30,6 +30,9 @@ BOOL hideTimeAndDateSwitch = NO;
 BOOL hideOnlyDateSwitch = NO;
 BOOL hideLunarCalendarSwitch = NO;
 NSString* timeAndDateAlphaValue = @"1.0";
+BOOL customTimeAndDatePositioningSwitch = NO;
+NSString* customTimeAndDateXAxisValue = @"0.0";
+NSString* customTimeAndDateYAxisValue = @"0.0";
 NSString* timeAndDateAlignmentControl = @"1";
 BOOL customTimeFontSwitch = NO;
 NSString* fontNameTimeInput = @"";
@@ -122,7 +125,6 @@ NSString* cameraQuickActionsButtonAlphaControl = @"1.0";
 NSString* flashlightQuickActionsButtonAlphaControl = @"1.0";
 BOOL disableTodaySwipeSwitch = NO;
 BOOL disableCameraSwipeSwitch = NO;
-BOOL disableOnlyCameraSwipeSwitch = NO;
 BOOL customQuickActionsXAxisSwitch = NO;
 BOOL customQuickActionsYAxisSwitch = NO;
 NSString* customQuickActionsXAxisValueControl = @"50.0";
@@ -217,9 +219,6 @@ BOOL disableBatteryViewSwitch = NO;
 - (void)receiveFadeNotification:(NSNotification *)notification;
 @end
 
-@interface SBDashBoardPageControl : UIPageControl
-@end
-
 // Unlock Text
 @interface CSTeachableMomentsContainerView : UIView
 @property(nonatomic, strong, readwrite)UIView* controlCenterGrabberContainerView;
@@ -240,7 +239,7 @@ BOOL disableBatteryViewSwitch = NO;
 @interface MTMaterialView : UIView
 @end
 
-@interface UIView (Violet)
+@interface UIView (Dress)
 @property(nonatomic, assign, readwrite)MTMaterialView* backgroundMaterialView;
 @end
 

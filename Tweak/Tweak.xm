@@ -15,8 +15,6 @@ BOOL enableEvanescoModeSection;
 BOOL enableColorFlowSupportSection;
 BOOL enableOthersSection;
 
-BOOL dpkgInvalid = NO;
-
 BOOL isLocked = YES; // used to detect if the device is locked
 BOOL revealed = NO; // used for notification header/clear button alpha
 
@@ -39,6 +37,18 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 %group DressTimeDate
 
 %hook SBFLockScreenDateView
+
+- (void)setFrame:(CGRect)frame {
+
+	%orig;
+
+	if (!customTimeAndDatePositioningSwitch) return;
+	CGRect newFrame = frame;
+	newFrame.origin.x += [customTimeAndDateXAxisValue doubleValue];
+	newFrame.origin.y += [customTimeAndDateYAxisValue doubleValue];
+	%orig(newFrame);
+
+}
 
 - (void)didMoveToWindow {
 
@@ -363,31 +373,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %group DressPageDots
 
-%hook CSPageControl // iOS 13
-
-- (void)didMoveToWindow {
-
-	%orig;
-
-	if (hidePageDotsSwitch)
-		[self setHidden:YES];
-	else
-		[self setHidden:NO];
-
-}
-
-- (void)setAlpha:(double)alpha {
-
-	if ([pageDotsAlphaControl doubleValue] != 1.0)
-		%orig([pageDotsAlphaControl doubleValue]);
-	else
-		%orig;
-
-}
-
-%end
-
-%hook SBDashBoardPageControl // iOS 12
+%hook CSPageControl
 
 - (void)didMoveToWindow {
 
@@ -417,7 +403,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %group DressUnlockText
 
-%hook CSTeachableMomentsContainerView // iX iOS 13
+%hook CSTeachableMomentsContainerView
 
 - (void)_layoutCallToActionLabel {
 	
@@ -510,91 +496,6 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[[self controlCenterGrabberContainerView] setHidden:NO];
 
 	[[self controlCenterGrabberContainerView] setAlpha:[ccGrabberAlphaControl doubleValue]];
-
-}
-
-%end
-
-%hook SBDashBoardTeachableMomentsContainerView // iX iOS 12
-
-- (void)_layoutCallToActionLabel {
-
-	%orig;
-
-	SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_callToActionLabel");
-
-	if (hideUnlockTextSwitch)
-		[label setHidden:YES];
-	else
-		[label setHidden:NO];
-
-	if (colorUnlockTextSwitch) {
-		UIColor* customColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"unlockTextColor"] withFallback: @"#ffffff"];
-		SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_callToActionLabel");
-		[label setTextColor:customColor];
-	}
-
-	if (![unlockTextInput isEqual:@""]) {
-		[label setString:unlockTextInput];
-		return;	
-	}
-
-	if (lastTimeUnlockedSwitch) {
-		if (!lastTimeUnlockedOnlyTimeAndDateSwitch) {
-			if (!prefersLastTimeLockedSwitch)
-				[label setString:[NSString stringWithFormat:@"Last Time Unlocked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
-			else if (prefersLastTimeLockedSwitch)
-				[label setString:[NSString stringWithFormat:@"Last Time Locked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
-		} else if (lastTimeUnlockedOnlyTimeAndDateSwitch) {
-			if (!prefersLastTimeLockedSwitch)
-				[label setString:[NSString stringWithFormat:@"%@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
-			else if (prefersLastTimeLockedSwitch)
-				[label setString:[NSString stringWithFormat:@"%@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];	
-		}
-		return;
-	}
-
-	if (ipAddressSwitch) {
-		struct ifaddrs* interfaces = NULL;
-		struct ifaddrs* temp_addr = NULL;
-		NSString* wifiAddress = nil;
-		NSString* cellAddress = nil;
-
-		if (!getifaddrs(&interfaces)) {
-			temp_addr = interfaces;
-			while (temp_addr != NULL) {
-				sa_family_t sa_type = temp_addr->ifa_addr->sa_family;
-				if (sa_type == AF_INET || sa_type == AF_INET6) {
-					NSString *name = [NSString stringWithUTF8String:temp_addr->ifa_name];
-					NSString *addr = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
-
-					if ([name isEqualToString:@"en0"])
-						wifiAddress = addr;
-					else if ([name isEqualToString:@"pdp_ip0"])
-						cellAddress = addr;
-				}
-				temp_addr = temp_addr->ifa_next;
-			}
-			freeifaddrs(interfaces);
-		}
-		ipAddress = wifiAddress ? wifiAddress : cellAddress;
-		[label setString:ipAddress];
-		return;
-	}
-
-	if (weatherConditionSwitch && !weatherTemperatureSwitch) {
-		[[PDDokdo sharedInstance] refreshWeatherData];
-		[label setString:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentConditions]]];
-		return;
-	} else if (!weatherConditionSwitch && weatherTemperatureSwitch) {
-		[[PDDokdo sharedInstance] refreshWeatherData];
-		[label setString:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentTemperature]]];
-		return;
-	} else if (weatherConditionSwitch && weatherTemperatureSwitch) {
-		[[PDDokdo sharedInstance] refreshWeatherData];
-		[label setString:[NSString stringWithFormat:@"%@ %@", [[PDDokdo sharedInstance] currentConditions], [[PDDokdo sharedInstance] currentTemperature]]];
-		return;
-	}
 
 }
 
@@ -1145,43 +1046,13 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %end
 
-%hook CSQuickActionsViewController
-
-- (BOOL)allowsCameraPress {
-
-	if (disableOnlyCameraSwipeSwitch)
-		return YES;
-
-	return %orig;
-
-}
-
-%end
-
-%hook UICoverSheetButton
-
-- (void)clickInteractionDidClickUp:(id)arg1 {
-
-	if ([self.localizedAccessoryTitle isEqualToString:@"Press for Camera"] && disableOnlyCameraSwipeSwitch) {
-		dispatch_async(dispatch_get_main_queue(), ^{
-			[[UIApplication sharedApplication] launchApplicationWithIdentifier:@"com.apple.camera" suspended:0];
-			[[%c(SBLockScreenManager) sharedInstance] unlockUIFromSource:2 withOptions:nil];
-		});
-	}
-
-	%orig;
-
-}
-
-%end
-
 %end
 
 %group DressOthers
 
 // Custom Auto Lock Duration
 
-%hook CSBehavior // iOS 13
+%hook CSBehavior
 
 - (void)setIdleTimerDuration:(long long)arg1 {
 
@@ -1202,43 +1073,11 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %end
 
-%hook SBDashBoardBehavior // iOS 12
+// Hide Charging View
 
-- (void)setIdleTimerDuration:(long long)arg1 {
-
-	if ([customLockDurationControl intValue] == 0)
-		%orig;
-	else if ([customLockDurationControl intValue] == 1)
-		%orig(3); // apparently 10 seconds
-	else if ([customLockDurationControl intValue] == 2)
-		%orig(4); // apparently 15 seconds
-	else if ([customLockDurationControl intValue] == 3)
-		%orig(5); // apparently 20 seconds
-	else if ([customLockDurationControl intValue] == 4)
-		%orig(6); // apparently 25 seconds
-	else if ([customLockDurationControl intValue] == 5)
-		%orig(7); // apparently 30 seconds
-
-}
-
-%end
-
-%hook CSCoverSheetViewController // Hide Charging View iOS 13
+%hook CSCoverSheetViewController
 
 -(void)_transitionChargingViewToVisible:(BOOL)arg1 showBattery:(BOOL)arg2 animated:(BOOL)arg3 {
-
-	if (disableBatteryViewSwitch)
-		%orig(NO, NO, NO);
-	else
-		%orig;
-
-}
-
-%end
-
-%hook SBDashBoardViewController // Hide Charging View iOS 12
-
-- (void)_transitionChargingViewToVisible:(BOOL)arg1 showBattery:(BOOL)arg2 animated:(BOOL)arg3 {
 
 	if (disableBatteryViewSwitch)
 		%orig(NO, NO, NO);
@@ -1276,6 +1115,11 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&hideOnlyDateSwitch default:NO forKey:@"hideOnlyDate"];
 		[preferences registerBool:&hideLunarCalendarSwitch default:NO forKey:@"hideLunarCalendar"];
 		[preferences registerObject:&timeAndDateAlphaValue default:@"1.0" forKey:@"timeAndDateAlpha"];
+
+		[preferences registerBool:&customTimeAndDatePositioningSwitch default:NO forKey:@"customTimeAndDatePositioning"];
+		[preferences registerObject:&customTimeAndDateXAxisValue default:@"1.0" forKey:@"customTimeAndDateXAxis"];
+		[preferences registerObject:&customTimeAndDateYAxisValue default:@"1.0" forKey:@"customTimeAndDateYAxis"];
+
 		[preferences registerObject:&timeAndDateAlignmentControl default:@"1" forKey:@"timeAndDateAlignment"];
 		[preferences registerBool:&customTimeFontSwitch default:NO forKey:@"customTimeFont"];
 		[preferences registerObject:&fontNameTimeInput default:@"" forKey:@"fontNameTime"];
@@ -1380,7 +1224,6 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerObject:&flashlightQuickActionsButtonAlphaControl default:@"1.0" forKey:@"flashlightQuickActionsButtonAlpha"];
 		[preferences registerBool:&disableTodaySwipeSwitch default:NO forKey:@"disableTodaySwipe"];
 		[preferences registerBool:&disableCameraSwipeSwitch default:NO forKey:@"disableCameraSwipe"];
-		[preferences registerBool:&disableOnlyCameraSwipeSwitch default:NO forKey:@"disableOnlyCameraSwipe"];
 		[preferences registerBool:&hideCameraQuickActionsButtonSwitch default:NO forKey:@"hideCameraQuickActionsButton"];
 		[preferences registerBool:&customQuickActionsXAxisSwitch default:NO forKey:@"customQuickActionsXAxis"];
 		[preferences registerBool:&customQuickActionsYAxisSwitch default:NO forKey:@"customQuickActionsYAxis"];

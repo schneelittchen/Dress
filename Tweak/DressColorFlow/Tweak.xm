@@ -3,8 +3,6 @@
 BOOL enabled;
 BOOL enableColorFlowSupportSection;
 
-BOOL dpkgInvalid = NO;
-
 // Time And Date
 
 %group ColorFlowTimeAndDate
@@ -91,10 +89,6 @@ BOOL dpkgInvalid = NO;
 %end
 
 %end
-
-// Status Bar
-
-// todo
 
 // Homebar
 
@@ -194,60 +188,6 @@ BOOL dpkgInvalid = NO;
 
 %end
 
-%hook SBDashBoardPageControl // iOS 12
-
-- (id)initWithFrame:(CGRect)frame { // add notification observer
-
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveColorNotification:) name:@"ColorFlowLockScreenColorReversionNotification" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveColorNotification:) name:@"ColorFlowLockScreenColorizationNotification" object:nil];
-
-	return %orig;
-
-}
-
-%new
-- (void)receiveColorNotification:(NSNotification *)notification {
-
-	if ([notification.name isEqual:@"ColorFlowLockScreenColorizationNotification"]) {
-		NSDictionary* userInfo = [notification userInfo];
-		UIColor* primaryColor = userInfo[@"PrimaryColor"];
-		// please make this better
-		NSMutableArray* pageDots = MSHookIvar<NSMutableArray *>(self, "_indicators");
-		for (int i = pageDots.count - 1; i > -1; i--) {
-			UIView* view = pageDots[i];
-			for (UIImageView* imageView in view.subviews) {
-				imageView.image = [imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-				if ([imageView isKindOfClass:%c(_UILegibilityImageView)]) {
-					[imageView setTintColor:primaryColor];
-				}
-			}
-		}
-	} else if ([notification.name isEqual:@"ColorFlowLockScreenColorReversionNotification"]) {
-		// please make this better
-		NSMutableArray* pageDots = MSHookIvar<NSMutableArray *>(self, "_indicators");
-		for (int i = pageDots.count - 1; i > -1; i--) {
-			UIView* view = pageDots[i];
-			for (UIImageView* imageView in view.subviews) {
-				imageView.image = [imageView.image imageWithRenderingMode:UIImageRenderingModeAlwaysTemplate];
-				if ([imageView isKindOfClass:%c(_UILegibilityImageView)]) {
-					[imageView setTintColor:[UIColor whiteColor]];
-				}
-			}
-		}
-	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
-
-}
-
-%end
-
 %end
 
 // Unlock Text
@@ -255,42 +195,6 @@ BOOL dpkgInvalid = NO;
 %group ColorFlowUnlockText
 
 %hook CSTeachableMomentsContainerView // iX iOS 13
-
-- (id)initWithFrame:(CGRect)frame { // add notification observer
-
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveColorNotification:) name:@"ColorFlowLockScreenColorReversionNotification" object:nil];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(receiveColorNotification:) name:@"ColorFlowLockScreenColorizationNotification" object:nil];
-
-	return %orig;
-
-}
-
-%new
-- (void)receiveColorNotification:(NSNotification *)notification {
-
-	if ([notification.name isEqual:@"ColorFlowLockScreenColorizationNotification"]) {
-		NSDictionary* userInfo = [notification userInfo];
-		UIColor* primaryColor = userInfo[@"PrimaryColor"];
-		SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_callToActionLabel");
-		[label setTextColor:primaryColor];
-	} else if ([notification.name isEqual:@"ColorFlowLockScreenColorReversionNotification"]) {
-		SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_callToActionLabel");
-		[label setTextColor:[UIColor whiteColor]];
-	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
-
-}
-
-%end
-
-%hook SBDashBoardTeachableMomentsContainerView // iX iOS 12
 
 - (id)initWithFrame:(CGRect)frame { // add notification observer
 
@@ -420,14 +324,6 @@ BOOL dpkgInvalid = NO;
 
 %ctor {
 
-	if (![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/ColorFlow5.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/ColorFlow4.dylib"]) return;
-
-	dpkgInvalid = ![[NSFileManager defaultManager] fileExistsAtPath:@"/var/lib/dpkg/info/love.litten.dress.list"];
-
-    if (!dpkgInvalid) dpkgInvalid = ![[NSFileManager defaultManager] fileExistsAtPath:@"/var/lib/dpkg/info/love.litten.dress.md5sums"];
-
-    if (dpkgInvalid) return;
-
 	preferences = [[HBPreferences alloc] initWithIdentifier:@"love.litten.dresspreferences"];
 
 	[preferences registerBool:&enabled default:nil forKey:@"Enabled"];
@@ -443,25 +339,15 @@ BOOL dpkgInvalid = NO;
 		[preferences registerBool:&quickActionsColorFlowSwitch default:NO forKey:@"quickActionsColorFlow"];
 	}
 
-	if (!dpkgInvalid && enabled) {
-        BOOL ok = false;
-        
-        ok = ([[NSFileManager defaultManager] fileExistsAtPath:[NSString stringWithFormat:@"/var/lib/dpkg/info/%@%@%@%@%@%@%@%@%@%@%@.dress.md5sums", @"l", @"o", @"v", @"e", @".", @"l", @"i", @"t", @"t", @"e", @"n"]]
-        );
-
-        if (enableColorFlowSupportSection && ok && [@"litten" isEqualToString:@"litten"]) {
-			if (timeDateColorFlowSwitch) %init(ColorFlowTimeAndDate);
-            if (faceIDLockColorFlowSwitch) %init(ColorFlowFaceIDLock);
-			// %init(ColorFlowStatusBar);
-			if (homebarColorFlowSwitch) %init(ColorFlowHomebar);
-			if (pageDotsColorFlowSwitch) %init(ColorFlowPageDots);
-            if (unlockTextColorFlowSwitch) %init(ColorFlowUnlockText);
-			if (quickActionsColorFlowSwitch) %init(ColorFlowQuickActions);
-			%init(DressColorFlow);
-            return;
-        } else {
-            dpkgInvalid = YES;
-        }
+    if (enabled && enableColorFlowSupportSection) {
+		if (timeDateColorFlowSwitch) %init(ColorFlowTimeAndDate);
+        if (faceIDLockColorFlowSwitch) %init(ColorFlowFaceIDLock);
+		if (homebarColorFlowSwitch) %init(ColorFlowHomebar);
+		if (pageDotsColorFlowSwitch) %init(ColorFlowPageDots);
+        if (unlockTextColorFlowSwitch) %init(ColorFlowUnlockText);
+		if (quickActionsColorFlowSwitch) %init(ColorFlowQuickActions);
+		%init(DressColorFlow);
+        return;
     }
 
 }

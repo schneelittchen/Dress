@@ -44,7 +44,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>FaceID Lock Alpha - Opacity</string>
+			<string>Alpha</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -71,11 +71,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Custom X, Y Axis And Size</string>
-			<key>footerText</key>
-			<string>Default Values: X:176.0 Y:0.0 Size: 0.0</string>
-			<key>isStaticText</key>
-			<true/>
+			<string>Custom Position And Size</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -87,19 +83,15 @@
 			<key>key</key>
 			<string>customFaceIDAxis</string>
 			<key>label</key>
-			<string>Custom Alignment And Size</string>
+			<string>Custom Position And Size</string>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSGroupCell</string>
+			<string>PSStaticTextCell</string>
 			<key>label</key>
 			<string>X Axis</string>
-			<key>footerText</key>
-			<string>Y AXIS</string>
-			<key>isStaticText</key>
-			<true/>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -123,6 +115,12 @@
 		</dict>
 		<dict>
 			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Y Axis</string>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSSliderCell</string>
 			<key>default</key>
 			<real>0.0</real>
@@ -141,16 +139,11 @@
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>
-
 		<dict>
 			<key>cell</key>
-			<string>PSGroupCell</string>
+			<string>PSStaticTextCell</string>
 			<key>label</key>
-			<string>Custom Size</string>
-			<key>footerText</key>
-			<string>Size That Will Be Added Or Subtracted</string>
-			<key>isStaticText</key>
-			<true/>
+			<string>Size</string>
 		</dict>
 		<dict>
 			<key>cell</key>

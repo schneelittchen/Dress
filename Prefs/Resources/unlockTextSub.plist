@@ -44,7 +44,13 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>CC Grabber Alpha - Opacity</string>
+			<string>Alpha</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Control Center Indicator</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -72,10 +78,6 @@
 			<string>PSGroupCell</string>
 			<key>label</key>
 			<string>Custom Text</string>
-			<key>footerText</key>
-			<string>Leave Empty For Default Text</string>
-			<key>isStaticText</key>
-			<true/>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -83,11 +85,11 @@
 			<key>default</key>
 			<string></string>
 			<key>placeholder</key>
-			<string>Hello There!</string>
+			<string>Swipe Up To Unlock</string>
 			<key>defaults</key>
 			<string>love.litten.dresspreferences</string>
 			<key>label</key>
-			<string>Custom Text:</string>
+			<string>Text:</string>
 			<key>key</key>
 			<string>unlockText</string>
 			<key>PostNotification</key>
@@ -195,27 +197,6 @@
 			<string>lastTimeUnlockedSeconds</string>
 			<key>label</key>
 			<string>Show Seconds</string>
-			<key>PostNotification</key>
-			<string>love.litten.dresspreferences/ReloadPrefs</string>
-		</dict>
-
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Network</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>defaults</key>
-			<string>love.litten.dresspreferences</string>
-			<key>key</key>
-			<string>ipAddress</string>
-			<key>label</key>
-			<string>IP-Address</string>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>

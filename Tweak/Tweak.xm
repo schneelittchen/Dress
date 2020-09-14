@@ -54,11 +54,6 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 	%orig;
 
-	if (hideTimeAndDateSwitch)
-		[self setHidden:YES];
-	else
-		[self setHidden:NO];
-
 	if (colorTimeAndDateSwitch) {
 		UIColor* customTimeColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"timeColor"] withFallback: @"#ffffff"];
 		UIColor* customDateColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"dateColor"] withFallback: @"#ffffff"];
@@ -67,6 +62,15 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[self setTextColor:customTimeColor];
 		[label setTextColor:customDateColor];
 	}
+
+}
+
+- (void)setHidden:(BOOL)hidden {
+
+	if (hideTimeAndDateSwitch)
+		%orig(YES);
+	else
+		%orig;
 
 }
 
@@ -354,13 +358,13 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook MTStaticColorPillView
 
-- (void)didMoveToWindow {
-
-	%orig;
+- (void)setPillColor:(UIColor *)arg1 {
 
 	if (colorHomebarSwitch) {
 		UIColor* customColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"homebarColor"] withFallback: @"#ffffff"];
-		[self setPillColor:customColor];
+		%orig(customColor);
+	} else {
+		%orig;
 	}
 
 }
@@ -405,7 +409,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook CSTeachableMomentsContainerView
 
-- (void)_layoutCallToActionLabel {
+- (void)_layoutCallToActionLabel { // homebar devices
 	
 	%orig;
 
@@ -442,34 +446,6 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		return;
 	}
 
-	if (ipAddressSwitch) {
-		struct ifaddrs* interfaces = NULL;
-		struct ifaddrs* temp_addr = NULL;
-		NSString* wifiAddress = nil;
-		NSString* cellAddress = nil;
-
-		if (!getifaddrs(&interfaces)) {
-			temp_addr = interfaces;
-			while (temp_addr != NULL) {
-				sa_family_t sa_type = temp_addr->ifa_addr->sa_family;
-				if (sa_type == AF_INET || sa_type == AF_INET6) {
-					NSString *name = [NSString stringWithUTF8String:temp_addr->ifa_name];
-					NSString *addr = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
-
-					if ([name isEqualToString:@"en0"])
-						wifiAddress = addr;
-					else if ([name isEqualToString:@"pdp_ip0"])
-						cellAddress = addr;
-				}
-				temp_addr = temp_addr->ifa_next;
-			}
-			freeifaddrs(interfaces);
-		}
-		ipAddress = wifiAddress ? wifiAddress : cellAddress;
-		[label setString:ipAddress];
-		return;
-	}
-
 	if (weatherConditionSwitch && !weatherTemperatureSwitch) {
 		[[PDDokdo sharedInstance] refreshWeatherData];
 		[label setString:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentConditions]]];
@@ -503,7 +479,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook SBUICallToActionLabel
 
-- (void)didMoveToWindow { // home button devices before touchID recognized
+- (void)didMoveToWindow { // home button devices before touchid recognized
 
 	%orig;
 
@@ -538,34 +514,6 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		return;
 	}
 
-	if (ipAddressSwitch) {
-		struct ifaddrs* interfaces = NULL;
-		struct ifaddrs* temp_addr = NULL;
-		NSString* wifiAddress = nil;
-		NSString* cellAddress = nil;
-
-		if (!getifaddrs(&interfaces)) {
-			temp_addr = interfaces;
-			while (temp_addr != NULL) {
-				sa_family_t sa_type = temp_addr->ifa_addr->sa_family;
-				if (sa_type == AF_INET || sa_type == AF_INET6) {
-					NSString *name = [NSString stringWithUTF8String:temp_addr->ifa_name];
-					NSString *addr = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
-
-					if ([name isEqualToString:@"en0"])
-						wifiAddress = addr;
-					else if ([name isEqualToString:@"pdp_ip0"])
-						cellAddress = addr;
-				}
-				temp_addr = temp_addr->ifa_next;
-			}
-			freeifaddrs(interfaces);
-		}
-		ipAddress = wifiAddress ? wifiAddress : cellAddress;
-		[self setText:ipAddress];
-		return;
-	}
-
 	if (weatherConditionSwitch && !weatherTemperatureSwitch) {
 		[[PDDokdo sharedInstance] refreshWeatherData];
 		[self setText:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentConditions]]];
@@ -582,7 +530,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (void)_updateLabelTextWithLanguage:(id)arg1 {  // home button devices after touchID recognized
+- (void)_updateLabelTextWithLanguage:(id)arg1 {  // home button devices after touchid recognized
 
     %orig;
 
@@ -614,34 +562,6 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 			else if (prefersLastTimeLockedSwitch)
 				[self setText:[NSString stringWithFormat:@"%@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];	
 		}
-		return;
-	}
-
-	if (ipAddressSwitch) {
-		struct ifaddrs* interfaces = NULL;
-		struct ifaddrs* temp_addr = NULL;
-		NSString* wifiAddress = nil;
-		NSString* cellAddress = nil;
-
-		if (!getifaddrs(&interfaces)) {
-			temp_addr = interfaces;
-			while (temp_addr != NULL) {
-				sa_family_t sa_type = temp_addr->ifa_addr->sa_family;
-				if (sa_type == AF_INET || sa_type == AF_INET6) {
-					NSString *name = [NSString stringWithUTF8String:temp_addr->ifa_name];
-					NSString *addr = [NSString stringWithUTF8String:inet_ntoa(((struct sockaddr_in *)temp_addr->ifa_addr)->sin_addr)];
-
-					if ([name isEqualToString:@"en0"])
-						wifiAddress = addr;
-					else if ([name isEqualToString:@"pdp_ip0"])
-						cellAddress = addr;
-				}
-				temp_addr = temp_addr->ifa_next;
-			}
-			freeifaddrs(interfaces);
-		}
-		ipAddress = wifiAddress ? wifiAddress : cellAddress;
-		[self setText:ipAddress];
 		return;
 	}
 	
@@ -816,7 +736,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (void)setPerformingGroupingAnimation:(BOOL)arg1 {
+- (void)setPerformingGroupingAnimation:(BOOL)arg1 { // scroll animation
 
 	if (notificationsScrollRevealSwitch)
 		%orig(YES);
@@ -1077,7 +997,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook CSCoverSheetViewController
 
--(void)_transitionChargingViewToVisible:(BOOL)arg1 showBattery:(BOOL)arg2 animated:(BOOL)arg3 {
+- (void)_transitionChargingViewToVisible:(BOOL)arg1 showBattery:(BOOL)arg2 animated:(BOOL)arg3 {
 
 	if (disableBatteryViewSwitch)
 		%orig(NO, NO, NO);
@@ -1115,11 +1035,9 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&hideOnlyDateSwitch default:NO forKey:@"hideOnlyDate"];
 		[preferences registerBool:&hideLunarCalendarSwitch default:NO forKey:@"hideLunarCalendar"];
 		[preferences registerObject:&timeAndDateAlphaValue default:@"1.0" forKey:@"timeAndDateAlpha"];
-
 		[preferences registerBool:&customTimeAndDatePositioningSwitch default:NO forKey:@"customTimeAndDatePositioning"];
 		[preferences registerObject:&customTimeAndDateXAxisValue default:@"1.0" forKey:@"customTimeAndDateXAxis"];
 		[preferences registerObject:&customTimeAndDateYAxisValue default:@"1.0" forKey:@"customTimeAndDateYAxis"];
-
 		[preferences registerObject:&timeAndDateAlignmentControl default:@"1" forKey:@"timeAndDateAlignment"];
 		[preferences registerBool:&customTimeFontSwitch default:NO forKey:@"customTimeFont"];
 		[preferences registerObject:&fontNameTimeInput default:@"" forKey:@"fontNameTime"];
@@ -1186,7 +1104,6 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&lastTimeUnlockedDateSwitch default:NO forKey:@"lastTimeUnlockedDate"];
 		[preferences registerBool:&lastTimeUnlockedOnlyTimeAndDateSwitch default:NO forKey:@"lastTimeUnlockedOnlyTimeAndDate"];
 		[preferences registerBool:&lastTimeUnlockedSecondsSwitch default:NO forKey:@"lastTimeUnlockedSeconds"];
-		[preferences registerBool:&ipAddressSwitch default:NO forKey:@"ipAddress"];
 		[preferences registerBool:&weatherConditionSwitch default:NO forKey:@"weatherCondition"];
 		[preferences registerBool:&weatherTemperatureSwitch default:NO forKey:@"weatherTemperature"];
 		[preferences registerBool:&colorUnlockTextSwitch default:NO forKey:@"colorUnlockText"];

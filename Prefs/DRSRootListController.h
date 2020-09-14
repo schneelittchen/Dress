@@ -21,6 +21,7 @@
 - (void)setEnableSwitchState;
 - (void)resetPrompt;
 - (void)resetPreferences;
+- (void)respring;
 - (void)respringUtil;
 - (void)setCellForRowAtIndexPath:(NSIndexPath *)indexPath enabled:(BOOL)enabled;
 @end

@@ -159,7 +159,7 @@
 			<key>label</key>
 			<string>Respring</string>
 			<key>action</key>
-			<string>respringUtil</string>
+			<string>respring</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -197,45 +197,32 @@
 			<key>cellClass</key>
 			<string>HBLinkTableCell</string>
 			<key>label</key>
-			<string>Lune</string>
+			<string>Lobelias</string>
 			<key>subtitle</key>
-			<string>Let A Moon Icon Appear While In DND</string>
+			<string>Design your own lockscreen player</string>
 			<key>icon</key>
-			<string>Lune.png</string>
+			<string>Lobelias.png</string>
 			<key>url</key>
-			<string>https://repo.litten.love/depictions/lne/</string>
+			<string>https://repo.litten.love/depictions/lia/</string>
 		</dict>
 		<dict>
 			<key>cellClass</key>
 			<string>HBLinkTableCell</string>
 			<key>label</key>
-			<string>Butterfly</string>
+			<string>Violet</string>
 			<key>subtitle</key>
-			<string>Text Selection, But Colorful</string>
+			<string>Make your wallpaper your song's artwork</string>
 			<key>icon</key>
-			<string>Butterfly.png</string>
+			<string>Violet.png</string>
 			<key>url</key>
-			<string>https://repo.litten.love/depictions/bty/</string>
-		</dict>
-		<dict>
-			<key>cellClass</key>
-			<string>HBLinkTableCell</string>
-			<key>label</key>
-			<string>Rose</string>
-			<key>subtitle</key>
-			<string>System Wide Haptics, Great uh-huh</string>
-			<key>icon</key>
-			<string>Rose.png</string>
-			<key>url</key>
-			<string>https://repo.litten.love/depictions/rse/</string>
+			<string>https://repo.litten.love/depictions/vio/</string>
 		</dict>
 
 		<dict>
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Dress By Litten
-Artworks By taki</string>
+			<string>Dress By Litten, Artworks By taki</string>
 			<key>isStaticText</key>
 			<true/>
 		</dict>
@@ -243,11 +230,11 @@ Artworks By taki</string>
 			<key>cellClass</key>
 			<string>HBLinkTableCell</string>
 			<key>label</key>
-			<string>Donate To Litten</string>
+			<string>Discord</string>
 			<key>subtitle</key>
-			<string>Appreciated 💝</string>
+			<string>Chat with us 👾</string>
 			<key>url</key>
-			<string>https://paypal.me/Litteeen</string>
+			<string>https://discord.com/invite/fPHN8KG</string>
 		</dict>
 		<dict>
 			<key>cellClass</key>
@@ -259,12 +246,22 @@ Artworks By taki</string>
 			<key>url</key>
 			<string>https://github.com/Litteeen/Dress</string>
 		</dict>
+		<dict>
+			<key>cellClass</key>
+			<string>HBLinkTableCell</string>
+			<key>label</key>
+			<string>Donate To Litten</string>
+			<key>subtitle</key>
+			<string>Appreciated 💝</string>
+			<key>url</key>
+			<string>https://paypal.me/Litteeen</string>
+		</dict>
 
 		<dict>
 			<key>cell</key>
 			<key>PSGroupCell</key>
 			<key>footerText</key>
-			<string>Made With 💜</string>
+			<string>princess of daydreaming</string>
 			<key>isStaticText</key>
 			<true/>
 			<key>footerAlignment</key>

@@ -58,7 +58,13 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Camera Button Alpha - Opacity</string>
+			<string>Alpha</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Camera Button</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -80,12 +86,11 @@
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
 		</dict>
-
 		<dict>
 			<key>cell</key>
-			<string>PSGroupCell</string>
+			<string>PSStaticTextCell</string>
 			<key>label</key>
-			<string>Flashlight Button Alpha - Opacity</string>
+			<string>Flashlight Button</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -146,7 +151,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Custom X Axis</string>
+			<string>Custom Position</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -181,13 +186,6 @@
 			<false/>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
-		</dict>
-
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>label</key>
-			<string>Custom Y Axis</string>
 		</dict>
 		<dict>
 			<key>cell</key>

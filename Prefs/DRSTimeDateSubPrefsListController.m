@@ -203,6 +203,9 @@ BOOL enableTimeDateSection = NO;
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:32 inSection:0] enabled:YES];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:33 inSection:0] enabled:YES];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:34 inSection:0] enabled:YES];
+        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:35 inSection:0] enabled:YES];
+        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:36 inSection:0] enabled:YES];
+        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:37 inSection:0] enabled:YES];
     } else {
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] enabled:NO];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] enabled:NO];
@@ -239,6 +242,9 @@ BOOL enableTimeDateSection = NO;
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:32 inSection:0] enabled:NO];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:33 inSection:0] enabled:NO];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:34 inSection:0] enabled:NO];
+        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:35 inSection:0] enabled:NO];
+        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:36 inSection:0] enabled:NO];
+        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:37 inSection:0] enabled:NO];
     }
 
 }

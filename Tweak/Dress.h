@@ -1,16 +1,12 @@
 #import <UIKit/UIKit.h>
 #import <Cephei/HBPreferences.h>
 #import <dlfcn.h>
-#include <ifaddrs.h>
-#include <arpa/inet.h>
 #import "libpddokdo.h"
 #import "SparkColourPickerUtils.h"
 
-// Preferences
 HBPreferences* preferences;
 NSDictionary* preferencesDictionary;
 
-// Enabled Switches - Extern Because They're Used In Other Files
 extern BOOL enabled;
 extern BOOL enableTimeDateSection;
 extern BOOL enableFaceIDLockSection;
@@ -92,8 +88,6 @@ BOOL lastTimeUnlockedAMPMSwitch = NO;
 BOOL lastTimeUnlockedDateSwitch = NO;
 BOOL lastTimeUnlockedOnlyTimeAndDateSwitch = NO;
 BOOL lastTimeUnlockedSecondsSwitch = NO;
-NSString* ipAddress;
-BOOL ipAddressSwitch = NO;
 BOOL weatherConditionSwitch = NO;
 BOOL weatherTemperatureSwitch = NO;
 BOOL colorUnlockTextSwitch = NO;
@@ -280,7 +274,7 @@ BOOL disableBatteryViewSwitch = NO;
 - (void)receiveFadeNotification:(NSNotification *)notification;
 @end
 
-@interface UHDUEIHGCEBCHYDEICVKEVSAGJKBCXAHJGKVXHAS : UIView
+@interface KAIBatteryPlatter : UIView
 - (void)receiveFadeNotification:(NSNotification *)notification;
 @end
 

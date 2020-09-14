@@ -729,7 +729,7 @@ NSTimer* evanescoTimer;
 
 %group EvanescoKai
 
-%hook UHDUEIHGCEBCHYDEICVKEVSAGJKBCXAHJGKVXHAS
+%hook KAIBatteryPlatter
 
 - (id)initWithFrame:(CGRect)frame { // add notification observer
 

@@ -58,7 +58,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Time And Date Alpha - Opacity</string>
+			<string>Alpha</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -191,7 +191,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Custom Time Font And Size</string>
+			<string>Time Font</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -225,6 +225,12 @@
 		</dict>
 		<dict>
 			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Size</string>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSSliderCell</string>
 			<key>default</key>
 			<real>80</real>
@@ -242,6 +248,12 @@
 			<true/>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Weight</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -306,7 +318,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Custom Date Font And Size</string>
+			<string>Date Font</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -340,6 +352,12 @@
 		</dict>
 		<dict>
 			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Size</string>
+		</dict>
+		<dict>
+			<key>cell</key>
 			<string>PSSliderCell</string>
 			<key>default</key>
 			<real>23</real>
@@ -357,6 +375,12 @@
 			<true/>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSStaticTextCell</string>
+			<key>label</key>
+			<string>Weight</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -513,17 +537,6 @@
 			<string>Use Compact Date Format</string>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
-		</dict>
-
-		<dict>
-			<key>cell</key>
-			<string>PSGroupCell</string>
-			<key>footerText</key>
-			<string>If Using Custom Fonts Make Sure To Put In The Correct Name</string>
-			<key>isStaticText</key>
-			<true/>
-			<key>footerAlignment</key>
-			<real>1</real>
 		</dict>
 
 	</array>

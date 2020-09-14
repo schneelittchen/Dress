@@ -5,6 +5,9 @@
 
 BOOL enabled = NO;
 
+UIBlurEffect* blur;
+UIVisualEffectView* blurView;
+
 @implementation DRSRootListController
 
 - (instancetype)init {
@@ -24,7 +27,7 @@ BOOL enabled = NO;
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,10,10)];
         self.titleLabel.font = [UIFont boldSystemFontOfSize:17];
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        self.titleLabel.text = @"2.1";
+        self.titleLabel.text = @"2.2";
         self.titleLabel.textColor = [UIColor whiteColor];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         [self.navigationItem.titleView addSubview:self.titleLabel];
@@ -160,19 +163,19 @@ BOOL enabled = NO;
     if (!([[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"])) {
         enabled = YES;
         [preferences setBool:enabled forKey:@"Enabled"];
-        [self respringUtil];
+        [self respring];
     } else if (!([allKeys containsObject:@"Enabled"])) {
         enabled = YES;
         [preferences setBool:enabled forKey:@"Enabled"];
-        [self respringUtil];
+        [self respring];
     } else if ([[preferences objectForKey:@"Enabled"] isEqual:@(NO)]) {
         enabled = YES;
         [preferences setBool:enabled forKey:@"Enabled"];
-        [self respringUtil];
+        [self respring];
     } else if ([[preferences objectForKey:@"Enabled"] isEqual:@(YES)]) {
         enabled = NO;
         [preferences setBool:enabled forKey:@"Enabled"];
-        [self respringUtil];
+        [self respring];
     }
 
 }
@@ -201,13 +204,13 @@ BOOL enabled = NO;
 	message:@"Do You Really Want To Reset Your Preferences?"
 	preferredStyle:UIAlertControllerStyleActionSheet];
 	
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Yep" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Yaw" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
 			
         [self resetPreferences];
 
 	}];
 
-	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Nope" style:UIAlertActionStyleCancel handler:nil];
+	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Naw" style:UIAlertActionStyleCancel handler:nil];
 
 	[resetAlert addAction:confirmAction];
 	[resetAlert addAction:cancelAction];
@@ -222,16 +225,12 @@ BOOL enabled = NO;
 	message:@"It Looks Like You Disabled Dress In iCleaner Pro, Dress Won't Work In This State"
 	preferredStyle:UIAlertControllerStyleAlert];
 
-    UIAlertAction *resetAction = [UIAlertAction actionWithTitle:@"Reset Preferences" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
-
+    UIAlertAction* resetAction = [UIAlertAction actionWithTitle:@"Reset Preferences" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
         [self resetPreferences];
-
 	}];
 
-	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
-
+	UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
         exit(0);
-
 	}];
 
 	[alertController addAction:resetAction];
@@ -244,20 +243,35 @@ BOOL enabled = NO;
 - (void)resetPreferences {
 
     HBPreferences *preferences = [[HBPreferences alloc] initWithIdentifier: @"love.litten.dresspreferences"];
-    for (NSString *key in [preferences dictionaryRepresentation]) {
+    for (NSString* key in [preferences dictionaryRepresentation]) {
         [preferences removeObjectForKey:key];
-
     }
     
-    [self.enableSwitch setOn:NO animated: YES];
-    [self respringUtil];
+    [[self enableSwitch] setOn:NO animated: YES];
+    [self respring];
+
+}
+
+- (void)respring {
+
+    blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
+    blurView = [[UIVisualEffectView alloc] initWithEffect:blur];
+    [blurView setFrame:self.view.bounds];
+    [blurView setAlpha:0.0];
+    [[self view] addSubview:blurView];
+
+    [UIView animateWithDuration:1.0 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [blurView setAlpha:1.0];
+    } completion:^(BOOL finished) {
+        [self respringUtil];
+    }];
 
 }
 
 - (void)respringUtil {
 
     pid_t pid;
-    const char *args[] = {"killall", "backboardd", NULL};
+    const char* args[] = {"killall", "backboardd", NULL};
 
     [HBRespringController respringAndReturnTo:[NSURL URLWithString:@"prefs:root=Dress"]];
 

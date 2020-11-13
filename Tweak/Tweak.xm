@@ -1008,6 +1008,21 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %end
 
+// Hide FaceID Animation
+
+%hook SBUIPasscodeBiometricResource
+
+- (BOOL)hasBiometricAuthenticationCapabilityEnabled {
+
+	if (hideFaceIDAnimationSwitch)
+		return NO;
+	else
+		return %orig;
+
+}
+
+%end
+
 %end
 
 %ctor {
@@ -1154,6 +1169,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	if (enableOthersSection) {
 		[preferences registerObject:&customLockDurationControl default:@"0" forKey:@"customLockDuration"];
 		[preferences registerBool:&disableBatteryViewSwitch default:NO forKey:@"disableBatteryView"];
+		[preferences registerBool:&hideFaceIDAnimationSwitch default:NO forKey:@"hideFaceIDAnimation"];
 	}
 
 	if (enabled) {

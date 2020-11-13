@@ -163,6 +163,7 @@ BOOL quickActionsColorFlowSwitch = NO;
 // Others
 NSString* customLockDurationControl = @"0";
 BOOL disableBatteryViewSwitch = NO;
+BOOL hideFaceIDAnimationSwitch = NO;
 
 // Time And Date
 @interface SBFLockScreenDateView : UIView
@@ -302,7 +303,6 @@ BOOL disableBatteryViewSwitch = NO;
 
 // Quick Actions
 @interface CSQuickActionsView : UIView
-
 @end
 
 @interface UICoverSheetButton : UIControl

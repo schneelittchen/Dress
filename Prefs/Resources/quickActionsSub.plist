@@ -250,7 +250,7 @@
 			<key>libsparkcolourpicker</key>
 			<dict>
 				<key>defaults</key>
-				<string>love.litten.dresspreferences</string>
+				<string>love.litten.dress.colorspreferences</string>
 				<key>fallback</key>
 				<string>#ffffff</string>
 				<key>alpha</key>
@@ -261,7 +261,7 @@
 			<key>key</key>
 			<string>quickActionsColor</string>
 			<key>PostNotification</key>
-			<string>love.litten.dresspreferences/ReloadPrefs</string>
+			<string>love.litten.dress.colorspreferences/ReloadPrefs</string>
 		</dict>
 
 	</array>

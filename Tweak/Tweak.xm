@@ -1028,7 +1028,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 %ctor {
 
 	preferences = [[HBPreferences alloc] initWithIdentifier:@"love.litten.dresspreferences"];
-	preferencesDictionary = [NSDictionary dictionaryWithContentsOfFile: @"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"];
+	preferencesDictionary = [NSDictionary dictionaryWithContentsOfFile: @"/var/mobile/Library/Preferences/love.litten.dress.colorspreferences.plist"];
 
     [preferences registerBool:&enabled default:nil forKey:@"Enabled"];
 	[preferences registerBool:&enableTimeDateSection default:nil forKey:@"EnableTimeDateSection"];

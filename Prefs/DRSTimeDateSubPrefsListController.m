@@ -2,6 +2,9 @@
 
 BOOL enableTimeDateSection = NO;
 
+UIFontPickerViewController* timeFontPicker;
+UIFontPickerViewController* dateFontPicker;
+
 @implementation DRSTimeDateSubPrefsListController
 
 - (instancetype)init {
@@ -206,6 +209,8 @@ BOOL enableTimeDateSection = NO;
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:35 inSection:0] enabled:YES];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:36 inSection:0] enabled:YES];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:37 inSection:0] enabled:YES];
+        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:38 inSection:0] enabled:YES];
+        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:39 inSection:0] enabled:YES];
     } else {
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] enabled:NO];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] enabled:NO];
@@ -245,6 +250,8 @@ BOOL enableTimeDateSection = NO;
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:35 inSection:0] enabled:NO];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:36 inSection:0] enabled:NO];
         [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:37 inSection:0] enabled:NO];
+        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:38 inSection:0] enabled:NO];
+        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:39 inSection:0] enabled:NO];
     }
 
 }
@@ -267,6 +274,35 @@ BOOL enableTimeDateSection = NO;
         }
     }
 
+}
+
+- (void)showTimeFontPicker {
+    
+    timeFontPicker = [[UIFontPickerViewController alloc] init];
+    timeFontPicker.delegate = self;
+    [self presentViewController:timeFontPicker animated:YES completion:nil];
+    
+}
+
+- (void)showDateFontPicker {
+    
+    dateFontPicker = [[UIFontPickerViewController alloc] init];
+    dateFontPicker.delegate = self;
+    [self presentViewController:dateFontPicker animated:YES completion:nil];
+    
+}
+
+- (void)fontPickerViewControllerDidPickFont:(UIFontPickerViewController *)viewController {
+    
+    UIFontDescriptor* descriptor = viewController.selectedFontDescriptor;
+    UIFont* font = [UIFont fontWithDescriptor:descriptor size:17];
+
+    HBPreferences* preferences = [[HBPreferences alloc] initWithIdentifier: @"love.litten.dresspreferences"];
+    if ([viewController isEqual:timeFontPicker])
+        [preferences setObject:font.familyName forKey:@"customChosenTimeFont"];
+    else if ([viewController isEqual:dateFontPicker])
+        [preferences setObject:font.familyName forKey:@"customChosenDateFont"];
+    
 }
 
 @end

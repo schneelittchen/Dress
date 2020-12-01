@@ -209,19 +209,25 @@
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSEditTextCell</string>
+			<string>PSSwitchCell</string>
 			<key>default</key>
-			<string></string>
-			<key>placeholder</key>
-			<string>Avenir, Courier,..</string>
+			<false/>
 			<key>defaults</key>
 			<string>love.litten.dresspreferences</string>
-			<key>label</key>
-			<string>Custom Font Name:</string>
 			<key>key</key>
-			<string>fontNameTime</string>
+			<string>useCustomChosenTimeFont</string>
+			<key>label</key>
+			<string>Use Custom Chosen Font</string>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Choose Custom Time Font</string>
+			<key>action</key>
+			<string>showTimeFontPicker</string>
 		</dict>
 		<dict>
 			<key>cell</key>
@@ -336,19 +342,25 @@
 		</dict>
 		<dict>
 			<key>cell</key>
-			<string>PSEditTextCell</string>
+			<string>PSSwitchCell</string>
 			<key>default</key>
-			<string></string>
-			<key>placeholder</key>
-			<string>Avenir, Courier,..</string>
+			<false/>
 			<key>defaults</key>
 			<string>love.litten.dresspreferences</string>
-			<key>label</key>
-			<string>Custom Font Name:</string>
 			<key>key</key>
-			<string>fontNameDate</string>
+			<string>useCustomChosenDateFont</string>
+			<key>label</key>
+			<string>Use Custom Chosen Font</string>
 			<key>PostNotification</key>
 			<string>love.litten.dresspreferences/ReloadPrefs</string>
+		</dict>
+		<dict>
+			<key>cell</key>
+			<string>PSButtonCell</string>
+			<key>label</key>
+			<string>Choose Custom Date Font</string>
+			<key>action</key>
+			<string>showDateFontPicker</string>
 		</dict>
 		<dict>
 			<key>cell</key>

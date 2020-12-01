@@ -1,7 +1,5 @@
 #import <UIKit/UIKit.h>
 #import <Cephei/HBPreferences.h>
-#import <dlfcn.h>
-#import "libpddokdo.h"
 #import "SparkColourPickerUtils.h"
 
 HBPreferences* preferences;
@@ -18,7 +16,6 @@ extern BOOL enableMediaPlayerSection;
 extern BOOL enableNotificationsSection;
 extern BOOL enableQuickActionsSection;
 extern BOOL enableEvanescoModeSection;
-extern BOOL enableColorFlowSupportSection;
 extern BOOL enableOthersSection;
 
 // Time And Date
@@ -31,13 +28,13 @@ NSString* customTimeAndDateXAxisValue = @"0.0";
 NSString* customTimeAndDateYAxisValue = @"0.0";
 NSString* timeAndDateAlignmentControl = @"1";
 BOOL customTimeFontSwitch = NO;
-NSString* fontNameTimeInput = @"";
+BOOL useCustomChosenTimeFontSwitch = NO;
 NSString* fontSizeTimeControl = @"80";
 NSString* fontWeightTimeControl = @"0";
 BOOL useRoundedFontTimeSwitch = NO;
 BOOL useItalicFontTimeSwitch = NO;
 BOOL customDateFontSwitch = NO;
-NSString* fontNameDateInput = @"";
+BOOL useCustomChosenDateFontSwitch = NO;
 NSString* fontSizeDateControl = @"80";
 NSString* fontWeightDateControl = @"0";
 BOOL useRoundedFontDateSwitch = NO;
@@ -45,8 +42,6 @@ BOOL useItalicFontDateSwitch = NO;
 BOOL customFontLunarSwitch = NO;
 BOOL useCompactDateFormatSwitch = NO;
 BOOL colorTimeAndDateSwitch = NO;
-NSString* timeColorValue = @"ffffff";
-NSString* dateColorValue = @"ffffff";
 
 // FaceID Lock
 BOOL hideFaceIDLockSwitch = NO;
@@ -57,7 +52,6 @@ NSString* faceIDXAxisControl = @"176.0";
 NSString* faceIDYAxisControl = @"0.0";
 NSString* customFaceIDSizeControl = @"0.0";
 BOOL colorFaceIDLockSwitch = NO;
-NSString* faceIDLockColorValue = @"ffffff";
 
 // Status Bar
 BOOL hideStatusBarSwitch = NO;
@@ -67,7 +61,6 @@ NSString* statusBarAlphaControl = @"1.0";
 BOOL hideHomebarSwitch = NO;
 NSString* homebarAlphaControl = @"1.0";
 BOOL colorHomebarSwitch = NO;
-NSString* homebarColorValue = @"ffffff";
 
 // Page Dots
 BOOL hidePageDotsSwitch = NO;
@@ -91,7 +84,6 @@ BOOL lastTimeUnlockedSecondsSwitch = NO;
 BOOL weatherConditionSwitch = NO;
 BOOL weatherTemperatureSwitch = NO;
 BOOL colorUnlockTextSwitch = NO;
-NSString* unlockTextColorValue = @"ffffff";
 
 // Media Player
 BOOL hideMediaPlayerSwitch = NO;
@@ -124,7 +116,6 @@ BOOL customQuickActionsYAxisSwitch = NO;
 NSString* customQuickActionsXAxisValueControl = @"50.0";
 NSString* customQuickActionsYAxisValueControl = @"50.0";
 BOOL colorQuickActionsSwitch = NO;
-NSString* quickActionsColorValue = @"ffffff";
 
 // Evanesco Mode
 NSString* evanescoInactivityControl;

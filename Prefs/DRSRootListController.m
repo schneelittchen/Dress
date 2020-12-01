@@ -27,7 +27,7 @@ UIVisualEffectView* blurView;
         self.titleLabel = [[UILabel alloc] initWithFrame:CGRectMake(0,0,10,10)];
         self.titleLabel.font = [UIFont boldSystemFontOfSize:17];
         self.titleLabel.translatesAutoresizingMaskIntoConstraints = NO;
-        self.titleLabel.text = @"2.3.1";
+        self.titleLabel.text = @"2.4";
         self.titleLabel.textColor = [UIColor whiteColor];
         self.titleLabel.textAlignment = NSTextAlignmentCenter;
         [self.navigationItem.titleView addSubview:self.titleLabel];
@@ -104,9 +104,6 @@ UIVisualEffectView* blurView;
     self.navigationController.navigationController.navigationBar.tintColor = [UIColor whiteColor];
     self.navigationController.navigationController.navigationBar.translucent = YES;
 
-    if (![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/ColorFlow5.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/ColorFlow4.dylib"])
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:12 inSection:0] enabled:NO];
-
 }
 
 - (void)viewDidAppear:(BOOL)animated {
@@ -117,8 +114,24 @@ UIVisualEffectView* blurView;
 
     [self setEnableSwitchState];
 
-    if ([[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Dress.disabled"])
-        [self disabledAlert];
+    if (![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Dress.disabled"]) return;
+    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"Dress"
+	message:@"It Looks Like You Disabled Dress In iCleaner Pro, Dress Won't Work In This State"
+	preferredStyle:UIAlertControllerStyleAlert];
+
+    UIAlertAction* resetAction = [UIAlertAction actionWithTitle:@"Reset Preferences" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+        [self resetPreferences];
+	}];
+
+	UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+        exit(0);
+	}];
+
+	[alertController addAction:resetAction];
+    [alertController addAction:cancelAction];
+
+	[self presentViewController:alertController animated:YES completion:nil];
+    
 
 }
 
@@ -219,30 +232,9 @@ UIVisualEffectView* blurView;
 
 }
 
-- (void)disabledAlert {
-
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Dress"
-	message:@"It Looks Like You Disabled Dress In iCleaner Pro, Dress Won't Work In This State"
-	preferredStyle:UIAlertControllerStyleAlert];
-
-    UIAlertAction* resetAction = [UIAlertAction actionWithTitle:@"Reset Preferences" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
-        [self resetPreferences];
-	}];
-
-	UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Close" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
-        exit(0);
-	}];
-
-	[alertController addAction:resetAction];
-    [alertController addAction:cancelAction];
-
-	[self presentViewController:alertController animated:YES completion:nil];
-
-}
-
 - (void)resetPreferences {
 
-    HBPreferences *preferences = [[HBPreferences alloc] initWithIdentifier: @"love.litten.dresspreferences"];
+    HBPreferences* preferences = [[HBPreferences alloc] initWithIdentifier: @"love.litten.dresspreferences"];
     for (NSString* key in [preferences dictionaryRepresentation]) {
         [preferences removeObjectForKey:key];
     }
@@ -276,26 +268,6 @@ UIVisualEffectView* blurView;
     [HBRespringController respringAndReturnTo:[NSURL URLWithString:@"prefs:root=Dress"]];
 
     posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char *const *)args, NULL);
-
-}
-
-- (void)setCellForRowAtIndexPath:(NSIndexPath *)indexPath enabled:(BOOL)enabled {
-
-    UITableViewCell *cell = [self tableView:self.table cellForRowAtIndexPath:indexPath];
-
-    if (cell) {
-        cell.userInteractionEnabled = enabled;
-        cell.textLabel.enabled = enabled;
-        cell.detailTextLabel.enabled = enabled;
-        if ([cell isKindOfClass:[PSControlTableCell class]]) {
-            PSControlTableCell *controlCell = (PSControlTableCell *)cell;
-            if (controlCell.control)
-                controlCell.control.enabled = enabled;
-        } else if ([cell isKindOfClass:[PSEditableTableCell class]]) {
-            PSEditableTableCell *editableCell = (PSEditableTableCell *)cell;
-            ((UITextField*)[editableCell textField]).alpha = enabled ? 1 : 0.4;
-        }
-    }
 
 }
 

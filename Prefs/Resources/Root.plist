@@ -130,16 +130,6 @@
  			<key>cell</key>
  			<string>PSLinkCell</string>
  			<key>label</key>
- 			<string>ColorFlow Coloring</string>
- 			<key>detail</key>
- 			<string>DRSColorFlowSupportSubPrefsListController</string>
- 			<key>DRSSub</key>
- 			<string>colorflowSupportSub</string>
- 		</dict>
-		<dict>
- 			<key>cell</key>
- 			<string>PSLinkCell</string>
- 			<key>label</key>
  			<string>Others</string>
  			<key>detail</key>
  			<string>DRSOthersSubPrefsListController</string>

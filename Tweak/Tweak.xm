@@ -38,7 +38,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook SBFLockScreenDateView
 
-- (void)setFrame:(CGRect)frame {
+- (void)setFrame:(CGRect)frame { // change time & date position
 
 	%orig;
 
@@ -50,7 +50,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (void)didMoveToWindow {
+- (void)didMoveToWindow { // color time & date
 
 	%orig;
 
@@ -65,7 +65,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (void)setHidden:(BOOL)hidden {
+- (void)setHidden:(BOOL)hidden { // hide time & date
 
 	if (hideTimeAndDateSwitch)
 		%orig(YES);
@@ -74,7 +74,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (void)setAlpha:(double)alpha {
+- (void)setAlpha:(double)alpha { // set alpha of time & date
 
 	if ([timeAndDateAlphaValue doubleValue] != 1.0)
 		%orig([timeAndDateAlphaValue doubleValue]);
@@ -83,7 +83,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (void)setAlignmentPercent:(double)arg1 {
+- (void)setAlignmentPercent:(double)arg1 { // alignment of time & date
 
 	if ([timeAndDateAlignmentControl intValue] == 0)
 		%orig(-1.0); // left
@@ -94,7 +94,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (void)setUseCompactDateFormat:(BOOL)arg1 {
+- (void)setUseCompactDateFormat:(BOOL)arg1 { // use comapct date format
 
 	if (useCompactDateFormatSwitch)
 		%orig(YES);
@@ -103,19 +103,20 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-+ (id)timeFont {
++ (id)timeFont { // change time font
 
-	if (customTimeFontSwitch) {
-		if (![fontNameTimeInput isEqual:@""] && !useRoundedFontTimeSwitch)
-			return [UIFont fontWithName:fontNameTimeInput size:[fontSizeTimeControl doubleValue]];
-		else if ([fontNameTimeInput isEqual:@""] && useRoundedFontTimeSwitch)
-			return [UIFont fontWithDescriptor:[[[UIFont systemFontOfSize:[fontSizeTimeControl doubleValue] weight:[fontWeightTimeControl doubleValue]] fontDescriptor] fontDescriptorWithDesign:UIFontDescriptorSystemDesignRounded] size:[fontSizeTimeControl doubleValue]];
-		else if ([fontNameTimeInput isEqual:@""] && !useRoundedFontTimeSwitch && useItalicFontTimeSwitch)
-			return [UIFont italicSystemFontOfSize:[fontSizeTimeControl doubleValue]];
-		else if ([fontNameTimeInput isEqual:@""])
+	if (!customTimeFontSwitch) return %orig;
+	if (!useCustomChosenTimeFontSwitch) {
+		if (!useRoundedFontTimeSwitch && !useItalicFontTimeSwitch)
 			return [UIFont systemFontOfSize:[fontSizeTimeControl doubleValue] weight:[fontWeightTimeControl doubleValue]];
+		else if (useRoundedFontTimeSwitch && !useItalicFontTimeSwitch)
+			return [UIFont fontWithDescriptor:[[[UIFont systemFontOfSize:[fontSizeTimeControl doubleValue] weight:[fontWeightTimeControl doubleValue]] fontDescriptor] fontDescriptorWithDesign:UIFontDescriptorSystemDesignRounded] size:[fontSizeTimeControl doubleValue]];
+		else if (!useRoundedFontTimeSwitch && useItalicFontTimeSwitch)
+			return [UIFont italicSystemFontOfSize:[fontSizeTimeControl doubleValue]];
 		else
 			return %orig;
+	} else if (useCustomChosenTimeFontSwitch) {
+		return [UIFont fontWithName:[NSString stringWithFormat:@"%@", [preferences objectForKey:@"customChosenTimeFont"]] size:[fontSizeTimeControl doubleValue]];
 	} else {
 		return %orig;
 	}
@@ -126,19 +127,20 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook SBFLockScreenDateSubtitleView
 
-+ (id)labelFont {
++ (id)labelFont { // change date font
 
-	if (customDateFontSwitch) {
-		if (![fontNameDateInput isEqual:@""])
-			return [UIFont fontWithName:fontNameDateInput size:[fontSizeDateControl doubleValue]];
-		else if ([fontNameTimeInput isEqual:@""] && useRoundedFontTimeSwitch)
-			return [UIFont fontWithDescriptor:[[[UIFont systemFontOfSize:[fontSizeDateControl doubleValue] weight:[fontWeightDateControl doubleValue]] fontDescriptor] fontDescriptorWithDesign:UIFontDescriptorSystemDesignRounded] size:[fontSizeDateControl doubleValue]];
-		else if ([fontNameTimeInput isEqual:@""] && !useRoundedFontDateSwitch && useItalicFontDateSwitch)
-			return [UIFont italicSystemFontOfSize:[fontSizeDateControl doubleValue]];
-		else if ([fontNameDateInput isEqual:@""])
+	if (!customDateFontSwitch) return %orig;
+	if (!useCustomChosenDateFontSwitch) {
+		if (!useRoundedFontDateSwitch && !useItalicFontDateSwitch)
 			return [UIFont systemFontOfSize:[fontSizeDateControl doubleValue] weight:[fontWeightDateControl doubleValue]];
+		else if (useRoundedFontDateSwitch && !useItalicFontDateSwitch)
+			return [UIFont fontWithDescriptor:[[[UIFont systemFontOfSize:[fontSizeDateControl doubleValue] weight:[fontWeightDateControl doubleValue]] fontDescriptor] fontDescriptorWithDesign:UIFontDescriptorSystemDesignRounded] size:[fontSizeDateControl doubleValue]];
+		else if (!useRoundedFontDateSwitch && useItalicFontDateSwitch)
+			return [UIFont italicSystemFontOfSize:[fontSizeDateControl doubleValue]];
 		else
 			return %orig;
+	} else if (useCustomChosenDateFontSwitch) {
+		return [UIFont fontWithName:[NSString stringWithFormat:@"%@", [preferences objectForKey:@"customChosenDateFont"]] size:[fontSizeDateControl doubleValue]];
 	} else {
 		return %orig;
 	}
@@ -149,7 +151,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook SBFLockScreenDateSubtitleDateView
 
-- (void)didMoveToWindow {
+- (void)didMoveToWindow { // hide date & lunar
 
 	%orig;
 
@@ -167,19 +169,20 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-+ (id)dateTimeLunarDateFont {
++ (id)dateTimeLunarDateFont { // change lunar font
 
-	if (customDateFontSwitch && customFontLunarSwitch) {
-		if (![fontNameDateInput isEqual:@""])
-			return [UIFont fontWithName:fontNameDateInput size:[fontSizeDateControl doubleValue]];
-		else if ([fontNameTimeInput isEqual:@""] && useRoundedFontTimeSwitch)
-			return [UIFont fontWithDescriptor:[[[UIFont systemFontOfSize:[fontSizeDateControl doubleValue] weight:[fontWeightDateControl doubleValue]] fontDescriptor] fontDescriptorWithDesign:UIFontDescriptorSystemDesignRounded] size:[fontSizeDateControl doubleValue]];
-		else if ([fontNameTimeInput isEqual:@""] && !useRoundedFontDateSwitch && useItalicFontDateSwitch)
-			return [UIFont italicSystemFontOfSize:[fontSizeDateControl doubleValue]];
-		else if ([fontNameDateInput isEqual:@""])
+	if (!customDateFontSwitch) return %orig;
+	if (!useCustomChosenDateFontSwitch) {
+		if (!useRoundedFontDateSwitch && !useItalicFontDateSwitch)
 			return [UIFont systemFontOfSize:[fontSizeDateControl doubleValue] weight:[fontWeightDateControl doubleValue]];
+		else if (useRoundedFontDateSwitch && !useItalicFontDateSwitch)
+			return [UIFont fontWithDescriptor:[[[UIFont systemFontOfSize:[fontSizeDateControl doubleValue] weight:[fontWeightDateControl doubleValue]] fontDescriptor] fontDescriptorWithDesign:UIFontDescriptorSystemDesignRounded] size:[fontSizeDateControl doubleValue]];
+		else if (!useRoundedFontDateSwitch && useItalicFontDateSwitch)
+			return [UIFont italicSystemFontOfSize:[fontSizeDateControl doubleValue]];
 		else
 			return %orig;
+	} else if (useCustomChosenDateFontSwitch) {
+		return [UIFont fontWithName:[NSString stringWithFormat:@"%@", [preferences objectForKey:@"customChosenDateFont"]] size:[fontSizeDateControl doubleValue]];
 	} else {
 		return %orig;
 	}
@@ -196,7 +199,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook SBUIProudLockIconView
 
-- (void)didMoveToWindow {
+- (void)didMoveToWindow { // hide faceid lock
 
 	%orig;
 
@@ -207,7 +210,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (void)setContentColor:(UIColor *)arg1 {
+- (void)setContentColor:(UIColor *)arg1 { // change faceid lock color
 
 	if (colorFaceIDLockSwitch)
 		%orig([SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"faceIDLockColor"] withFallback: @"#ffffff"]);
@@ -216,7 +219,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (void)setFrame:(CGRect)frame {
+- (void)setFrame:(CGRect)frame { // change faceid lock position
 
 	if (customFaceIDAxisSwitch)
 		%orig(CGRectMake([faceIDXAxisControl doubleValue], [faceIDYAxisControl doubleValue], 23 + [customFaceIDSizeControl doubleValue], 33 + [customFaceIDSizeControl doubleValue]));
@@ -225,7 +228,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (void)setAlpha:(double)alpha {
+- (void)setAlpha:(double)alpha { // change faceid lock alpha
 
 	if ([faceIDLockAlphaValue doubleValue] != 1.0)
 		%orig([faceIDLockAlphaValue doubleValue]);
@@ -238,7 +241,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook UIMorphingLabel
 
-- (void)didMoveToWindow {
+- (void)didMoveToWindow { // hide faceid lock label
 
 	%orig;
 
@@ -275,7 +278,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 }
 
 %new
-- (void)receiveStatusBarCustomizationNotification:(NSNotification *)notification {
+- (void)receiveStatusBarCustomizationNotification:(NSNotification *)notification { // hide/unhide status bar
 
 	if ([notification.name isEqual:@"hideStatusBar"])
     	[[self statusBar] setHidden:YES];
@@ -300,7 +303,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook SBCoverSheetPrimarySlidingViewController // send notifications to hide or show the status bar
 
-- (void)viewWillDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated { // show status bar when lockscreen disappears
 
 	%orig;
 
@@ -312,7 +315,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (void)viewWillAppear:(BOOL)animated {
+- (void)viewWillAppear:(BOOL)animated { // hide status bar when lockscreen appears
 
 	%orig;
 
@@ -334,7 +337,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook CSHomeAffordanceView
 
-- (void)didMoveToWindow {
+- (void)didMoveToWindow { // hide homebar
 
 	%orig;
 
@@ -345,7 +348,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (void)setAlpha:(double)alpha {
+- (void)setAlpha:(double)alpha { // change homebar alpha
 
 	if ([homebarAlphaControl doubleValue] != 1.0)
 		%orig([homebarAlphaControl doubleValue]);
@@ -358,7 +361,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook MTStaticColorPillView
 
-- (void)setPillColor:(UIColor *)arg1 {
+- (void)setPillColor:(UIColor *)arg1 { // change homebar color
 
 	if (colorHomebarSwitch) {
 		UIColor* customColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"homebarColor"] withFallback: @"#ffffff"];
@@ -379,7 +382,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook CSPageControl
 
-- (void)didMoveToWindow {
+- (void)didMoveToWindow { // hide page dots
 
 	%orig;
 
@@ -390,7 +393,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (void)setAlpha:(double)alpha {
+- (void)setAlpha:(double)alpha { // change page dots alpha
 
 	if ([pageDotsAlphaControl doubleValue] != 1.0)
 		%orig([pageDotsAlphaControl doubleValue]);
@@ -409,7 +412,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook CSTeachableMomentsContainerView
 
-- (void)_layoutCallToActionLabel { // homebar devices
+- (void)_layoutCallToActionLabel { // hide and set unlock text on homebar devices
 	
 	%orig;
 
@@ -446,23 +449,9 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		return;
 	}
 
-	if (weatherConditionSwitch && !weatherTemperatureSwitch) {
-		[[PDDokdo sharedInstance] refreshWeatherData];
-		[label setString:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentConditions]]];
-		return;
-	} else if (!weatherConditionSwitch && weatherTemperatureSwitch) {
-		[[PDDokdo sharedInstance] refreshWeatherData];
-		[label setString:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentTemperature]]];
-		return;
-	} else if (weatherConditionSwitch && weatherTemperatureSwitch) {
-		[[PDDokdo sharedInstance] refreshWeatherData];
-		[label setString:[NSString stringWithFormat:@"%@ %@", [[PDDokdo sharedInstance] currentConditions], [[PDDokdo sharedInstance] currentTemperature]]];
-		return;
-	}
-
 }
 
-- (void)didMoveToWindow { // CC Grabber
+- (void)didMoveToWindow { // hide and set alpha of the control center indicator
 
 	%orig;
 
@@ -479,7 +468,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook SBUICallToActionLabel
 
-- (void)didMoveToWindow { // home button devices before touchid recognized
+- (void)didMoveToWindow { // hide and set unlock text on home button devices (when unrecognized)
 
 	%orig;
 
@@ -514,23 +503,9 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		return;
 	}
 
-	if (weatherConditionSwitch && !weatherTemperatureSwitch) {
-		[[PDDokdo sharedInstance] refreshWeatherData];
-		[self setText:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentConditions]]];
-		return;
-	} else if (!weatherConditionSwitch && weatherTemperatureSwitch) {
-		[[PDDokdo sharedInstance] refreshWeatherData];
-		[self setText:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentTemperature]]];
-		return;
-	} else if (weatherConditionSwitch && weatherTemperatureSwitch) {
-		[[PDDokdo sharedInstance] refreshWeatherData];
-		[self setText:[NSString stringWithFormat:@"%@ %@", [[PDDokdo sharedInstance] currentConditions], [[PDDokdo sharedInstance] currentTemperature]]];
-		return;
-	}
-
 }
 
-- (void)_updateLabelTextWithLanguage:(id)arg1 {  // home button devices after touchid recognized
+- (void)_updateLabelTextWithLanguage:(id)arg1 { // hide and set unlock text on home button devices (when recognized)
 
     %orig;
 
@@ -564,28 +539,14 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		}
 		return;
 	}
-	
-	if (weatherConditionSwitch && !weatherTemperatureSwitch) {
-		[[PDDokdo sharedInstance] refreshWeatherData];
-		[self setText:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentConditions]]];
-		return;
-	} else if (!weatherConditionSwitch && weatherTemperatureSwitch) {
-		[[PDDokdo sharedInstance] refreshWeatherData];
-		[self setText:[NSString stringWithFormat:@"%@", [[PDDokdo sharedInstance] currentTemperature]]];
-		return;
-	} else if (weatherConditionSwitch && weatherTemperatureSwitch) {
-		[[PDDokdo sharedInstance] refreshWeatherData];
-		[self setText:[NSString stringWithFormat:@"%@ %@", [[PDDokdo sharedInstance] currentConditions], [[PDDokdo sharedInstance] currentTemperature]]];
-		return;
-	}
 
 }
 
 %end
 
-%hook SBCoverSheetPrimarySlidingViewController // save current unlock time, also set isLocked to NO as no longer locked
+%hook SBCoverSheetPrimarySlidingViewController
 
-- (void)viewDidDisappear:(BOOL)animated {
+- (void)viewDidDisappear:(BOOL)animated { // save time when devices was unlocked
 
 	%orig;
 
@@ -674,13 +635,13 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %end
 
-%hook SBBacklightController // set a isLocked to YES as the display was just turned on
+%hook SBLockScreenManager
 
-- (void)turnOnScreenFullyWithBacklightSource:(long long)source {
+- (void)lockUIFromSource:(int)arg1 withOptions:(id)arg2 completion:(id)arg3 { // note when device was locked
 
-	%orig;
+    %orig;
 
-	if (source != 26) isLocked = YES;
+	isLocked = YES;
 
 }
 
@@ -694,7 +655,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook CSAdjunctItemView
 
-- (void)didMoveToWindow {
+- (void)didMoveToWindow { // hide media player or media player background
 
 	%orig;
 
@@ -709,7 +670,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (void)setAlpha:(double)alpha {
+- (void)setAlpha:(double)alpha { // set media palyer alpha
 
 	if ([mediaPlayerAlphaControl doubleValue] != 1.0)
 		%orig([mediaPlayerAlphaControl doubleValue]);
@@ -749,7 +710,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook NCNotificationListCell
 
-- (void)setAlpha:(double)alpha {
+- (void)setAlpha:(double)alpha { // set notifications alpha
 
 	if ([notificationsAlphaControl doubleValue] != 1.0)
 		%orig([notificationsAlphaControl doubleValue]);
@@ -764,7 +725,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook NCNotificationListSectionRevealHintView
 
-- (void)didMoveToWindow {
+- (void)didMoveToWindow { // hide, set alpha and set alignment of the no older notifications text
 
 	%orig;
 
@@ -798,7 +759,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook NCNotificationListHeaderTitleView
 
-- (void)didMoveToWindow {
+- (void)didMoveToWindow { // hide and change notification header text
 
 	%orig;
 
@@ -818,7 +779,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook NCNotificationListSectionHeaderView
 
-- (void)didMoveToWindow {
+- (void)didMoveToWindow { // hide clear button
 
 	%orig;
 
@@ -831,7 +792,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (void)setAlpha:(double)alpha {
+- (void)setAlpha:(double)alpha { // change header alpha
 
 	if (revealed && [notificationsHeaderViewAlphaControl doubleValue] != 1.0)
 		%orig([notificationsHeaderViewAlphaControl doubleValue]);
@@ -846,7 +807,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook DNDNotificationsService
 
-- (void)_queue_postOrRemoveNotificationWithUpdatedBehavior:(BOOL)arg1 significantTimeChange:(BOOL)arg2 {
+- (void)_queue_postOrRemoveNotificationWithUpdatedBehavior:(BOOL)arg1 significantTimeChange:(BOOL)arg2 { // hide dnd banner
 
 	if (hideDNDBannerSwitch)
 		return;
@@ -865,7 +826,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook CSQuickActionsView
 
-- (void)didMoveToWindow {
+- (void)didMoveToWindow { // hide flashlight & camera button and set their alpha
 
 	%orig;
 
@@ -886,7 +847,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (CGFloat)_insetX {
+- (CGFloat)_insetX { // change quick actions x position
 
 	if (customQuickActionsXAxisSwitch)
 		return [customQuickActionsXAxisValueControl doubleValue];
@@ -895,7 +856,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	
 }
 
-- (CGFloat)_insetY {
+- (CGFloat)_insetY { // change quick actions y position
 
 	if (customQuickActionsYAxisSwitch)
 		return [customQuickActionsYAxisValueControl doubleValue];
@@ -908,7 +869,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook CSQuickActionsButton
 
-- (void)didMoveToWindow {
+- (void)didMoveToWindow { // change quick actions color and hide their background
 
 	%orig;
 
@@ -928,7 +889,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook SBMainDisplayPolicyAggregator // Disable Today View/Camera Swipe
 
-- (BOOL)_allowsCapabilityLockScreenTodayViewWithExplanation:(id*)arg1 {
+- (BOOL)_allowsCapabilityLockScreenTodayViewWithExplanation:(id *)arg1 { // disable today view swipe
 
     if (disableTodaySwipeSwitch)
 		return NO;
@@ -937,7 +898,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (BOOL)_allowsCapabilityTodayViewWithExplanation:(id*)arg1 {
+- (BOOL)_allowsCapabilityTodayViewWithExplanation:(id *)arg1 { // disable today view swipe
 
     if (disableTodaySwipeSwitch)
 		return NO;
@@ -946,7 +907,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (BOOL)_allowsCapabilityLockScreenCameraSupportedWithExplanation:(id*)arg1 {
+- (BOOL)_allowsCapabilityLockScreenCameraSupportedWithExplanation:(id *)arg1 { // disable camera swipe
 
     if (disableCameraSwipeSwitch)
 		return NO;
@@ -955,7 +916,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (BOOL)_allowsCapabilityLockScreenCameraWithExplanation:(id*)arg1 {
+- (BOOL)_allowsCapabilityLockScreenCameraWithExplanation:(id *)arg1 { // disable camera swipe
 
     if (disableCameraSwipeSwitch)
 		return NO;
@@ -974,7 +935,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook CSBehavior
 
-- (void)setIdleTimerDuration:(long long)arg1 {
+- (void)setIdleTimerDuration:(long long)arg1 { // change auto lock timer duration
 
 	if ([customLockDurationControl intValue] == 0)
 		%orig;
@@ -997,7 +958,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook CSCoverSheetViewController
 
-- (void)_transitionChargingViewToVisible:(BOOL)arg1 showBattery:(BOOL)arg2 animated:(BOOL)arg3 {
+- (void)_transitionChargingViewToVisible:(BOOL)arg1 showBattery:(BOOL)arg2 animated:(BOOL)arg3 { // hide charging view
 
 	if (disableBatteryViewSwitch)
 		%orig(NO, NO, NO);
@@ -1012,7 +973,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %hook SBUIPasscodeBiometricResource
 
-- (BOOL)hasBiometricAuthenticationCapabilityEnabled {
+- (BOOL)hasBiometricAuthenticationCapabilityEnabled { // hide faceid animation when swiping up
 
 	if (hideFaceIDAnimationSwitch)
 		return NO;
@@ -1041,7 +1002,6 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	[preferences registerBool:&enableNotificationsSection default:nil forKey:@"EnableNotificationsSection"];
 	[preferences registerBool:&enableQuickActionsSection default:nil forKey:@"EnableQuickActionsSection"];
 	[preferences registerBool:&enableEvanescoModeSection default:nil forKey:@"EnableEvanescoModeSection"];
-	[preferences registerBool:&enableColorFlowSupportSection default:nil forKey:@"EnableColorFlowSupportSection"];
 	[preferences registerBool:&enableOthersSection default:nil forKey:@"EnableOthersSection"];
 
 	// Time And Date
@@ -1055,13 +1015,13 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerObject:&customTimeAndDateYAxisValue default:@"1.0" forKey:@"customTimeAndDateYAxis"];
 		[preferences registerObject:&timeAndDateAlignmentControl default:@"1" forKey:@"timeAndDateAlignment"];
 		[preferences registerBool:&customTimeFontSwitch default:NO forKey:@"customTimeFont"];
-		[preferences registerObject:&fontNameTimeInput default:@"" forKey:@"fontNameTime"];
+		[preferences registerBool:&useCustomChosenTimeFontSwitch default:NO forKey:@"useCustomChosenTimeFont"];
 		[preferences registerObject:&fontSizeTimeControl default:@"80" forKey:@"fontSizeTime"];
 		[preferences registerObject:&fontWeightTimeControl default:@"-0.4" forKey:@"fontWeightTime"];
 		[preferences registerBool:&useRoundedFontTimeSwitch default:NO forKey:@"useRoundedFontTime"];
 		[preferences registerBool:&useItalicFontTimeSwitch default:NO forKey:@"useItalicFontTime"];
 		[preferences registerBool:&customDateFontSwitch default:NO forKey:@"customDateFont"];
-		[preferences registerObject:&fontNameDateInput default:@"" forKey:@"fontNameDate"];
+		[preferences registerBool:&useCustomChosenDateFontSwitch default:NO forKey:@"useCustomChosenDateFont"];
 		[preferences registerObject:&fontSizeDateControl default:@"23" forKey:@"fontSizeDate"];
 		[preferences registerObject:&fontWeightDateControl default:@"0.0" forKey:@"fontWeightDate"];
 		[preferences registerBool:&useRoundedFontDateSwitch default:NO forKey:@"useRoundedFontDate"];
@@ -1069,8 +1029,6 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&customFontLunarSwitch default:YES forKey:@"customFontLunar"];
 		[preferences registerBool:&useCompactDateFormatSwitch default:NO forKey:@"useCompactDateFormat"];
 		[preferences registerBool:&colorTimeAndDateSwitch default:NO forKey:@"colorTimeAndDate"];
-		[preferences registerObject:&timeColorValue default:@"ffffff" forKey:@"timeColor"];
-		[preferences registerObject:&dateColorValue default:@"ffffff" forKey:@"dateColor"];
 	}
 
 	// FaceID Lock
@@ -1083,7 +1041,6 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerObject:&faceIDYAxisControl default:@"0.0" forKey:@"faceIDYAxis"];
 		[preferences registerObject:&customFaceIDSizeControl default:@"0.0" forKey:@"customFaceIDSize"];
 		[preferences registerBool:&colorFaceIDLockSwitch default:NO forKey:@"colorFaceIDLock"];
-		[preferences registerObject:&faceIDLockColorValue default:@"ffffff" forKey:@"faceIDLockColor"];
 	}
 
 	// Status Bar
@@ -1097,7 +1054,6 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&hideHomebarSwitch default:NO forKey:@"hideHomebar"];
 		[preferences registerObject:&homebarAlphaControl default:@"1.0" forKey:@"homebarAlpha"];
 		[preferences registerBool:&colorHomebarSwitch default:NO forKey:@"colorHomebar"];
-		[preferences registerObject:&homebarColorValue default:@"ffffff" forKey:@"homebarColor"];
 	}
 
 	// Page Dots
@@ -1122,7 +1078,6 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&weatherConditionSwitch default:NO forKey:@"weatherCondition"];
 		[preferences registerBool:&weatherTemperatureSwitch default:NO forKey:@"weatherTemperature"];
 		[preferences registerBool:&colorUnlockTextSwitch default:NO forKey:@"colorUnlockText"];
-		[preferences registerObject:&unlockTextColorValue default:@"ffffff" forKey:@"unlockTextColor"];
 	}
 
 	// Media Player
@@ -1162,7 +1117,6 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerObject:&customQuickActionsXAxisValueControl default:@"50.0" forKey:@"customQuickActionsXAxisValue"];
 		[preferences registerObject:&customQuickActionsYAxisValueControl default:@"50.0" forKey:@"customQuickActionsYAxisValue"];
 		[preferences registerBool:&colorQuickActionsSwitch default:NO forKey:@"colorQuickActions"];
-		[preferences registerObject:&quickActionsColorValue default:@"ffffff" forKey:@"quickActionsColor"];
 	}
 
 	// Others
@@ -1173,12 +1127,9 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	}
 
 	if (enabled) {
-		BOOL timeAndDateTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"];
-		BOOL faceIDLockTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/LatchKey.dylib"];
-
 		%init(Dress);
-        if (enableTimeDateSection && timeAndDateTweaksCompatible) %init(DressTimeDate);
-		if (enableFaceIDLockSection && faceIDLockTweaksCompatible) %init(DressFaceIDLock);
+        if (enableTimeDateSection) %init(DressTimeDate);
+		if (enableFaceIDLockSection) %init(DressFaceIDLock);
 		if (enableStatusBarSection) %init(DressStatusBar);
 		if (enableHomebarSection) %init(DressHomebar);
 		if (enablePageDotsSection) %init(DressPageDots);

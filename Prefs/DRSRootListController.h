@@ -3,8 +3,6 @@
 #import <CepheiPrefs/HBRootListController.h>
 #import <CepheiPrefs/HBAppearanceSettings.h>
 #import <Cephei/HBPreferences.h>
-#import <Preferences/PSControlTableCell.h>
-#import <Preferences/PSEditableTableCell.h>
 
 @interface DRSAppearanceSettings : HBAppearanceSettings
 @end
@@ -23,9 +21,4 @@
 - (void)resetPreferences;
 - (void)respring;
 - (void)respringUtil;
-- (void)setCellForRowAtIndexPath:(NSIndexPath *)indexPath enabled:(BOOL)enabled;
-@end
-
-@interface PSEditableTableCell (Interface)
-- (id)textField;
 @end

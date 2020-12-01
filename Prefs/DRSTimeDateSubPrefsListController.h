@@ -16,6 +16,8 @@
 - (void)toggleState;
 - (void)setEnableSwitchState;
 - (void)setCellForRowAtIndexPath:(NSIndexPath *)indexPath enabled:(BOOL)enabled;
+- (void)showTimeFontPicker;
+- (void)showDateFontPicker;
 @end
 
 @interface PSEditableTableCell (Interface)

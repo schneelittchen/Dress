@@ -1127,9 +1127,12 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	}
 
 	if (enabled) {
+		BOOL timeAndDateTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Heartlines.dylib"];
+		BOOL faceIDLockTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/LatchKey.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Heartlines.dylib"];
+
 		%init(Dress);
-        if (enableTimeDateSection) %init(DressTimeDate);
-		if (enableFaceIDLockSection) %init(DressFaceIDLock);
+        if (enableTimeDateSection && timeAndDateTweaksCompatible) %init(DressTimeDate);
+		if (enableFaceIDLockSection && faceIDLockTweaksCompatible) %init(DressFaceIDLock);
 		if (enableStatusBarSection) %init(DressStatusBar);
 		if (enableHomebarSection) %init(DressHomebar);
 		if (enablePageDotsSection) %init(DressPageDots);

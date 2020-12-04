@@ -74,7 +74,7 @@ BOOL enableNotificationsSection = NO;
     NSString* path = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"];
     NSMutableDictionary* dictionary = [NSMutableDictionary dictionaryWithContentsOfFile:path];
     NSSet* allKeys = [NSSet setWithArray:[dictionary allKeys]];
-    HBPreferences *preferences = [[HBPreferences alloc] initWithIdentifier: @"love.litten.dresspreferences"];
+    HBPreferences* preferences = [[HBPreferences alloc] initWithIdentifier: @"love.litten.dresspreferences"];
     
     if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"]) {
         enableNotificationsSection = YES;

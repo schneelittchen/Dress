@@ -47,22 +47,25 @@ UIFontPickerViewController* dateFontPicker;
         
     BOOL kalmInstalled = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"];
     BOOL jellyfishInstalled = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"];
+    BOOL heartlinesInstalled = [[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Heartlines.dylib"];
     NSString* alertText = nil;
 
-    if (!kalmInstalled && !jellyfishInstalled)
+    if (!kalmInstalled && !jellyfishInstalled && !heartlinesInstalled)
         return;
     else if (kalmInstalled)
         alertText = @"Time And Date Settings Disabled Due To Kalm Being Installed";
     else if (jellyfishInstalled)
         alertText = @"Time And Date Settings Disabled Due To Jellyfish Being Installed";
+    else if (heartlinesInstalled)
+        alertText = @"Time And Date Settings Disabled Due To Heartlines Being Installed";
 
     [[self enableSwitch] setEnabled:NO];
 
-    UIAlertController *alertController = [UIAlertController alertControllerWithTitle:@"Dress"
+    UIAlertController* alertController = [UIAlertController alertControllerWithTitle:@"Dress"
 	message:alertText
 	preferredStyle:UIAlertControllerStyleAlert];
 	
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Okey" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+    UIAlertAction* confirmAction = [UIAlertAction actionWithTitle:@"Okey" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
 			
         [[self navigationController] popViewControllerAnimated:YES];
 

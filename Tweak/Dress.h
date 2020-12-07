@@ -97,6 +97,7 @@ BOOL hideNotificationsClearButtonSwitch = NO;
 NSString* noOlderNotificationsAlphaControl = @"1.0";
 NSString* notificationsAlphaControl = @"1.0";
 NSString* notificationsHeaderViewAlphaControl = @"1.0";
+NSString* notificationOffsetValue = @"0.0";
 NSString* noOlderNotificationsTextInput = @"";
 NSString* noOlderNotificationsTextAlignmentControl = @"1";
 NSString* notificationCenterTextInput = @"";

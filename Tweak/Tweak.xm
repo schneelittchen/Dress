@@ -818,6 +818,27 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 %end
 
+%hook CSCombinedListViewController
+
+- (double)_minInsetsToPushDateOffScreen { // adjust notification list position depending on style
+
+	if ([notificationOffsetValue doubleValue] == 0.0) return %orig;
+	double orig = %orig;
+    return orig + [notificationOffsetValue doubleValue];
+
+}
+
+- (UIEdgeInsets)_listViewDefaultContentInsets { // adjust notification list position depending on style
+
+	if ([notificationOffsetValue doubleValue] == 0.0) return %orig;
+    UIEdgeInsets originalInsets = %orig;
+    originalInsets.top += [notificationOffsetValue doubleValue];
+    return originalInsets;
+
+}
+
+%end
+
 %end
 
 // Quick Actions
@@ -1095,6 +1116,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerObject:&noOlderNotificationsAlphaControl default:@"1.0" forKey:@"noOlderNotificationsAlpha"];
 		[preferences registerObject:&notificationsAlphaControl default:@"1.0" forKey:@"notificationsAlpha"];
 		[preferences registerObject:&notificationsHeaderViewAlphaControl default:@"1.0" forKey:@"notificationsHeaderViewAlpha"];
+		[preferences registerObject:&notificationOffsetValue default:@"0.0" forKey:@"notificationOffset"];
 		[preferences registerObject:&noOlderNotificationsTextInput default:@"" forKey:@"noOlderNotificationsText"];
 		[preferences registerObject:&noOlderNotificationsTextAlignmentControl default:@"1" forKey:@"noOlderNotificationsTextAlignment"];
 		[preferences registerObject:&notificationCenterTextInput default:@"" forKey:@"notificationCenterText"];

@@ -59,6 +59,18 @@
             <key>user</key>
             <string>Esquilli</string>
         </dict>
+        <dict>
+            <key>cell</key>
+            <string>PSButtonCell</string>
+            <key>label</key>
+            <string>@s1ris</string>
+            <key>cellClass</key>
+            <string>HBTwitterCell</string>
+            <key>label</key>
+            <string>Andy</string>
+            <key>user</key>
+            <string>s1ris</string>
+        </dict>
 		<dict>
             <key>cell</key>
             <string>PSButtonCell</string>

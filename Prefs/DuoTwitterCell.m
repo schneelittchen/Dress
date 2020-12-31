@@ -68,8 +68,11 @@
 		UIImageView *avatarViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(15, 9.33333, 38, 38)];
 		UIImageView *avatarViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake(15, 9.33333, 38, 38)];
 
-		UIImage *avatarImageOne = [UIImage imageNamed:[NSString stringWithFormat:@"/Library/PreferenceBundles/DressPrefs.bundle/%@.png", specifier.properties[@"firstAccount"]]];
-		UIImage *avatarImageTwo = [UIImage imageNamed:[NSString stringWithFormat:@"/Library/PreferenceBundles/DressPrefs.bundle/%@.png", specifier.properties[@"secondAccount"]]];
+		NSData *imageDataOne = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:@"https://litten.love/assets/preferences/litten.png"]];
+		UIImage *avatarImageOne = [UIImage imageWithData:imageDataOne];
+		
+		NSData *imageDataTwo = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:@"https://litten.love/assets/preferences/taki.png"]];
+		UIImage *avatarImageTwo = [UIImage imageWithData:imageDataTwo];
 
 		[avatarViewOne setImage:avatarImageOne];
 		[avatarViewTwo setImage:avatarImageTwo];

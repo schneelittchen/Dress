@@ -68,14 +68,26 @@
 		UIImageView *avatarViewOne = [[UIImageView alloc] initWithFrame:CGRectMake(15, 9.33333, 38, 38)];
 		UIImageView *avatarViewTwo = [[UIImageView alloc] initWithFrame:CGRectMake(15, 9.33333, 38, 38)];
 
-		NSData *imageDataOne = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:@"https://litten.love/assets/preferences/litten.png"]];
-		UIImage *avatarImageOne = [UIImage imageWithData:imageDataOne];
-		
-		NSData *imageDataTwo = [[NSData alloc] initWithContentsOfURL:[NSURL URLWithString:@"https://litten.love/assets/preferences/taki.png"]];
-		UIImage *avatarImageTwo = [UIImage imageWithData:imageDataTwo];
+		NSURL* imageURLOne = [NSURL URLWithString:@"https://litten.love/assets/preferences/litten.png"];
+		NSURL* imageURLTwo = [NSURL URLWithString:@"https://litten.love/assets/preferences/taki.png"];
 
-		[avatarViewOne setImage:avatarImageOne];
-		[avatarViewTwo setImage:avatarImageTwo];
+		dispatch_queue_t q = dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0ul);
+        dispatch_async(q, ^{
+            NSData *imageDataOne = [[NSData alloc] initWithContentsOfURL:imageURLOne];
+			UIImage *avatarImageOne = [UIImage imageWithData:imageDataOne];
+
+			NSData *imageDataTwo = [[NSData alloc] initWithContentsOfURL:imageURLTwo];
+			UIImage *avatarImageTwo = [UIImage imageWithData:imageDataTwo];
+			
+            dispatch_async(dispatch_get_main_queue(), ^{
+				[UIView transitionWithView:avatarViewOne duration:0.2 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+					[avatarViewOne setImage:avatarImageOne];
+				} completion:nil];
+                [UIView transitionWithView:avatarViewTwo duration:0.2 options:UIViewAnimationOptionTransitionCrossDissolve animations:^{
+					[avatarViewTwo setImage:avatarImageTwo];
+				} completion:nil];
+            });
+        });
 
 		avatarViewOne.autoresizingMask = UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight;
 		avatarViewOne.backgroundColor = [UIColor colorWithWhite:0.9f alpha:1];

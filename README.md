@@ -10,8 +10,9 @@ Dress up your lockscreen
   - You may want to edit the `Makefiles` to suit your theos installation
 
 ## Contributions
-I'm generally not a big fan of people touching my code, but if i'm in a good mood i'll be happily taking a look
+How to contribute: you don't
 
 ## Note
 If you take code from this repository please link it, or my [twitter](https://twitter.com/Litteeen) to your project  
-You may not redistribute this source code or packages from it
+You may not redistribute this source code or packages from it  
+You may not use this project to make profit like money

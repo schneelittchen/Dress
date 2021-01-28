@@ -1,8 +1,4 @@
-ARCHS = arm64 arm64e
-TARGET = iphone:clang::13.5
 GO_EASY_ON_ME = 1
-
-include $(THEOS)/makefiles/common.mk
 
 BUNDLE_NAME = DressPrefs
 $(BUNDLE_NAME)_FILES = $(wildcard *.m)
@@ -12,6 +8,7 @@ $(BUNDLE_NAME)_PRIVATE_FRAMEWORKS = Preferences
 $(BUNDLE_NAME)_EXTRA_FRAMEWORKS = Cephei CepheiPrefs
 $(BUNDLE_NAME)_LIBRARIES = sparkcolourpicker
 
+include $(THEOS)/makefiles/common.mk
 include $(THEOS_MAKE_PATH)/bundle.mk
 
 internal-stage::

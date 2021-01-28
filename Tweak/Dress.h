@@ -1,6 +1,6 @@
-#import <UIKit/UIKit.h>
-#import <Cephei/HBPreferences.h>
 #import "SparkColourPickerUtils.h"
+#import <dlfcn.h>
+#import <Cephei/HBPreferences.h>
 
 HBPreferences* preferences;
 NSDictionary* preferencesDictionary;

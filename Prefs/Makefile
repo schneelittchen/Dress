@@ -3,10 +3,10 @@ GO_EASY_ON_ME = 1
 BUNDLE_NAME = DressPrefs
 $(BUNDLE_NAME)_FILES = $(wildcard *.m)
 $(BUNDLE_NAME)_INSTALL_PATH = /Library/PreferenceBundles
-$(BUNDLE_NAME)_FRAMEWORKS = UIKit
 $(BUNDLE_NAME)_PRIVATE_FRAMEWORKS = Preferences
 $(BUNDLE_NAME)_EXTRA_FRAMEWORKS = Cephei CepheiPrefs
 $(BUNDLE_NAME)_LIBRARIES = sparkcolourpicker
+ADDITIONAL_CFLAGS += -DTHEOS_LEAN_AND_MEAN
 
 include $(THEOS)/makefiles/common.mk
 include $(THEOS_MAKE_PATH)/bundle.mk

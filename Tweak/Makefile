@@ -3,6 +3,7 @@ $(TWEAK_NAME)_FILES = Tweak.xm
 $(TWEAK_NAME)_CFLAGS = -fobjc-arc
 $(TWEAK_NAME)_EXTRA_FRAMEWORKS += Cephei
 $(TWEAK_NAME)_LIBRARIES = sparkcolourpicker
+ADDITIONAL_CFLAGS += -DTHEOS_LEAN_AND_MEAN
 
 export SYSROOT=/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS.sdk/
 

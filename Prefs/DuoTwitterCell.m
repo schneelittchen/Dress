@@ -108,16 +108,16 @@
 		[cellOne addSubview:avatarViewOne];
 		[cellTwo addSubview:avatarViewTwo];
 
-		UILabel *displayNameOne = [[UILabel alloc] initWithFrame:CGRectMake(68, 9, 80, 20.3333)];
+		UILabel *displayNameOne = [[UILabel alloc] initWithFrame:CGRectMake(68, 9, 100, 20.3333)];
 		displayNameOne.text = [@"" stringByAppendingString:specifier.properties[@"firstLabel"]];
 		
-		UILabel *displayNameTwo = [[UILabel alloc] initWithFrame:CGRectMake(68, 9, 80, 20.3333)];
+		UILabel *displayNameTwo = [[UILabel alloc] initWithFrame:CGRectMake(68, 9, 100, 20.3333)];
 		displayNameTwo.text = [@"" stringByAppendingString:specifier.properties[@"secondLabel"]];
 
-		UILabel *accountNameOne = [[UILabel alloc] initWithFrame:CGRectMake(68, 32.3333, 80, 15)];
+		UILabel *accountNameOne = [[UILabel alloc] initWithFrame:CGRectMake(68, 32.3333, 100, 15)];
 		accountNameOne.text = [@"@" stringByAppendingString:specifier.properties[@"firstAccount"]];
 
-		UILabel *accountNameTwo = [[UILabel alloc] initWithFrame:CGRectMake(68, 32.3333, 80, 15)];
+		UILabel *accountNameTwo = [[UILabel alloc] initWithFrame:CGRectMake(68, 32.3333, 100, 15)];
 		accountNameTwo.text = [@"@" stringByAppendingString:specifier.properties[@"secondAccount"]];
 
 		if (@available(iOS 13, *)) 

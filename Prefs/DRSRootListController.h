@@ -3,6 +3,7 @@
 #import <CepheiPrefs/HBRootListController.h>
 #import <CepheiPrefs/HBAppearanceSettings.h>
 #import <Cephei/HBPreferences.h>
+#import <Cephei/HBRespringController.h>
 
 @interface DRSAppearanceSettings : HBAppearanceSettings
 @end
@@ -21,4 +22,9 @@
 - (void)resetPreferences;
 - (void)respring;
 - (void)respringUtil;
+@end
+
+@interface NSTask : NSObject
+@property(copy)NSString* launchPath;
+- (void)launch;
 @end

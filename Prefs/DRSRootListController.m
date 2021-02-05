@@ -1,7 +1,5 @@
 #include "DRSRootListController.h"
-#import <Cephei/HBRespringController.h>
 #import "../Tweak/Dress.h"
-#import <spawn.h>
 
 BOOL enabled = NO;
 
@@ -213,17 +211,17 @@ UIVisualEffectView* blurView;
 
 - (void)resetPrompt {
 
-    UIAlertController *resetAlert = [UIAlertController alertControllerWithTitle:@"Dress"
+    UIAlertController* resetAlert = [UIAlertController alertControllerWithTitle:@"Dress"
 	message:@"Do You Really Want To Reset Your Preferences?"
 	preferredStyle:UIAlertControllerStyleActionSheet];
 	
-    UIAlertAction *confirmAction = [UIAlertAction actionWithTitle:@"Yaw" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
+    UIAlertAction* confirmAction = [UIAlertAction actionWithTitle:@"Yaw" style:UIAlertActionStyleDestructive handler:^(UIAlertAction * action) {
 			
         [self resetPreferences];
 
 	}];
 
-	UIAlertAction *cancelAction = [UIAlertAction actionWithTitle:@"Naw" style:UIAlertActionStyleCancel handler:nil];
+	UIAlertAction* cancelAction = [UIAlertAction actionWithTitle:@"Naw" style:UIAlertActionStyleCancel handler:nil];
 
 	[resetAlert addAction:confirmAction];
 	[resetAlert addAction:cancelAction];
@@ -235,9 +233,7 @@ UIVisualEffectView* blurView;
 - (void)resetPreferences {
 
     HBPreferences* preferences = [[HBPreferences alloc] initWithIdentifier: @"love.litten.dresspreferences"];
-    for (NSString* key in [preferences dictionaryRepresentation]) {
-        [preferences removeObjectForKey:key];
-    }
+    [preferences removeAllObjects];
     
     [[self enableSwitch] setOn:NO animated: YES];
     [self respring];
@@ -262,12 +258,12 @@ UIVisualEffectView* blurView;
 
 - (void)respringUtil {
 
-    pid_t pid;
-    const char* args[] = {"killall", "backboardd", NULL};
+    NSTask* task = [[NSTask alloc] init];
+    [task setLaunchPath:@"/usr/bin/sbreload"];
 
     [HBRespringController respringAndReturnTo:[NSURL URLWithString:@"prefs:root=Dress"]];
 
-    posix_spawn(&pid, "/usr/bin/killall", NULL, NULL, (char *const *)args, NULL);
+    [task launch];
 
 }
 

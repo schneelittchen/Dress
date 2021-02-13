@@ -770,15 +770,21 @@ BOOL revealed = NO;
 
 %hook SBMainDisplayPolicyAggregator // Disable Today View/Camera Swipe
 
-- (BOOL)_allowsCapabilityLockScreenTodayViewWithExplanation:(id *)arg1 { // disable today view swipe
+- (BOOL)_allowsCapabilityTodayViewWithExplanation:(id *)arg1 { // disable today view swipe
 
-    return disableTodaySwipeSwitch;
+    if (disableTodaySwipeSwitch)
+		return NO;
+	else
+		return %orig;
 
 }
 
-- (BOOL)_allowsCapabilityLockScreenCameraSupportedWithExplanation:(id *)arg1 { // disable camera swipe
+- (BOOL)_allowsCapabilityLockScreenCameraWithExplanation:(id *)arg1 { // disable camera swipe
 
-    return disableTodaySwipeSwitch;
+    if (disableCameraSwipeSwitch)
+		return NO;
+	else
+		return %orig;
 
 }
 

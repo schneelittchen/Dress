@@ -27,25 +27,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -73,25 +61,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -119,25 +95,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[[self statusBar] setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[[self statusBar] setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -165,25 +129,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -211,25 +163,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -255,25 +195,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -301,25 +229,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -345,25 +261,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -389,25 +293,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -435,29 +327,17 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_callToActionLabel");
 			[label setAlpha:[evanescoFadeAlphaControl doubleValue]];
 			[[self controlCenterGrabberContainerView] setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_callToActionLabel");
 			[label setAlpha:1.0];
 			[[self controlCenterGrabberContainerView] setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -479,25 +359,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -525,25 +393,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -569,25 +425,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -613,25 +457,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -657,25 +489,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -701,25 +521,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -745,25 +553,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -789,25 +585,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -833,25 +617,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -877,25 +649,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -921,25 +681,13 @@ NSTimer* evanescoTimer;
 
 	if ([notification.name isEqual:@"fadeOut"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:[evanescoFadeAlphaControl doubleValue]];
-			
 		} completion:nil];
 	} else if ([notification.name isEqual:@"fadeIn"]) {
 		[UIView animateWithDuration:[evanescoFadeDurationControl doubleValue] delay:0.0 options:UIViewAnimationOptionCurveEaseInOut animations:^{
-        
 			[self setAlpha:1.0];
-			
 		} completion:nil];
 	}
-
-}
-
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
 
 }
 
@@ -957,11 +705,9 @@ NSTimer* evanescoTimer;
 
 	%orig;
 
-	if (source != 26) {
-		[[NSNotificationCenter defaultCenter] postNotificationName:@"fadeIn" object:nil];
-		evanescoTimer = [NSTimer scheduledTimerWithTimeInterval:[evanescoInactivityControl doubleValue] target:self selector:@selector(sendFadeNotification) userInfo:nil repeats:NO];
-		isLocked = YES;
-	}
+	if (![[%c(SBLockScreenManager) sharedInstance] isLockScreenVisible]) return;
+	if (!evanescoTimer) evanescoTimer = [NSTimer scheduledTimerWithTimeInterval:[evanescoInactivityControl doubleValue] target:self selector:@selector(sendFadeNotification) userInfo:nil repeats:NO];
+	isLocked = YES;
 
 }
 
@@ -969,6 +715,20 @@ NSTimer* evanescoTimer;
 - (void)sendFadeNotification { // send fadeOut notification when timer is up
 
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"fadeOut" object:nil];
+
+}
+
+%end
+
+%hook SBLockScreenManager
+
+- (void)lockUIFromSource:(int)arg1 withOptions:(id)arg2 { // stop the time when locked
+
+	%orig;
+	
+	[evanescoTimer invalidate];
+	evanescoTimer = nil;
+	[[NSNotificationCenter defaultCenter] postNotificationName:@"fadeIn" object:nil];
 
 }
 
@@ -981,6 +741,7 @@ NSTimer* evanescoTimer;
 	%orig;
 
 	[evanescoTimer invalidate];
+	evanescoTimer = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"fadeIn" object:nil];
 
 }
@@ -990,7 +751,7 @@ NSTimer* evanescoTimer;
 	%orig;
 
 	if (!isLocked) return;
-	evanescoTimer = [NSTimer scheduledTimerWithTimeInterval:[evanescoInactivityControl doubleValue] target:self selector:@selector(sendFadeNotification) userInfo:nil repeats:NO];
+	if (!evanescoTimer) evanescoTimer = [NSTimer scheduledTimerWithTimeInterval:[evanescoInactivityControl doubleValue] target:self selector:@selector(sendFadeNotification) userInfo:nil repeats:NO];
 
 }
 
@@ -999,6 +760,7 @@ NSTimer* evanescoTimer;
 	%orig;
 
 	[evanescoTimer invalidate];
+	evanescoTimer = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"fadeIn" object:nil];
 
 }
@@ -1012,27 +774,16 @@ NSTimer* evanescoTimer;
 
 %end
 
-%hook SBCoverSheetPrimarySlidingViewController // just set isLocked to NO
+%hook CSCoverSheetViewController
 
-- (void)viewDidDisappear:(BOOL)animated {
+- (void)viewWillDisappear:(BOOL)animated { // fade in when unlocking
 
 	%orig;
 
 	isLocked = NO;
 	[evanescoTimer invalidate];
-
-}
-
-%end
-
-%hook SBIconController // quick fix for the status bar
-
-- (void)viewWillAppear:(BOOL)animated {
-
-	[evanescoTimer invalidate];
+	evanescoTimer = nil;
 	[[NSNotificationCenter defaultCenter] postNotificationName:@"fadeIn" object:nil];
-
-	%orig;
 
 }
 

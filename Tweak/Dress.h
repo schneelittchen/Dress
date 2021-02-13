@@ -1,5 +1,5 @@
-#import "SparkColourPickerUtils.h"
 #import <dlfcn.h>
+#import "SparkColourPickerUtils.h"
 #import <Cephei/HBPreferences.h>
 
 HBPreferences* preferences;
@@ -18,7 +18,7 @@ extern BOOL enableQuickActionsSection;
 extern BOOL enableEvanescoModeSection;
 extern BOOL enableOthersSection;
 
-// Time And Date
+// time and date
 BOOL hideTimeAndDateSwitch = NO;
 BOOL hideOnlyDateSwitch = NO;
 BOOL hideLunarCalendarSwitch = NO;
@@ -43,7 +43,7 @@ BOOL customFontLunarSwitch = NO;
 BOOL useCompactDateFormatSwitch = NO;
 BOOL colorTimeAndDateSwitch = NO;
 
-// FaceID Lock
+// faceID lock
 BOOL hideFaceIDLockSwitch = NO;
 BOOL hideFaceIDLockLabelSwitch = NO;
 NSString* faceIDLockAlphaValue = @"1.0";
@@ -53,44 +53,38 @@ NSString* faceIDYAxisControl = @"0.0";
 NSString* customFaceIDSizeControl = @"0.0";
 BOOL colorFaceIDLockSwitch = NO;
 
-// Status Bar
+// status bar
 BOOL hideStatusBarSwitch = NO;
 NSString* statusBarAlphaControl = @"1.0";
 
-// Homebar
+// homebar
 BOOL hideHomebarSwitch = NO;
 NSString* homebarAlphaControl = @"1.0";
 BOOL colorHomebarSwitch = NO;
 
-// Page Dots
+// page dots
 BOOL hidePageDotsSwitch = NO;
 NSString* pageDotsAlphaControl = @"1.0";
 
-// CC Grabber
+// cc grabber
 BOOL hideCCGrabberSwitch = NO;
 NSString* ccGrabberAlphaControl = @"1.0";
 
-// Unlock Text
+// unlock text
 BOOL hideUnlockTextSwitch = NO;
 NSString* unlockTextInput = @"";
 NSString* currentTime;
 BOOL lastTimeUnlockedSwitch = NO;
 BOOL prefersLastTimeLockedSwitch = NO;
-BOOL lastTimeUnlocked24hSwitch = NO;
-BOOL lastTimeUnlockedAMPMSwitch = NO;
-BOOL lastTimeUnlockedDateSwitch = NO;
-BOOL lastTimeUnlockedOnlyTimeAndDateSwitch = NO;
-BOOL lastTimeUnlockedSecondsSwitch = NO;
-BOOL weatherConditionSwitch = NO;
-BOOL weatherTemperatureSwitch = NO;
+NSString* lastTimeUnlockedFormatValue = @"HH:mm";
 BOOL colorUnlockTextSwitch = NO;
 
-// Media Player
+// media player
 BOOL hideMediaPlayerSwitch = NO;
 NSString* mediaPlayerAlphaControl = @"1.0";
 BOOL hideLockscreenPlayerBackgroundSwitch = NO;
 
-// Notifications
+// notifications
 BOOL hideNoOlderNotificationsSwitch = NO;
 BOOL hideNotificationCenterTextSwitch = NO;
 BOOL hideNotificationsClearButtonSwitch = NO;
@@ -104,7 +98,7 @@ NSString* notificationCenterTextInput = @"";
 BOOL notificationsScrollRevealSwitch = NO;
 BOOL hideDNDBannerSwitch = NO;
 
-// Quick Actions
+// quick actions
 BOOL hideCameraQuickActionsButtonSwitch = NO;
 BOOL hideFlashlightQuickActionsButtonSwitch = NO;
 BOOL hideQuickActionsButtonBackgroundSwitch = NO;
@@ -118,7 +112,7 @@ NSString* customQuickActionsXAxisValueControl = @"50.0";
 NSString* customQuickActionsYAxisValueControl = @"50.0";
 BOOL colorQuickActionsSwitch = NO;
 
-// Evanesco Mode
+// evanesco mode
 NSString* evanescoInactivityControl;
 NSString* evanescoFadeDurationControl;
 NSString* evanescoFadeAlphaControl;
@@ -143,21 +137,11 @@ BOOL vezaEvanescoSwitch;
 BOOL ventanaEvanescoSwitch;
 BOOL xenHTMLEvanescoSwitch;
 
-// ColorFlow Support
-BOOL timeDateColorFlowSwitch = NO;
-BOOL faceIDLockColorFlowSwitch = NO;
-BOOL statusBarColorFlowSwitch = NO;
-BOOL homebarColorFlowSwitch = NO;
-BOOL pageDotsColorFlowSwitch = NO;
-BOOL unlockTextColorFlowSwitch = NO;
-BOOL quickActionsColorFlowSwitch = NO;
-
-// Others
+//others
 NSString* customLockDurationControl = @"0";
 BOOL disableBatteryViewSwitch = NO;
 BOOL hideFaceIDAnimationSwitch = NO;
 
-// Time And Date
 @interface SBFLockScreenDateView : UIView
 @property(nonatomic, retain)UIColor* textColor;
 - (void)receiveColorNotification:(NSNotification *)notification;
@@ -170,7 +154,6 @@ BOOL hideFaceIDAnimationSwitch = NO;
 @interface SBFLockScreenAlternateDateLabel : UIView
 @end
 
-// FaceID Lock
 @interface SBUIProudLockIconView : UIView
 @property(nonatomic, assign, readwrite)UIColor* contentColor;
 - (void)receiveColorNotification:(NSNotification *)notification;
@@ -189,7 +172,6 @@ BOOL hideFaceIDAnimationSwitch = NO;
 - (void)receiveStatusBarCustomizationNotification:(NSNotification *)notification;
 @end
 
-// Homebar
 @interface CSHomeAffordanceView : UIView
 - (void)receiveFadeNotification:(NSNotification *)notification;
 @end
@@ -201,12 +183,10 @@ BOOL hideFaceIDAnimationSwitch = NO;
 - (void)setPillColor:(UIColor *)arg1;
 @end
 
-// Page Dots
 @interface CSPageControl : UIPageControl
 - (void)receiveFadeNotification:(NSNotification *)notification;
 @end
 
-// Unlock Text
 @interface CSTeachableMomentsContainerView : UIView
 @property(nonatomic, strong, readwrite)UIView* controlCenterGrabberContainerView;
 - (void)receiveFadeNotification:(NSNotification *)notification;
@@ -218,7 +198,6 @@ BOOL hideFaceIDAnimationSwitch = NO;
 - (void)receiveFadeNotification:(NSNotification *)notification;
 @end
 
-// Media Player
 @interface CSAdjunctItemView : UIView
 - (void)receiveFadeNotification:(NSNotification *)notification;
 @end
@@ -230,7 +209,6 @@ BOOL hideFaceIDAnimationSwitch = NO;
 @property(nonatomic, assign, readwrite)MTMaterialView* backgroundMaterialView;
 @end
 
-// Notifications
 @interface NCNotificationListView : UIScrollView
 - (void)sendFadeNotification;
 @end
@@ -293,7 +271,6 @@ BOOL hideFaceIDAnimationSwitch = NO;
 @property(nonatomic, assign, readwrite)UIColor* textColor;
 @end
 
-// Quick Actions
 @interface CSQuickActionsView : UIView
 @end
 
@@ -306,7 +283,6 @@ BOOL hideFaceIDAnimationSwitch = NO;
 @end
 
 @interface UICoverSheetButton (Dress)
-@property(nonatomic, copy)NSString* localizedAccessoryTitle; 
 @end
 
 @interface CSBatteryChargingView : UIView
@@ -318,9 +294,5 @@ BOOL hideFaceIDAnimationSwitch = NO;
 
 @interface SBLockScreenManager : NSObject
 + (id)sharedInstance;
-- (BOOL)unlockUIFromSource:(int)arg1 withOptions:(id)arg2 ;
-@end
-
-@interface UIApplication (Dress)
-- (BOOL)launchApplicationWithIdentifier:(id)arg1 suspended:(BOOL)arg2;
+- (BOOL)isLockScreenVisible;
 @end

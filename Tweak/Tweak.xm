@@ -12,11 +12,10 @@ BOOL enableMediaPlayerSection;
 BOOL enableNotificationsSection;
 BOOL enableQuickActionsSection;
 BOOL enableEvanescoModeSection;
-BOOL enableColorFlowSupportSection;
 BOOL enableOthersSection;
 
-BOOL isLocked = YES; // used to detect if the device is locked
-BOOL revealed = NO; // used for notification header/clear button alpha
+BOOL isLocked = YES;
+BOOL revealed = NO;
 
 // Time And Date
 
@@ -67,19 +66,13 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 - (void)setHidden:(BOOL)hidden { // hide time & date
 
-	if (hideTimeAndDateSwitch)
-		%orig(YES);
-	else
-		%orig;
+	%orig(hideTimeAndDateSwitch);
 
 }
 
 - (void)setAlpha:(double)alpha { // set alpha of time & date
 
-	if ([timeAndDateAlphaValue doubleValue] != 1.0)
-		%orig([timeAndDateAlphaValue doubleValue]);
-	else
-		%orig;
+	%orig([timeAndDateAlphaValue doubleValue]);
 
 }
 
@@ -96,10 +89,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 - (void)setUseCompactDateFormat:(BOOL)arg1 { // use comapct date format
 
-	if (useCompactDateFormatSwitch)
-		%orig(YES);
-	else
-		%orig;
+	%orig(useCompactDateFormatSwitch);
 
 }
 
@@ -155,17 +145,10 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 	%orig;
 
-	if (hideOnlyDateSwitch)
-		[self setHidden:YES];
-	else
-		[self setHidden:NO];
+	[self setHidden:hideOnlyDateSwitch];
 
 	SBFLockScreenAlternateDateLabel* label = MSHookIvar<SBFLockScreenAlternateDateLabel *>(self, "_alternateDateLabel");
-
-	if (hideLunarCalendarSwitch)
-		[label setHidden:YES];
-	else
-		[label setHidden:NO];
+	[label setHidden:hideLunarCalendarSwitch];
 
 }
 
@@ -203,10 +186,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 	%orig;
 
-	if (hideFaceIDLockSwitch)
-		[self setHidden:YES];
-	else
-		[self setHidden:NO];
+	[self setHidden:hideFaceIDLockSwitch];
 
 }
 
@@ -230,10 +210,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 - (void)setAlpha:(double)alpha { // change faceid lock alpha
 
-	if ([faceIDLockAlphaValue doubleValue] != 1.0)
-		%orig([faceIDLockAlphaValue doubleValue]);
-	else
-		%orig;
+	%orig([faceIDLockAlphaValue doubleValue]);
 
 }
 
@@ -291,17 +268,9 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 }
 
-- (void)dealloc { // remove observer
-	
-	[[NSNotificationCenter defaultCenter] removeObserver:self];
-    
-	%orig;
-
-}
-
 %end
 
-%hook SBCoverSheetPrimarySlidingViewController // send notifications to hide or show the status bar
+%hook CSCoverSheetViewController // send notifications to hide or show the status bar
 
 - (void)viewWillDisappear:(BOOL)animated { // show status bar when lockscreen disappears
 
@@ -341,19 +310,13 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 	%orig;
 
-	if (hideHomebarSwitch)
-		[self setHidden:YES];
-	else
-		[self setHidden:NO];
+	[self setHidden:hideHomebarSwitch];
 
 }
 
 - (void)setAlpha:(double)alpha { // change homebar alpha
 
-	if ([homebarAlphaControl doubleValue] != 1.0)
-		%orig([homebarAlphaControl doubleValue]);
-	else
-		%orig;
+	%orig([homebarAlphaControl doubleValue]);
 
 }
 
@@ -386,19 +349,13 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 	%orig;
 
-	if (hidePageDotsSwitch)
-		[self setHidden:YES];
-	else
-		[self setHidden:NO];
+	[self setHidden:hidePageDotsSwitch];
 
 }
 
 - (void)setAlpha:(double)alpha { // change page dots alpha
 
-	if ([pageDotsAlphaControl doubleValue] != 1.0)
-		%orig([pageDotsAlphaControl doubleValue]);
-	else
-		%orig;
+	%orig([pageDotsAlphaControl doubleValue]);
 
 }
 
@@ -416,12 +373,11 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	
 	%orig;
 
-	SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_callToActionLabel");
-
-	if (hideUnlockTextSwitch)
+	if (hideUnlockTextSwitch) {
+		SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_callToActionLabel");
 		[label setHidden:YES];
-	else
-		[label setHidden:NO];
+		return;
+	}
 
 	if (colorUnlockTextSwitch) {
 		UIColor* customColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"unlockTextColor"] withFallback: @"#ffffff"];
@@ -430,24 +386,20 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	}
 
 	if (![unlockTextInput isEqual:@""]) {
+		SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_callToActionLabel");
 		[label setString:unlockTextInput];
 		return;
 	}
 
-	if (lastTimeUnlockedSwitch) {
-		if (!lastTimeUnlockedOnlyTimeAndDateSwitch) {
-			if (!prefersLastTimeLockedSwitch)
-				[label setString:[NSString stringWithFormat:@"Last Time Unlocked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
-			else if (prefersLastTimeLockedSwitch)
-				[label setString:[NSString stringWithFormat:@"Last Time Locked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
-		} else if (lastTimeUnlockedOnlyTimeAndDateSwitch) {
-			if (!prefersLastTimeLockedSwitch)
-				[label setString:[NSString stringWithFormat:@"%@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
-			else if (prefersLastTimeLockedSwitch)
-				[label setString:[NSString stringWithFormat:@"%@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];	
-		}
-		return;
+	if (lastTimeUnlockedSwitch && !prefersLastTimeLockedSwitch) {
+		SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_callToActionLabel");
+		[label setString:[NSString stringWithFormat:@"Last Time Unlocked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
+	} else if (lastTimeUnlockedSwitch && prefersLastTimeLockedSwitch) {
+		SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_callToActionLabel");
+		[label setString:[NSString stringWithFormat:@"Last Time Locked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
 	}
+		
+
 
 }
 
@@ -472,10 +424,10 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 	%orig;
 
-	if (hideUnlockTextSwitch)
+	if (hideUnlockTextSwitch) {
 		[self setHidden:YES];
-	else
-		[self setHidden:NO];
+		return;
+	}
 
 	if (colorUnlockTextSwitch) {
 		UIColor* customColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"unlockTextColor"] withFallback: @"#ffffff"];
@@ -488,19 +440,12 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		return;
 	}
 
-	if (lastTimeUnlockedSwitch) {
-		if (!lastTimeUnlockedOnlyTimeAndDateSwitch) {
-			if (!prefersLastTimeLockedSwitch)
-				[self setText:[NSString stringWithFormat:@"Last Time Unlocked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
-			else if (prefersLastTimeLockedSwitch)
-				[self setText:[NSString stringWithFormat:@"Last Time Locked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
-		} else if (lastTimeUnlockedOnlyTimeAndDateSwitch) {
-			if (!prefersLastTimeLockedSwitch)
-				[self setText:[NSString stringWithFormat:@"%@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
-			else if (prefersLastTimeLockedSwitch)
-				[self setText:[NSString stringWithFormat:@"%@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];	
-		}
-		return;
+	if (lastTimeUnlockedSwitch && !prefersLastTimeLockedSwitch) {
+		SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_label");
+		[label setString:[NSString stringWithFormat:@"Last Time Unlocked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
+	} else if (lastTimeUnlockedSwitch && prefersLastTimeLockedSwitch) {
+		SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_label");
+		[label setString:[NSString stringWithFormat:@"Last Time Locked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
 	}
 
 }
@@ -509,10 +454,10 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
     %orig;
 
-	if (hideUnlockTextSwitch)
+	if (hideUnlockTextSwitch) {
 		[self setHidden:YES];
-	else
-		[self setHidden:NO];
+		return;
+	}
 
 	if (colorUnlockTextSwitch) {
 		UIColor* customColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"unlockTextColor"] withFallback: @"#ffffff"];
@@ -525,111 +470,32 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		return;
 	}
 
-	if (lastTimeUnlockedSwitch) {
-		if (!lastTimeUnlockedOnlyTimeAndDateSwitch) {
-			if (!prefersLastTimeLockedSwitch)
-				[self setText:[NSString stringWithFormat:@"Last Time Unlocked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
-			else if (prefersLastTimeLockedSwitch)
-				[self setText:[NSString stringWithFormat:@"Last Time Locked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
-		} else if (lastTimeUnlockedOnlyTimeAndDateSwitch) {
-			if (!prefersLastTimeLockedSwitch)
-				[self setText:[NSString stringWithFormat:@"%@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
-			else if (prefersLastTimeLockedSwitch)
-				[self setText:[NSString stringWithFormat:@"%@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];	
-		}
-		return;
+	if (lastTimeUnlockedSwitch && !prefersLastTimeLockedSwitch) {
+		SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_label");
+		[label setString:[NSString stringWithFormat:@"Last Time Unlocked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
+	} else if (lastTimeUnlockedSwitch && prefersLastTimeLockedSwitch) {
+		SBUILegibilityLabel* label = MSHookIvar<SBUILegibilityLabel *>(self, "_label");
+		[label setString:[NSString stringWithFormat:@"Last Time Locked: %@", [preferences objectForKey:@"lastTimeUnlockedValue"]]];
 	}
 
 }
 
 %end
 
-%hook SBCoverSheetPrimarySlidingViewController
+%hook CSCoverSheetViewController
 
 - (void)viewDidDisappear:(BOOL)animated { // save time when devices was unlocked
 
 	%orig;
 
 	if (!lastTimeUnlockedSwitch) return;
-
 	if (!prefersLastTimeLockedSwitch && isLocked) {
 		NSDateFormatter* timeformat = [[NSDateFormatter alloc] init];
-		if (!lastTimeUnlockedDateSwitch) {
-			if (lastTimeUnlockedAMPMSwitch && !lastTimeUnlocked24hSwitch && !lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"h:mm a"];
-			else if (!lastTimeUnlockedAMPMSwitch && !lastTimeUnlocked24hSwitch && !lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"h:mm"];
-			else if (!lastTimeUnlocked24hSwitch && lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"h:mm:ss"];
-			else if (lastTimeUnlocked24hSwitch && !lastTimeUnlockedAMPMSwitch && !lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"HH:mm"];
-			else if (lastTimeUnlocked24hSwitch && lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"HH:mm:ss"];
-			else
-				[timeformat setDateFormat:@"h:mm a"];
-		} else if (lastTimeUnlockedDateSwitch) {
-			if (lastTimeUnlockedAMPMSwitch && !lastTimeUnlocked24hSwitch && !lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"MMM d, h:mm a"];
-			else if (!lastTimeUnlockedAMPMSwitch && !lastTimeUnlocked24hSwitch && !lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"MMM d, h:mm"];
-			else if (!lastTimeUnlockedAMPMSwitch && lastTimeUnlocked24hSwitch && !lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"MMM d, HH:mm"];
-			else if (lastTimeUnlockedAMPMSwitch && !lastTimeUnlocked24hSwitch && lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"MMM d, h:mm:ss a"];
-			else if (!lastTimeUnlockedAMPMSwitch && lastTimeUnlocked24hSwitch && lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"MMM d, HH:mm:ss"];
-			else
-				[timeformat setDateFormat:@"h:mm a"];
-		}
+		[timeformat setDateFormat:lastTimeUnlockedFormatValue];
 		currentTime = [timeformat stringFromDate:[NSDate date]];
 		[preferences setObject:currentTime forKey:@"lastTimeUnlockedValue"];
 		isLocked = NO;
 	}
-
-}
-
-%end
-
-%hook SBSleepWakeHardwareButtonInteraction // if user prefers to use last time locked
-
-- (void)_performSleep {
-
-	%orig;
-
-	if (!lastTimeUnlockedSwitch) return;
-
-	if (prefersLastTimeLockedSwitch) {
-		NSDateFormatter* timeformat = [[NSDateFormatter alloc] init];
-		if (!lastTimeUnlockedDateSwitch) {
-			if (lastTimeUnlockedAMPMSwitch && !lastTimeUnlocked24hSwitch && !lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"h:mm a"];
-			else if (!lastTimeUnlockedAMPMSwitch && !lastTimeUnlocked24hSwitch && !lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"h:mm"];
-			else if (!lastTimeUnlocked24hSwitch && lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"h:mm:ss"];
-			else if (lastTimeUnlocked24hSwitch && !lastTimeUnlockedAMPMSwitch && !lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"HH:mm"];
-			else if (lastTimeUnlocked24hSwitch && lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"HH:mm:ss"];
-			else
-				[timeformat setDateFormat:@"h:mm a"];
-		} else if (lastTimeUnlockedDateSwitch) {
-			if (lastTimeUnlockedAMPMSwitch && !lastTimeUnlocked24hSwitch && !lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"MMM d, h:mm a"];
-			else if (!lastTimeUnlockedAMPMSwitch && !lastTimeUnlocked24hSwitch && !lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"MMM d, h:mm"];
-			else if (!lastTimeUnlockedAMPMSwitch && lastTimeUnlocked24hSwitch && !lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"MMM d, HH:mm"];
-			else if (lastTimeUnlockedAMPMSwitch && !lastTimeUnlocked24hSwitch && lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"MMM d, h:mm:ss a"];
-			else if (!lastTimeUnlockedAMPMSwitch && lastTimeUnlocked24hSwitch && lastTimeUnlockedSecondsSwitch)
-				[timeformat setDateFormat:@"MMM d, HH:mm:ss"];
-			else
-				[timeformat setDateFormat:@"h:mm a"];
-		}
-		currentTime = [timeformat stringFromDate:[NSDate date]];
-		[preferences setObject:currentTime forKey:@"lastTimeUnlockedValue"];
-	}	
 
 }
 
@@ -642,6 +508,13 @@ BOOL revealed = NO; // used for notification header/clear button alpha
     %orig;
 
 	isLocked = YES;
+	if (!lastTimeUnlockedSwitch) return;
+	if (prefersLastTimeLockedSwitch) {
+		NSDateFormatter* timeformat = [[NSDateFormatter alloc] init];
+		[timeformat setDateFormat:lastTimeUnlockedFormatValue];
+		currentTime = [timeformat stringFromDate:[NSDate date]];
+		[preferences setObject:currentTime forKey:@"lastTimeUnlockedValue"];
+	}	
 
 }
 
@@ -659,8 +532,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 	%orig;
 
-	if (hideMediaPlayerSwitch)
-		[self setHidden:YES];
+	[self setHidden:hideMediaPlayerSwitch];
 
 	if (hideLockscreenPlayerBackgroundSwitch) {
 		UIView* platterView = MSHookIvar<UIView *>(self, "_platterView");
@@ -672,10 +544,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 - (void)setAlpha:(double)alpha { // set media palyer alpha
 
-	if ([mediaPlayerAlphaControl doubleValue] != 1.0)
-		%orig([mediaPlayerAlphaControl doubleValue]);
-	else
-		%orig;
+	%orig([mediaPlayerAlphaControl doubleValue]);
 
 }
 
@@ -699,10 +568,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 - (void)setPerformingGroupingAnimation:(BOOL)arg1 { // scroll animation
 
-	if (notificationsScrollRevealSwitch)
-		%orig(YES);
-	else
-		%orig;
+	%orig(notificationsScrollRevealSwitch);
 
 }
 
@@ -712,10 +578,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 - (void)setAlpha:(double)alpha { // set notifications alpha
 
-	if ([notificationsAlphaControl doubleValue] != 1.0)
-		%orig([notificationsAlphaControl doubleValue]);
-	else
-		%orig;
+	%orig([notificationsAlphaControl doubleValue]);
 
 }
 
@@ -763,10 +626,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 	%orig;
 
-	if (hideNotificationCenterTextSwitch)
-		[self setHidden:YES];
-	else
-		[self setHidden:NO];
+	[self setHidden:hideNotificationCenterTextSwitch];
 
 	if  (![notificationCenterTextInput isEqual:@""])
 		[self setTitle:notificationCenterTextInput];
@@ -912,37 +772,13 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 - (BOOL)_allowsCapabilityLockScreenTodayViewWithExplanation:(id *)arg1 { // disable today view swipe
 
-    if (disableTodaySwipeSwitch)
-		return NO;
-	else
-		return %orig;
-
-}
-
-- (BOOL)_allowsCapabilityTodayViewWithExplanation:(id *)arg1 { // disable today view swipe
-
-    if (disableTodaySwipeSwitch)
-		return NO;
-	else
-		return %orig;
+    return disableTodaySwipeSwitch;
 
 }
 
 - (BOOL)_allowsCapabilityLockScreenCameraSupportedWithExplanation:(id *)arg1 { // disable camera swipe
 
-    if (disableCameraSwipeSwitch)
-		return NO;
-	else
-		return %orig;
-
-}
-
-- (BOOL)_allowsCapabilityLockScreenCameraWithExplanation:(id *)arg1 { // disable camera swipe
-
-    if (disableCameraSwipeSwitch)
-		return NO;
-	else
-		return %orig;
+    return disableTodaySwipeSwitch;
 
 }
 
@@ -996,10 +832,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 
 - (BOOL)hasBiometricAuthenticationCapabilityEnabled { // hide faceid animation when swiping up
 
-	if (hideFaceIDAnimationSwitch)
-		return NO;
-	else
-		return %orig;
+	return hideFaceIDAnimationSwitch;
 
 }
 
@@ -1025,7 +858,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	[preferences registerBool:&enableEvanescoModeSection default:nil forKey:@"EnableEvanescoModeSection"];
 	[preferences registerBool:&enableOthersSection default:nil forKey:@"EnableOthersSection"];
 
-	// Time And Date
+	// time and date
 	if (enableTimeDateSection) {
 		[preferences registerBool:&hideTimeAndDateSwitch default:NO forKey:@"hideTimeAndDate"];
 		[preferences registerBool:&hideOnlyDateSwitch default:NO forKey:@"hideOnlyDate"];
@@ -1052,7 +885,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&colorTimeAndDateSwitch default:NO forKey:@"colorTimeAndDate"];
 	}
 
-	// FaceID Lock
+	// faceID lock
 	if (enableFaceIDLockSection) {
 		[preferences registerBool:&hideFaceIDLockSwitch default:NO forKey:@"hideFaceIDLock"];
 		[preferences registerBool:&hideFaceIDLockLabelSwitch default:NO forKey:@"hideFaceIDLockLabel"];
@@ -1064,26 +897,26 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&colorFaceIDLockSwitch default:NO forKey:@"colorFaceIDLock"];
 	}
 
-	// Status Bar
+	// status bar
 	if (enableStatusBarSection) {
 		[preferences registerBool:&hideStatusBarSwitch default:NO forKey:@"hideStatusBar"];
 		[preferences registerObject:&statusBarAlphaControl default:@"1.0" forKey:@"statusBarAlpha"];
 	}
 
-	// Homebar
+	// homebar
 	if (enableHomebarSection) {
 		[preferences registerBool:&hideHomebarSwitch default:NO forKey:@"hideHomebar"];
 		[preferences registerObject:&homebarAlphaControl default:@"1.0" forKey:@"homebarAlpha"];
 		[preferences registerBool:&colorHomebarSwitch default:NO forKey:@"colorHomebar"];
 	}
 
-	// Page Dots
+	// page dots
 	if (enablePageDotsSection) {
 		[preferences registerBool:&hidePageDotsSwitch default:NO forKey:@"hidePageDots"];
 		[preferences registerObject:&pageDotsAlphaControl default:@"1.0" forKey:@"pageDotsAlpha"];
 	}
 
-	// Unlock Text, CC Grabber
+	// unlock text, cc grabber
 	if (enableUnlockTextSection) {
 		[preferences registerBool:&hideUnlockTextSwitch default:NO forKey:@"hideUnlockText"];
 		[preferences registerObject:&unlockTextInput default:@"" forKey:@"unlockText"];
@@ -1091,24 +924,18 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerObject:&ccGrabberAlphaControl default:@"1.0" forKey:@"ccGrabberAlpha"];
 		[preferences registerBool:&lastTimeUnlockedSwitch default:NO forKey:@"lastTimeUnlocked"];
 		[preferences registerBool:&prefersLastTimeLockedSwitch default:NO forKey:@"prefersLastTimeLocked"];
-		[preferences registerBool:&lastTimeUnlocked24hSwitch default:NO forKey:@"lastTimeUnlocked24h"];
-		[preferences registerBool:&lastTimeUnlockedAMPMSwitch default:NO forKey:@"lastTimeUnlockedAMPM"];
-		[preferences registerBool:&lastTimeUnlockedDateSwitch default:NO forKey:@"lastTimeUnlockedDate"];
-		[preferences registerBool:&lastTimeUnlockedOnlyTimeAndDateSwitch default:NO forKey:@"lastTimeUnlockedOnlyTimeAndDate"];
-		[preferences registerBool:&lastTimeUnlockedSecondsSwitch default:NO forKey:@"lastTimeUnlockedSeconds"];
-		[preferences registerBool:&weatherConditionSwitch default:NO forKey:@"weatherCondition"];
-		[preferences registerBool:&weatherTemperatureSwitch default:NO forKey:@"weatherTemperature"];
+		[preferences registerObject:&lastTimeUnlockedFormatValue default:@"HH:mm" forKey:@"lastTimeUnlockedFormat"];
 		[preferences registerBool:&colorUnlockTextSwitch default:NO forKey:@"colorUnlockText"];
 	}
 
-	// Media Player
+	// media player
 	if (enableMediaPlayerSection) {
 		[preferences registerBool:&hideMediaPlayerSwitch default:NO forKey:@"hideMediaPlayer"];
 		[preferences registerBool:&hideLockscreenPlayerBackgroundSwitch default:NO forKey:@"hideLockscreenPlayerBackground"];
 		[preferences registerObject:&mediaPlayerAlphaControl default:@"1.0" forKey:@"mediaPlayerAlpha"];
 	}
 
-	// Notifications
+	// notifications
 	if (enableNotificationsSection) {
 		[preferences registerBool:&hideNoOlderNotificationsSwitch default:NO forKey:@"hideNoOlderNotifications"];
 		[preferences registerBool:&hideNotificationCenterTextSwitch default:NO forKey:@"hideNotificationCenterText"];
@@ -1124,7 +951,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&hideDNDBannerSwitch default:NO forKey:@"hideDNDBanner"];
 	}
 
-	// Quick Actions
+	// quick actions
 	if (enableQuickActionsSection) {
 		[preferences registerBool:&hideCameraQuickActionsButtonSwitch default:NO forKey:@"hideCameraQuickActionsButton"];
 		[preferences registerBool:&hideFlashlightQuickActionsButtonSwitch default:NO forKey:@"hideFlashlightQuickActionsButton"];
@@ -1141,7 +968,7 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 		[preferences registerBool:&colorQuickActionsSwitch default:NO forKey:@"colorQuickActions"];
 	}
 
-	// Others
+	// others
 	if (enableOthersSection) {
 		[preferences registerObject:&customLockDurationControl default:@"0" forKey:@"customLockDuration"];
 		[preferences registerBool:&disableBatteryViewSwitch default:NO forKey:@"disableBatteryView"];
@@ -1149,8 +976,8 @@ BOOL revealed = NO; // used for notification header/clear button alpha
 	}
 
 	if (enabled) {
-		BOOL timeAndDateTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Heartlines.dylib"];
-		BOOL faceIDLockTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/LatchKey.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Heartlines.dylib"];
+		BOOL timeAndDateTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Heartlines.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Lara.dylib"];
+		BOOL faceIDLockTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/LatchKey.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Heartlines.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Lara.dylib"];
 
 		%init(Dress);
         if (enableTimeDateSection && timeAndDateTweaksCompatible) %init(DressTimeDate);

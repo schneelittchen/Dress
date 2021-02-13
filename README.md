@@ -6,7 +6,7 @@ Dress up your lockscreen
 2. Install Dress
 
 ## Compiling
-  - Depends on libPDDokdo & sparkcolourpicker
+  - Depends on sparkcolourpicker
   - You may want to edit the `Makefiles` to suit your theos installation
 
 ## Note

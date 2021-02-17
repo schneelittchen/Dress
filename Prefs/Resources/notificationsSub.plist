@@ -155,7 +155,7 @@
 			<key>key</key>
 			<string>notificationOffset</string>
 			<key>min</key>
-			<real>-100.0</real>
+			<real>-200.0</real>
 			<key>max</key>
 			<real>300.0</real>
 			<key>showValue</key>

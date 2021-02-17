@@ -754,15 +754,19 @@ BOOL revealed = NO;
 
 	%orig;
 
-	if (colorQuickActionsSwitch) {
-		UIColor* customColor = [SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"quickActionsColor"] withFallback: @"#ffffff"];
-		[self setTintColor:customColor];
-	}
-
 	if (hideQuickActionsButtonBackgroundSwitch) {
 		UIVisualEffectView* background = MSHookIvar<UIVisualEffectView *>(self, "_backgroundEffectView");
 		[background setHidden:YES];
 	}
+
+}
+
+- (void)setTintColor:(UIColor *)tintColor { // color quick actions
+
+	if (!colorQuickActionsSwitch)
+		%orig;
+	else if (colorQuickActionsSwitch)
+		%orig([SparkColourPickerUtils colourWithString:[preferencesDictionary objectForKey:@"quickActionsColor"] withFallback: @"#ffffff"]);
 
 }
 

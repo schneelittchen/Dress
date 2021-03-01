@@ -842,7 +842,7 @@ BOOL revealed = NO;
 
 - (BOOL)hasBiometricAuthenticationCapabilityEnabled { // hide faceid animation when swiping up
 
-	return hideFaceIDAnimationSwitch;
+	return !hideFaceIDAnimationSwitch;
 
 }
 

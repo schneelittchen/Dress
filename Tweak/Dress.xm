@@ -1,22 +1,5 @@
 #import "Dress.h"
 
-BOOL enabled;
-BOOL enableTimeDateSection;
-BOOL enableFaceIDLockSection;
-BOOL enableStatusBarSection;
-BOOL enableHomebarSection;
-BOOL enablePageDotsSection;
-BOOL enableCCGrabberSection;
-BOOL enableUnlockTextSection;
-BOOL enableMediaPlayerSection;
-BOOL enableNotificationsSection;
-BOOL enableQuickActionsSection;
-BOOL enableEvanescoModeSection;
-BOOL enableOthersSection;
-
-BOOL isLocked = YES;
-BOOL revealed = NO;
-
 // Time And Date
 
 %group Dress
@@ -855,18 +838,18 @@ BOOL revealed = NO;
 	preferences = [[HBPreferences alloc] initWithIdentifier:@"love.litten.dresspreferences"];
 	preferencesDictionary = [NSDictionary dictionaryWithContentsOfFile: @"/var/mobile/Library/Preferences/love.litten.dress.colorspreferences.plist"];
 
-    [preferences registerBool:&enabled default:nil forKey:@"Enabled"];
-	[preferences registerBool:&enableTimeDateSection default:nil forKey:@"EnableTimeDateSection"];
-	[preferences registerBool:&enableFaceIDLockSection default:nil forKey:@"EnableFaceIDLockSection"];
-	[preferences registerBool:&enableStatusBarSection default:nil forKey:@"EnableStatusBarSection"];
-	[preferences registerBool:&enableHomebarSection default:nil forKey:@"EnableHomebarSection"];
-	[preferences registerBool:&enablePageDotsSection default:nil forKey:@"EnablePageDotsSection"];
-	[preferences registerBool:&enableUnlockTextSection default:nil forKey:@"EnableUnlockTextSection"];
-	[preferences registerBool:&enableMediaPlayerSection default:nil forKey:@"EnableMediaPlayerSection"];
-	[preferences registerBool:&enableNotificationsSection default:nil forKey:@"EnableNotificationsSection"];
-	[preferences registerBool:&enableQuickActionsSection default:nil forKey:@"EnableQuickActionsSection"];
-	[preferences registerBool:&enableEvanescoModeSection default:nil forKey:@"EnableEvanescoModeSection"];
-	[preferences registerBool:&enableOthersSection default:nil forKey:@"EnableOthersSection"];
+    [preferences registerBool:&enabled default:NO forKey:@"Enabled"];
+	if (!enabled) return;
+	[preferences registerBool:&enableTimeDateSection default:NO forKey:@"EnableTimeDateSection"];
+	[preferences registerBool:&enableFaceIDLockSection default:NO forKey:@"EnableFaceIDLockSection"];
+	[preferences registerBool:&enableStatusBarSection default:NO forKey:@"EnableStatusBarSection"];
+	[preferences registerBool:&enableHomebarSection default:NO forKey:@"EnableHomebarSection"];
+	[preferences registerBool:&enablePageDotsSection default:NO forKey:@"EnablePageDotsSection"];
+	[preferences registerBool:&enableUnlockTextSection default:NO forKey:@"EnableUnlockTextSection"];
+	[preferences registerBool:&enableMediaPlayerSection default:NO forKey:@"EnableMediaPlayerSection"];
+	[preferences registerBool:&enableNotificationsSection default:NO forKey:@"EnableNotificationsSection"];
+	[preferences registerBool:&enableQuickActionsSection default:NO forKey:@"EnableQuickActionsSection"];
+	[preferences registerBool:&enableOthersSection default:NO forKey:@"EnableOthersSection"];
 
 	// time and date
 	if (enableTimeDateSection) {
@@ -985,22 +968,16 @@ BOOL revealed = NO;
 		[preferences registerBool:&hideFaceIDAnimationSwitch default:NO forKey:@"hideFaceIDAnimation"];
 	}
 
-	if (enabled) {
-		BOOL timeAndDateTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Heartlines.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Lara.dylib"];
-		BOOL faceIDLockTweaksCompatible = ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Kalm.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Jellyfish.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/LatchKey.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Heartlines.dylib"] && ![[NSFileManager defaultManager] fileExistsAtPath:@"/Library/MobileSubstrate/DynamicLibraries/Lara.dylib"];
-
-		%init(Dress);
-        if (enableTimeDateSection && timeAndDateTweaksCompatible) %init(DressTimeDate);
-		if (enableFaceIDLockSection && faceIDLockTweaksCompatible) %init(DressFaceIDLock);
-		if (enableStatusBarSection) %init(DressStatusBar);
-		if (enableHomebarSection) %init(DressHomebar);
-		if (enablePageDotsSection) %init(DressPageDots);
-		if (enableUnlockTextSection) %init(DressUnlockText);
-		if (enableMediaPlayerSection) %init(DressMediaPlayer);
-		if (enableNotificationsSection) %init(DressNotifications);
-		if (enableQuickActionsSection) %init(DressQuickActions);
-		if (enableOthersSection) %init(DressOthers);
-        return;
-    }
+	if ((enableTimeDateSection && colorTimeAndDateSwitch) || (enableUnlockTextSection && colorUnlockTextSwitch)) %init(Dress);
+    if (enableTimeDateSection) %init(DressTimeDate);
+	if (enableFaceIDLockSection) %init(DressFaceIDLock);
+	if (enableStatusBarSection) %init(DressStatusBar);
+	if (enableHomebarSection) %init(DressHomebar);
+	if (enablePageDotsSection) %init(DressPageDots);
+	if (enableUnlockTextSection) %init(DressUnlockText);
+	if (enableMediaPlayerSection) %init(DressMediaPlayer);
+	if (enableNotificationsSection) %init(DressNotifications);
+	if (enableQuickActionsSection) %init(DressQuickActions);
+	if (enableOthersSection) %init(DressOthers);
 
 }

@@ -24,15 +24,15 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>What Do You Want To Dress Up?</string>
+			<string>What do you want to dress up?</string>
 		</dict>
 		<dict>
  			<key>cell</key>
  			<string>PSLinkCell</string>
  			<key>label</key>
- 			<string>Time And Date</string>
+ 			<string>Time and Date</string>
  			<key>detail</key>
- 			<string>DRSTimeDateSubPrefsListController</string>
+ 			<string>DRSTimeAndDateSubPrefsListController</string>
  			<key>DRSSub</key>
  			<string>timeAndDateSub</string>
  		</dict>
@@ -120,7 +120,7 @@
  			<key>cell</key>
  			<string>PSLinkCell</string>
  			<key>label</key>
- 			<string>Evanesco Mode</string>
+ 			<string>Evanesco</string>
  			<key>detail</key>
  			<string>DRSEvanescoModeSubPrefsListController</string>
  			<key>DRSSub</key>
@@ -155,7 +155,7 @@
 			<key>cell</key>
 			<string>PSButtonCell</string>
 			<key>label</key>
-			<string>Reset Preferences</string>
+			<string>Reset preferences</string>
 			<key>action</key>
 			<string>resetPrompt</string>
 		</dict>
@@ -181,7 +181,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>You Might Like:</string>
+			<string>You might like:</string>
 		</dict>
 		<dict>
 			<key>cellClass</key>
@@ -212,7 +212,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>footerText</key>
-			<string>Dress By Litten, Icon And Banner By taki</string>
+			<string>Dress by Litten, icon and banner by taki</string>
 			<key>isStaticText</key>
 			<true/>
 		</dict>
@@ -230,7 +230,7 @@
 			<key>cellClass</key>
 			<string>HBLinkTableCell</string>
 			<key>label</key>
-			<string>Source Code</string>
+			<string>Source code</string>
 			<key>subtitle</key>
 			<string>GitHub 👗</string>
 			<key>url</key>
@@ -240,7 +240,7 @@
 			<key>cellClass</key>
 			<string>HBLinkTableCell</string>
 			<key>label</key>
-			<string>Donate To Litten</string>
+			<string>Donate to Litten</string>
 			<key>subtitle</key>
 			<string>Appreciated 💝</string>
 			<key>url</key>

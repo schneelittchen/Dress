@@ -1,22 +1,23 @@
-#import <dlfcn.h>
 #import "SparkColourPickerUtils.h"
 #import <Cephei/HBPreferences.h>
 
-HBPreferences* preferences;
-NSDictionary* preferencesDictionary;
+HBPreferences* preferences = nil;
+NSDictionary* preferencesDictionary = nil;
 
-extern BOOL enabled;
-extern BOOL enableTimeDateSection;
-extern BOOL enableFaceIDLockSection;
-extern BOOL enableStatusBarSection;
-extern BOOL enableHomebarSection;
-extern BOOL enablePageDotsSection;
-extern BOOL enableUnlockTextSection;
-extern BOOL enableMediaPlayerSection;
-extern BOOL enableNotificationsSection;
-extern BOOL enableQuickActionsSection;
-extern BOOL enableEvanescoModeSection;
-extern BOOL enableOthersSection;
+BOOL enabled = NO;
+BOOL enableTimeDateSection = NO;
+BOOL enableFaceIDLockSection = NO;
+BOOL enableStatusBarSection = NO;
+BOOL enableHomebarSection = NO;
+BOOL enablePageDotsSection = NO;
+BOOL enableUnlockTextSection = NO;
+BOOL enableMediaPlayerSection = NO;
+BOOL enableNotificationsSection = NO;
+BOOL enableQuickActionsSection = NO;
+BOOL enableOthersSection = NO;
+
+BOOL isLocked = YES;
+BOOL revealed = NO;
 
 // time and date
 BOOL hideTimeAndDateSwitch = NO;
@@ -112,31 +113,6 @@ NSString* customQuickActionsXAxisValueControl = @"50.0";
 NSString* customQuickActionsYAxisValueControl = @"50.0";
 BOOL colorQuickActionsSwitch = NO;
 
-// evanesco mode
-NSString* evanescoInactivityControl;
-NSString* evanescoFadeDurationControl;
-NSString* evanescoFadeAlphaControl;
-BOOL timeDateEvanescoSwitch;
-BOOL faceIDLockEvanescoSwitch;
-BOOL statusBarEvanescoSwitch;
-BOOL homebarEvanescoSwitch;
-BOOL pageDotsEvanescoSwitch;
-BOOL mediaPlayerEvanescoSwitch;
-BOOL notificationCellsEvanescoSwitch;
-BOOL notificationHintViewEvanescoSwitch;
-BOOL notificationHeaderViewEvanescoSwitch;
-BOOL unlockTextEvanescoSwitch;
-BOOL quickActionsEvanescoSwitch;
-BOOL complicationsEvanescoSwitch;
-BOOL grupiEvanescoSwitch;
-BOOL axonEvanescoSwitch;
-BOOL lockWidgetsEvanescoSwitch;
-BOOL kaiEvanescoSwitch;
-BOOL aperioEvanescoSwitch;
-BOOL vezaEvanescoSwitch;
-BOOL ventanaEvanescoSwitch;
-BOOL xenHTMLEvanescoSwitch;
-
 //others
 NSString* customLockDurationControl = @"0";
 BOOL disableBatteryViewSwitch = NO;
@@ -144,8 +120,6 @@ BOOL hideFaceIDAnimationSwitch = NO;
 
 @interface SBFLockScreenDateView : UIView
 @property(nonatomic, retain)UIColor* textColor;
-- (void)receiveColorNotification:(NSNotification *)notification;
-- (void)receiveFadeNotification:(NSNotification *)notification;
 @end
 
 @interface SBFLockScreenDateSubtitleDateView : UIView
@@ -155,9 +129,6 @@ BOOL hideFaceIDAnimationSwitch = NO;
 @end
 
 @interface SBUIProudLockIconView : UIView
-@property(nonatomic, assign, readwrite)UIColor* contentColor;
-- (void)receiveColorNotification:(NSNotification *)notification;
-- (void)receiveFadeNotification:(NSNotification *)notification;
 @end
 
 @interface UIMorphingLabel : UIView
@@ -169,37 +140,23 @@ BOOL hideFaceIDAnimationSwitch = NO;
 
 @interface UIStatusBar_Modern : UIView
 - (_UIStatusBar *)statusBar;
-- (void)receiveStatusBarCustomizationNotification:(NSNotification *)notification;
 @end
 
 @interface CSHomeAffordanceView : UIView
-- (void)receiveFadeNotification:(NSNotification *)notification;
-@end
-
-@interface MTPillView : UIView
-@end
-
-@interface MTStaticColorPillView : MTPillView
-- (void)setPillColor:(UIColor *)arg1;
 @end
 
 @interface CSPageControl : UIPageControl
-- (void)receiveFadeNotification:(NSNotification *)notification;
 @end
 
 @interface CSTeachableMomentsContainerView : UIView
 @property(nonatomic, strong, readwrite)UIView* controlCenterGrabberContainerView;
-- (void)receiveFadeNotification:(NSNotification *)notification;
-- (NSString *)getIPAddress;
 @end
 
 @interface SBUICallToActionLabel : UIView
 @property(nonatomic, copy, readwrite)NSString* text;
-- (void)receiveFadeNotification:(NSNotification *)notification;
 @end
 
 @interface CSAdjunctItemView : UIView
-- (void)receiveFadeNotification:(NSNotification *)notification;
 @end
 
 @interface MTMaterialView : UIView
@@ -209,60 +166,8 @@ BOOL hideFaceIDAnimationSwitch = NO;
 @property(nonatomic, assign, readwrite)MTMaterialView* backgroundMaterialView;
 @end
 
-@interface NCNotificationListView : UIScrollView
-- (void)sendFadeNotification;
-@end
-
-@interface NCNotificationListCell : UIView
-- (void)receiveFadeNotification:(NSNotification *)notification;
-@end
-
-@interface NCNotificationListSectionRevealHintView : UIView
-- (void)receiveFadeNotification:(NSNotification *)notification;
-@end
-
-@interface NCNotificationListSectionHeaderView : UIView
-- (void)receiveFadeNotification:(NSNotification *)notification;
-@end
-
 @interface NCNotificationListHeaderTitleView : UIView
 @property(nonatomic, copy, readwrite)NSString* title;
-@end
-
-@interface ComplicationsView : UIView
-- (void)receiveFadeNotification:(NSNotification *)notification;
-@end
-
-@interface GRPView : UIView
-- (void)receiveFadeNotification:(NSNotification *)notification;
-@end
-
-@interface AXNView : UIView
-- (void)receiveFadeNotification:(NSNotification *)notification;
-@end
-
-@interface LockWidgetsView : UIView
-- (void)receiveFadeNotification:(NSNotification *)notification;
-@end
-
-@interface KAIBatteryPlatter : UIView
-- (void)receiveFadeNotification:(NSNotification *)notification;
-@end
-
-@interface APEPlatter : UIView
-- (void)receiveFadeNotification:(NSNotification *)notification;
-@end
-
-@interface VezaContainerView : UIView
-- (void)receiveFadeNotification:(NSNotification *)notification;
-@end
-
-@interface CSMetroLockScreenView : UIView
-- (void)receiveFadeNotification:(NSNotification *)notification;
-@end
-
-@interface XENHWidgetLayerContainerView : UIView
-- (void)receiveFadeNotification:(NSNotification *)notification;
 @end
 
 @interface SBUILegibilityLabel : UIView
@@ -271,28 +176,8 @@ BOOL hideFaceIDAnimationSwitch = NO;
 @property(nonatomic, assign, readwrite)UIColor* textColor;
 @end
 
-@interface CSQuickActionsView : UIView
-@end
-
 @interface UICoverSheetButton : UIControl
 @end
 
 @interface CSQuickActionsButton : UICoverSheetButton
-- (void)receiveFadeNotification:(NSNotification *)notification;
-- (void)receiveColorNotification:(NSNotification *)notification;
-@end
-
-@interface UICoverSheetButton (Dress)
-@end
-
-@interface CSBatteryChargingView : UIView
-@end
-
-@interface SBBacklightController : NSObject
-- (void)sendFadeNotification;
-@end
-
-@interface SBLockScreenManager : NSObject
-+ (id)sharedInstance;
-- (BOOL)isLockScreenVisible;
 @end

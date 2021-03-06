@@ -1,6 +1,6 @@
-#import "DRSUnlockTextSubPrefsListController.h"
+#import "DRSTimeAndDateSubPrefsListController.h"
 
-@implementation DRSUnlockTextSubPrefsListController
+@implementation DRSTimeAndDateSubPrefsListController
 
 - (void)viewDidLoad {
 
@@ -77,20 +77,49 @@
 
 - (void)setEnabled {
         
-    if ([[[self preferences] objectForKey:@"EnableUnlockTextSection"] isEqual:@(YES)])
-        [[self preferences] setBool:NO forKey:@"EnableUnlockTextSection"];
+    if ([[[self preferences] objectForKey:@"EnableTimeDateSection"] isEqual:@(YES)])
+        [[self preferences] setBool:NO forKey:@"EnableTimeDateSection"];
     else
-        [[self preferences] setBool:YES forKey:@"EnableUnlockTextSection"];
+        [[self preferences] setBool:YES forKey:@"EnableTimeDateSection"];
 
 }
 
 - (void)setEnabledState {
 
-    if ([[[self preferences] objectForKey:@"EnableUnlockTextSection"] isEqual:@(YES)])
+    if ([[[self preferences] objectForKey:@"EnableTimeDateSection"] isEqual:@(YES)])
         [[self enableSwitch] setOn:YES animated:YES];
     else
         [[self enableSwitch] setOn:NO animated:YES];
 
+}
+
+- (void)showTimeFontPicker {
+    
+    self.timeFontPicker = [UIFontPickerViewController new];
+    self.timeFontPicker.delegate = self;
+    [self presentViewController:[self timeFontPicker] animated:YES completion:nil];
+    
+}
+
+- (void)showDateFontPicker {
+    
+    self.dateFontPicker = [UIFontPickerViewController new];
+    self.dateFontPicker.delegate = self;
+    [self presentViewController:[self dateFontPicker] animated:YES completion:nil];
+    
+}
+
+- (void)fontPickerViewControllerDidPickFont:(UIFontPickerViewController *)viewController {
+    
+    UIFontDescriptor* descriptor = viewController.selectedFontDescriptor;
+    UIFont* font = [UIFont fontWithDescriptor:descriptor size:17];
+
+    HBPreferences* preferences = [[HBPreferences alloc] initWithIdentifier: @"love.litten.dresspreferences"];
+    if ([viewController isEqual:[self timeFontPicker]])
+        [preferences setObject:font.familyName forKey:@"customChosenTimeFont"];
+    else if ([viewController isEqual:[self dateFontPicker]])
+        [preferences setObject:font.familyName forKey:@"customChosenDateFont"];
+    
 }
 
 @end

@@ -1,24 +1,52 @@
 #import "DRSStatusBarSubPrefsListController.h"
 
-BOOL enableStatusBarSection = NO;
-
 @implementation DRSStatusBarSubPrefsListController
 
-- (instancetype)init {
+- (void)viewDidLoad {
 
-    self = [super init];
+    [super viewDidLoad];
 
-    if (self) {
-        DRSAppearanceSettings *appearanceSettings = [[DRSAppearanceSettings alloc] init];
-        self.hb_appearanceSettings = appearanceSettings;
-        self.enableSwitch = [[UISwitch alloc] init];
-        self.enableSwitch.onTintColor = [UIColor colorWithRed: 0.64 green: 0.49 blue: 1.00 alpha: 1.00];
-        [self.enableSwitch addTarget:self action:@selector(toggleState) forControlEvents:UIControlEventTouchUpInside];
-        UIBarButtonItem* switchy = [[UIBarButtonItem alloc] initWithCustomView: self.enableSwitch];
-        self.navigationItem.rightBarButtonItem = switchy;
-    }
+    self.appearanceSettings = [DRSAppearanceSettings new];
+    self.hb_appearanceSettings = [self appearanceSettings];
 
-    return self;
+
+    self.preferences = [[HBPreferences alloc] initWithIdentifier: @"love.litten.dresspreferences"];
+
+
+    self.enableSwitch = [UISwitch new];
+    [[self enableSwitch] setOnTintColor:[UIColor colorWithRed: 0.64 green: 0.49 blue: 1.00 alpha: 1.00]];
+    [[self enableSwitch] addTarget:self action:@selector(setEnabled) forControlEvents:UIControlEventTouchUpInside];
+
+
+    self.item = [[UIBarButtonItem alloc] initWithCustomView: [self enableSwitch]];
+    self.navigationItem.rightBarButtonItem = [self item];
+    [[self navigationItem] setRightBarButtonItem:[self item]];
+
+
+    self.blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
+    self.blurView = [[UIVisualEffectView alloc] initWithEffect:[self blur]];
+
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+
+    [[self blurView] setFrame:[[self view] bounds]];
+    [[self blurView] setAlpha:1.0];
+    [[self view] addSubview:[self blurView]];
+
+    [UIView animateWithDuration:0.4 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [[self blurView] setAlpha:0.0];
+    } completion:nil];
+
+}
+
+- (void)viewDidAppear:(BOOL)animated {
+
+    [super viewDidAppear:animated];
+
+    [self setEnabledState];
 
 }
 
@@ -28,31 +56,15 @@ BOOL enableStatusBarSection = NO;
 
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-
-    [super viewWillAppear:animated];
-
-    [self.navigationController.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-
-    [self setCellState];
-
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-
-    [self setEnableSwitchState];
-
-}
-
 - (void)loadFromSpecifier:(PSSpecifier *)specifier {
 
-    NSString *sub = [specifier propertyForKey:@"DRSSub"];
-    NSString *title = [specifier name];
+    NSString* sub = [specifier propertyForKey:@"DRSSub"];
+    NSString* title = [specifier name];
 
-    _specifiers = [[self loadSpecifiersFromPlistName:sub target:self] retain];
+    _specifiers = [self loadSpecifiersFromPlistName:sub target:self];
 
     [self setTitle:title];
-    [self.navigationItem setTitle:title];
+    [[self navigationItem] setTitle:title];
 
 }
 
@@ -63,112 +75,21 @@ BOOL enableStatusBarSection = NO;
 
 }
 
-- (bool)shouldReloadSpecifiersOnResume {
-
-    return false;
-
-}
-
-- (void)toggleState {
-
-    NSString* path = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"];
-    NSMutableDictionary* dictionary = [NSMutableDictionary dictionaryWithContentsOfFile:path];
-    NSSet* allKeys = [NSSet setWithArray:[dictionary allKeys]];
-    HBPreferences *preferences = [[HBPreferences alloc] initWithIdentifier: @"love.litten.dresspreferences"];
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"]) {
-        enableStatusBarSection = YES;
-        [preferences setBool:enableStatusBarSection forKey:@"EnableStatusBarSection"];
-        [self toggleCellState:YES];
-    } else if (![allKeys containsObject:@"EnableStatusBarSection"]) {
-        enableStatusBarSection = YES;
-        [preferences setBool:enableStatusBarSection forKey:@"EnableStatusBarSection"];
-        [self toggleCellState:YES];
-    } else if ([[preferences objectForKey:@"EnableStatusBarSection"] isEqual:@(NO)]) {
-        enableStatusBarSection = YES;
-        [preferences setBool:enableStatusBarSection forKey:@"EnableStatusBarSection"];
-        [self toggleCellState:YES];   
-    } else if ([[preferences objectForKey:@"EnableStatusBarSection"] isEqual:@(YES)]) {
-        enableStatusBarSection = NO;
-        [preferences setBool:enableStatusBarSection forKey:@"EnableStatusBarSection"];
-        [self toggleCellState:NO];
-    }
+- (void)setEnabled {
+        
+    if ([[[self preferences] objectForKey:@"EnableStatusBarSection"] isEqual:@(YES)])
+        [[self preferences] setBool:NO forKey:@"EnableStatusBarSection"];
+    else
+        [[self preferences] setBool:YES forKey:@"EnableStatusBarSection"];
 
 }
 
-- (void)setEnableSwitchState {
+- (void)setEnabledState {
 
-    NSString* path = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"];
-    NSMutableDictionary* dictionary = [NSMutableDictionary dictionaryWithContentsOfFile:path];
-    NSSet* allKeys = [NSSet setWithArray:[dictionary allKeys]];
-    HBPreferences* preferences = [[HBPreferences alloc] initWithIdentifier: @"love.litten.dresspreferences"];
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"]){
-        [[self enableSwitch] setOn:NO animated:YES];
-        [self toggleCellState:NO];
-    } else if (![allKeys containsObject:@"EnableStatusBarSection"]) {
-        [[self enableSwitch] setOn:NO animated:YES];
-        [self toggleCellState:NO];
-    } else if ([[preferences objectForKey:@"EnableStatusBarSection"] isEqual:@(YES)]) {
+    if ([[[self preferences] objectForKey:@"EnableStatusBarSection"] isEqual:@(YES)])
         [[self enableSwitch] setOn:YES animated:YES];
-        [self toggleCellState:YES];
-    } else if ([[preferences objectForKey:@"EnableStatusBarSection"] isEqual:@(NO)]) {
+    else
         [[self enableSwitch] setOn:NO animated:YES];
-        [self toggleCellState:NO];
-    }
-
-}
-
-- (void)setCellState {
-
-    NSString* path = [NSString stringWithFormat:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"];
-    NSMutableDictionary* dictionary = [NSMutableDictionary dictionaryWithContentsOfFile:path];
-    NSSet* allKeys = [NSSet setWithArray:[dictionary allKeys]];
-    HBPreferences* preferences = [[HBPreferences alloc] initWithIdentifier: @"love.litten.dresspreferences"];
-    
-    if (![[NSFileManager defaultManager] fileExistsAtPath:@"/var/mobile/Library/Preferences/love.litten.dresspreferences.plist"]){
-        [self toggleCellState:NO];
-    } else if (![allKeys containsObject:@"EnableStatusBarSection"]) {
-        [self toggleCellState:NO];
-    } else if ([[preferences objectForKey:@"EnableStatusBarSection"] isEqual:@(YES)]) {
-        [self toggleCellState:YES];
-    } else if ([[preferences objectForKey:@"EnableStatusBarSection"] isEqual:@(NO)]) {
-        [self toggleCellState:NO];
-    }
-
-}
-
-- (void)toggleCellState:(BOOL)enable {
-
-    if (enable) {
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] enabled:YES];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] enabled:YES];
-    } else {
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:1 inSection:0] enabled:NO];
-        [self setCellForRowAtIndexPath:[NSIndexPath indexPathForRow:2 inSection:0] enabled:NO];
-    }
-
-}
-
-- (void)setCellForRowAtIndexPath:(NSIndexPath *)indexPath enabled:(BOOL)enabled {
-
-    UITableViewCell *cell = [self tableView:self.table cellForRowAtIndexPath:indexPath];
-
-    if (cell) {
-        cell.userInteractionEnabled = enabled;
-        cell.textLabel.enabled = enabled;
-        cell.detailTextLabel.enabled = enabled;
-        if ([cell isKindOfClass:[PSControlTableCell class]]) {
-            PSControlTableCell *controlCell = (PSControlTableCell *)cell;
-            if (controlCell.control)
-                controlCell.control.enabled = enabled;
-        } else if ([cell isKindOfClass:[PSEditableTableCell class]]) {
-            PSEditableTableCell *editableCell = (PSEditableTableCell *)cell;
-            ((UITextField*)[editableCell textField]).alpha = enabled ? 1 : 0.4;
-        }
-    }
 
 }
 

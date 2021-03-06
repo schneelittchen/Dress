@@ -2,16 +2,29 @@
 
 @implementation DRSContributorsSubPrefsListController
 
-- (instancetype)init {
+- (void)viewDidLoad {
 
-    self = [super init];
+    [super viewDidLoad];
 
-    if (self) {
-        DRSAppearanceSettings *appearanceSettings = [[DRSAppearanceSettings alloc] init];
-        self.hb_appearanceSettings = appearanceSettings;
-    }
+    DRSAppearanceSettings* appearanceSettings = [DRSAppearanceSettings new];
+    self.hb_appearanceSettings = appearanceSettings;
 
-    return self;
+    self.blur = [UIBlurEffect effectWithStyle:UIBlurEffectStyleRegular];
+    self.blurView = [[UIVisualEffectView alloc] initWithEffect:[self blur]];
+
+}
+
+- (void)viewWillAppear:(BOOL)animated {
+
+    [super viewWillAppear:animated];
+
+    [[self blurView] setFrame:[[self view] bounds]];
+    [[self blurView] setAlpha:1.0];
+    [[self view] addSubview:[self blurView]];
+
+    [UIView animateWithDuration:0.4 delay:0.0 options:UIViewAnimationOptionCurveEaseOut animations:^{
+        [[self blurView] setAlpha:0.0];
+    } completion:nil];
 
 }
 
@@ -21,23 +34,15 @@
 
 }
 
-- (void)viewWillAppear:(BOOL)animated {
-
-    [super viewWillAppear:animated];
-
-    [self.navigationController.navigationController.navigationBar setTitleTextAttributes:@{NSForegroundColorAttributeName : [UIColor whiteColor]}];
-
-}
-
 - (void)loadFromSpecifier:(PSSpecifier *)specifier {
 
-    NSString *sub = [specifier propertyForKey:@"DRSSub"];
-    NSString *title = [specifier name];
+    NSString* sub = [specifier propertyForKey:@"DRSSub"];
+    NSString* title = [specifier name];
 
-    _specifiers = [[self loadSpecifiersFromPlistName:sub target:self] retain];
+    _specifiers = [self loadSpecifiersFromPlistName:sub target:self];
 
     [self setTitle:title];
-    [self.navigationItem setTitle:title];
+    [[self navigationItem] setTitle:title];
 
 }
 
@@ -45,12 +50,6 @@
 
     [self loadFromSpecifier:specifier];
     [super setSpecifier:specifier];
-
-}
-
-- (bool)shouldReloadSpecifiersOnResume {
-
-    return false;
 
 }
 

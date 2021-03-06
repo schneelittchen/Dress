@@ -107,48 +107,6 @@
 			<key>defaults</key>
 			<string>love.litten.dresspreferences</string>
 			<key>key</key>
-			<string>notificationCellsEvanesco</string>
-			<key>label</key>
-			<string>Notification Cells</string>
-			<key>PostNotification</key>
-			<string>love.litten.dresspreferences/ReloadPrefs</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>defaults</key>
-			<string>love.litten.dresspreferences</string>
-			<key>key</key>
-			<string>notificationHintViewEvanesco</string>
-			<key>label</key>
-			<string>No Older Notifications Text</string>
-			<key>PostNotification</key>
-			<string>love.litten.dresspreferences/ReloadPrefs</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>defaults</key>
-			<string>love.litten.dresspreferences</string>
-			<key>key</key>
-			<string>notificationHeaderViewEvanesco</string>
-			<key>label</key>
-			<string>Notification Header</string>
-			<key>PostNotification</key>
-			<string>love.litten.dresspreferences/ReloadPrefs</string>
-		</dict>
-		<dict>
-			<key>cell</key>
-			<string>PSSwitchCell</string>
-			<key>default</key>
-			<false/>
-			<key>defaults</key>
-			<string>love.litten.dresspreferences</string>
-			<key>key</key>
 			<string>unlockTextEvanesco</string>
 			<key>label</key>
 			<string>Unlock Text, CC Grabber</string>

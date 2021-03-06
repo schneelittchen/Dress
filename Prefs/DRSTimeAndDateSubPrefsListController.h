@@ -8,7 +8,7 @@
 @interface DRSAppearanceSettings : HBAppearanceSettings
 @end
 
-@interface DRSUnlockTextSubPrefsListController : HBListController
+@interface DRSTimeAndDateSubPrefsListController : HBListController <UIFontPickerViewControllerDelegate>
 @property(nonatomic, retain)DRSAppearanceSettings* appearanceSettings;
 @property(nonatomic, retain)HBPreferences* preferences;
 @property(nonatomic, retain)UISwitch* enableSwitch;
@@ -16,6 +16,10 @@
 @property(nonatomic, retain)UILabel* titleLabel;
 @property(nonatomic, retain)UIBlurEffect* blur;
 @property(nonatomic, retain)UIVisualEffectView* blurView;
+@property(nonatomic, retain)UIFontPickerViewController* timeFontPicker;
+@property(nonatomic, retain)UIFontPickerViewController* dateFontPicker;
 - (void)setEnabled;
 - (void)setEnabledState;
+- (void)showTimeFontPicker;
+- (void)showDateFontPicker;
 @end

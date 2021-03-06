@@ -141,7 +141,7 @@
 			<key>cell</key>
 			<string>PSGroupCell</string>
 			<key>label</key>
-			<string>Other Options</string>
+			<string>Other options</string>
 		</dict>
 		<dict>
 			<key>cell</key>

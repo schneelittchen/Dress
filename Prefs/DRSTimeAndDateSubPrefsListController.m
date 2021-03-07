@@ -111,14 +111,13 @@
 
 - (void)fontPickerViewControllerDidPickFont:(UIFontPickerViewController *)viewController {
     
-    UIFontDescriptor* descriptor = viewController.selectedFontDescriptor;
+    UIFontDescriptor* descriptor = [viewController selectedFontDescriptor];
     UIFont* font = [UIFont fontWithDescriptor:descriptor size:17];
 
-    HBPreferences* preferences = [[HBPreferences alloc] initWithIdentifier: @"love.litten.dresspreferences"];
     if ([viewController isEqual:[self timeFontPicker]])
-        [preferences setObject:font.familyName forKey:@"customChosenTimeFont"];
+        [[self preferences] setObject:[font familyName] forKey:@"customChosenTimeFont"];
     else if ([viewController isEqual:[self dateFontPicker]])
-        [preferences setObject:font.familyName forKey:@"customChosenDateFont"];
+        [[self preferences] setObject:[font familyName] forKey:@"customChosenDateFont"];
     
 }
 
